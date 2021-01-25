@@ -237,4 +237,3 @@ fabric.properties
 !/env.json
 !/log/
 **/migrations/0*
-/env.json
