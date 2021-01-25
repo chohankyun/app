@@ -39,7 +39,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     app_id = models.CharField(_('application identifier'), max_length=150, unique=True, validators=[app_id_validator])
     name = models.CharField(_('user name'), max_length=150, blank=False)
-    email = models.EmailField(_('email address'), blank=True)
+    email = models.EmailField(_('email address'), blank=False)
     is_staff = models.BooleanField(_('staff status'), default=False)
     is_active = models.BooleanField(_('active'), default=True)
     is_email_verified = models.BooleanField(_('email verified'), default=False)
