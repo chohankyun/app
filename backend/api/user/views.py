@@ -6,21 +6,17 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
-from backend.api.user.jwt import Handler
+from backend.common.jwt.handler import HttpHandler
 
 
 class Login(GenericAPIView):
     permission_classes = (AllowAny,)
-    handler = Handler()
+    http_handler = HttpHandler()
 
     def post(self, request, *args, **kwargs):
         user = self.login(app_id=request.data['app_id'], password=request.data['password'])
-        payload = {'id': user.id, 'name': user.name,
-                   'group_name': getattr(user.groups.first(), 'name', 'none'),
-                   'is_authenticated': True}
-        jwt_user = self.handler.jwt_user(payload)
-        jwt_user['token'] = self.get_jwt(jwt_user)
-        return Response(jwt_user, status=status.HTTP_200_OK)
+        request.user, jwt_user_data = self.http_handler.get_jwt_user(dict(user.__dict__))
+        return Response(jwt_user_data, status=status.HTTP_200_OK)
 
     def login(self, **credentials):
         user = authenticate(**credentials)
@@ -36,10 +32,3 @@ class Login(GenericAPIView):
 
         user_logged_in.send(sender=user.__class__, request=self.request, user=user)
         return user
-
-    def get_jwt(self, jwt_user):
-        data_for_payload = jwt_user.copy()
-        data_for_payload['client_ip'] = self.handler.get_client_ip_address(self.request)
-        payload = self.handler.jwt_payload_handler(data_for_payload)
-        token = self.handler.jwt_encode_handler(payload)
-        return token
