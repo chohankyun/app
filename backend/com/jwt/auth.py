@@ -7,7 +7,7 @@ from rest_framework.authentication import (
     BaseAuthentication, get_authorization_header
 )
 
-from backend.common.jwt.handler import HttpHandler
+from backend.com.jwt.handler import HttpHandler
 from backend.drf.settings import JWT_AUTH
 
 

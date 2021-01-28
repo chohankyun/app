@@ -18,7 +18,7 @@ from django.utils.translation import gettext_lazy as _
 
 import pymysql
 
-from backend.common.util.env import EnvJson
+from backend.com.util.env import EnvJson
 
 pymysql.version_info = (1, 4, 6, 'final', 0)
 pymysql.install_as_MySQLdb()
@@ -114,7 +114,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'backend.common.jwt.middleware.JSONWebTokenMiddleware',
+    'backend.com.jwt.middleware.JSONWebTokenMiddleware',
 ]
 
 ROOT_URLCONF = 'drf.urls'
@@ -213,7 +213,7 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'common.jwt.auth.JSONWebTokenAuthentication',
+        'com.jwt.auth.JSONWebTokenAuthentication',
     ],
 }
 
