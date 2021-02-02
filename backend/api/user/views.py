@@ -11,11 +11,11 @@ from backend.com.jwt.handler import HttpHandler
 
 class Login(GenericAPIView):
     permission_classes = (AllowAny,)
-    http_handler = HttpHandler()
 
     def post(self, request, *args, **kwargs):
         user = self.login(app_id=request.data['app_id'], password=request.data['password'])
-        request.user, jwt_user_data = self.http_handler.get_jwt_user(dict(user.__dict__))
+        http_handler = HttpHandler(request)
+        request.user, jwt_user_data = http_handler.get_jwt_user(user.__dict__)
         return Response(jwt_user_data, status=status.HTTP_200_OK)
 
     def login(self, **credentials):

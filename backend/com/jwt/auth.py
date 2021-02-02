@@ -18,8 +18,8 @@ class BaseJSONWebTokenAuthentication(BaseAuthentication):
             return None
 
         try:
-            http_handler = HttpHandler()
-            payload = http_handler.jwt_decode_token(jwt_value)
+            http_handler = HttpHandler(request)
+            payload = http_handler.get_payload(jwt_value)
         except jwt.ExpiredSignatureError:
             msg = 'Signature has expired.'
             raise exceptions.AuthenticationFailed(msg)
@@ -28,10 +28,6 @@ class BaseJSONWebTokenAuthentication(BaseAuthentication):
             raise exceptions.AuthenticationFailed(msg)
         except jwt.InvalidTokenError:
             msg = 'Invalid token.'
-            raise exceptions.AuthenticationFailed(msg)
-
-        if payload.get('client_ip') != http_handler.get_client_ip(request):
-            msg = 'Error decoding data.'
             raise exceptions.AuthenticationFailed(msg)
 
         jwt_user, _ = http_handler.get_jwt_user(payload)

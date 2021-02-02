@@ -2,21 +2,17 @@
 from calendar import timegm
 from datetime import datetime
 
+import hashlib
 import jwt
 
 from backend.drf.settings import JWT_AUTH
 
 
 class BaseHandler:
-    @staticmethod
-    def get_jwt_secret_key():
-        """
-            나중에 키 관련 로직 추가
-        """
-        if JWT_AUTH['JWT_GET_USER_SECRET_KEY']:
-            key = str(JWT_AUTH['JWT_GET_USER_SECRET_KEY'])
-            return key
-        return JWT_AUTH['JWT_SECRET_KEY']
+    salt = 'salt'
+
+    def get_jwt_key(self):
+        return JWT_AUTH['JWT_SECRET_KEY'] + self.salt
 
     @staticmethod
     def get_base_payload(data_for_payload):
@@ -28,7 +24,6 @@ class BaseHandler:
 
     def get_jwt_payload(self, data_for_payload):
         payload = self.get_base_payload(data_for_payload)
-        payload['client_ip'] = data_for_payload.get('client_ip')
         payload['exp'] = datetime.utcnow() + JWT_AUTH['JWT_EXPIRATION_DELTA']
 
         if JWT_AUTH['JWT_ALLOW_REFRESH']:
@@ -45,17 +40,17 @@ class BaseHandler:
         return payload
 
     def jwt_encode_payload(self, payload):
-        key = JWT_AUTH['JWT_PRIVATE_KEY'] or self.get_jwt_secret_key()
+        key = self.get_jwt_key()
         return jwt.encode(payload, key, JWT_AUTH['JWT_ALGORITHM'])
 
     def jwt_decode_token(self, token):
+        key = self.get_jwt_key()
         options = {
             'verify_exp': JWT_AUTH['JWT_VERIFY_EXPIRATION'],
         }
-        secret_key = self.get_jwt_secret_key()
         return jwt.decode(
             token,
-            JWT_AUTH['JWT_PUBLIC_KEY'] or secret_key,
+            key,
             options=options,
             leeway=JWT_AUTH['JWT_LEEWAY'],
             audience=JWT_AUTH['JWT_AUDIENCE'],
@@ -64,22 +59,32 @@ class BaseHandler:
 
 
 class HttpHandler(BaseHandler):
-    def get_jwt_user(self, data_for_payload):
-        jwt_user_data = self.get_base_payload(data_for_payload)
+    def __init__(self, request):
+        self.request = request
+        self.salt = self.get_http_salt()
+
+    def get_http_salt(self):
+        x_forwarded_for = self.request.META.get('HTTP_X_FORWARDED_FOR').split(',')[0] if self.request.META.get('HTTP_X_FORWARDED_FOR') else None
+        client_ip = x_forwarded_for or self.request.META.get('REMOTE_ADDR', 'client_ip')
+        host = self.request.META.get('HTTP_HOST', 'host')
+        user_agent = self.request.META.get('HTTP_USER_AGENT', 'user_agent')
+        connection = self.request.META.get('HTTP_CONNECTION', 'connection')
+        accept = self.request.META.get('HTTP_ACCEPT', 'accept')
+        accept_encoding = self.request.META.get('HTTP_ACCEPT_ENCODING', 'accept_encoding')
+        accept_language = self.request.META.get('HTTP_ACCEPT_LANGUAGE', 'accept_language')
+        referer = self.request.META.get('HTTP_REFERER', 'referer')
+        salt_data_list = [client_ip, host, user_agent, connection, accept, accept_encoding, accept_language, referer]
+        return hashlib.md5(','.join(salt_data_list).encode()).hexdigest()
+
+    def get_jwt_user(self, payload):
+        jwt_user_data = self.get_base_payload(payload)
         jwt_user_data['is_authenticated'] = True
         return type('jwt_user', (object,), jwt_user_data), jwt_user_data
 
-    @staticmethod
-    def get_client_ip(request):
-        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-        if x_forwarded_for:
-            client_ip = x_forwarded_for.split(',')[0]
-        else:
-            client_ip = request.META.get('REMOTE_ADDR')
-        return client_ip
-
-    def get_jwt(self, request):
-        data_for_payload = dict(request.user.__dict__)
-        data_for_payload['client_ip'] = self.get_client_ip(request)
-        payload = self.get_jwt_payload(data_for_payload)
+    def get_jwt(self):
+        user = self.request.user
+        payload = self.get_jwt_payload(user.__dict__)
         return self.jwt_encode_payload(payload)
+
+    def get_payload(self, jwt_value):
+        return self.jwt_decode_token(jwt_value)

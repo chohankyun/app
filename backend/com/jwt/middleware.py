@@ -12,9 +12,8 @@ class JSONWebTokenMiddleware:
         response = self.get_response(request)
 
         if getattr(request.user, 'is_authenticated', None):
-            http_handler = HttpHandler()
-            jwt = http_handler.get_jwt(request)
-            response.set_cookie('token', value=jwt)
+            http_handler = HttpHandler(request)
+            response.set_cookie('token', value=http_handler.get_jwt())
 
         if response.status_code == status.HTTP_401_UNAUTHORIZED:
             response.delete_cookie('token')
