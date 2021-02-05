@@ -7,8 +7,17 @@ from rest_framework.authentication import (
     BaseAuthentication, get_authorization_header
 )
 
-from backend.com.jwt.handler import HttpHandler
+from backend.com.jwt.handler import Handler
+from backend.com.jwt.salt import HttpSalt
 from backend.drf.settings import JWT_AUTH
+
+
+class JSONWebTokenUser:
+    def __init__(self, user: (object, dict)):
+        self.id = getattr(user, 'id', None) or user.get('id')
+        self.name = getattr(user, 'name', None) or user.get('name')
+        self.group = str(user.groups.first()) if hasattr(user, 'groups') else None or user.get('group')
+        self.is_authenticated = True if self.id else False
 
 
 class BaseJSONWebTokenAuthentication(BaseAuthentication):
@@ -18,8 +27,8 @@ class BaseJSONWebTokenAuthentication(BaseAuthentication):
             return None
 
         try:
-            http_handler = HttpHandler(request)
-            payload = http_handler.get_payload(jwt_value)
+            handler = Handler(salt=HttpSalt(request))
+            payload = handler.jwt_decode_token(jwt_value)
         except jwt.ExpiredSignatureError:
             msg = 'Signature has expired.'
             raise exceptions.AuthenticationFailed(msg)
@@ -30,8 +39,7 @@ class BaseJSONWebTokenAuthentication(BaseAuthentication):
             msg = 'Invalid token.'
             raise exceptions.AuthenticationFailed(msg)
 
-        jwt_user, _ = http_handler.get_jwt_user(payload)
-        return jwt_user, None
+        return JSONWebTokenUser(payload), None
 
 
 class JSONWebTokenAuthentication(BaseJSONWebTokenAuthentication):

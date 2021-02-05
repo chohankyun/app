@@ -6,7 +6,7 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
-from backend.com.jwt.handler import HttpHandler
+from backend.com.jwt.auth import JSONWebTokenUser
 
 
 class Login(GenericAPIView):
@@ -14,9 +14,8 @@ class Login(GenericAPIView):
 
     def post(self, request, *args, **kwargs):
         user = self.login(app_id=request.data['app_id'], password=request.data['password'])
-        http_handler = HttpHandler(request)
-        request.user, jwt_user_data = http_handler.get_jwt_user(user.__dict__)
-        return Response(jwt_user_data, status=status.HTTP_200_OK)
+        request.user = JSONWebTokenUser(user)
+        return Response(request.user.__dict__, status=status.HTTP_200_OK)
 
     def login(self, **credentials):
         user = authenticate(**credentials)
