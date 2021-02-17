@@ -14,6 +14,7 @@ import logging.config
 import os
 import datetime
 from pathlib import Path
+from django.utils.module_loading import import_string
 from django.utils.translation import gettext_lazy as _
 
 import pymysql
@@ -218,6 +219,7 @@ REST_FRAMEWORK = {
 }
 
 JWT_AUTH = {
+    'JWT_USER_CLASS': import_string("backend.com.jwt.user.JSONWebTokenUser"),
     'JWT_SECRET_KEY': SECRET_KEY,
     'JWT_ALGORITHM': 'HS256',
     'JWT_VERIFY': True,

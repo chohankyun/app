@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 import jwt
 from django.utils.encoding import smart_text
 from rest_framework import exceptions
@@ -9,15 +8,8 @@ from rest_framework.authentication import (
 
 from backend.com.jwt.handler import Handler
 from backend.com.jwt.salt import HttpSalt
+from backend.com.jwt.user import JSONWebTokenUser
 from backend.drf.settings import JWT_AUTH
-
-
-class JSONWebTokenUser:
-    def __init__(self, user: (object, dict)):
-        self.id = getattr(user, 'id', None) or user.get('id')
-        self.name = getattr(user, 'name', None) or user.get('name')
-        self.group = str(user.groups.first()) if hasattr(user, 'groups') else None or user.get('group')
-        self.is_authenticated = True if self.id else False
 
 
 class BaseJSONWebTokenAuthentication(BaseAuthentication):
