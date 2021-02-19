@@ -104,6 +104,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'rest_framework',
     'backend.api.user.apps.UserConfig',
+    'backend.com.jwt.apps.JwtConfig',
 ]
 
 MIDDLEWARE = [
@@ -214,25 +215,13 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'com.jwt.auth.JSONWebTokenAuthentication',
+        'com.jwt.authentication.JSONWebTokenAuthentication',
     ],
 }
 
 JWT_AUTH = {
-    'JWT_USER_CLASS': import_string("backend.com.jwt.user.JSONWebTokenUser"),
-    'JWT_SECRET_KEY': SECRET_KEY,
-    'JWT_ALGORITHM': 'HS256',
-    'JWT_VERIFY': True,
-    'JWT_VERIFY_EXPIRATION': True,
-    'JWT_LEEWAY': 0,
-    # 'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=60 * 30),
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=5),
-    'JWT_AUDIENCE': None,
-    'JWT_ISSUER': None,
-    'JWT_ALLOW_REFRESH': False,
-    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
-    'JWT_AUTH_HEADER_PREFIX': 'Bearer',
-    'JWT_AUTH_COOKIE': 'token',
+    'JWT_USER': 'backend.com.jwt.handler.User',
+    'JWT_SALT': 'backend.com.jwt.handler.Salt',
 }
 
 # Message

@@ -6,10 +6,8 @@ from rest_framework.authentication import (
     BaseAuthentication, get_authorization_header
 )
 
-from backend.com.jwt.handler import Handler
-from backend.com.jwt.salt import HttpSalt
-from backend.com.jwt.user import JSONWebTokenUser
-from backend.drf.settings import JWT_AUTH
+from backend.com.jwt.handler import Token, jwt_salt, jwt_user
+from backend.com.jwt.settings import jwt_settings
 
 
 class BaseJSONWebTokenAuthentication(BaseAuthentication):
@@ -19,8 +17,8 @@ class BaseJSONWebTokenAuthentication(BaseAuthentication):
             return None
 
         try:
-            handler = Handler(salt=HttpSalt(request))
-            payload = handler.jwt_decode_token(jwt_value)
+            token = Token(salt=jwt_salt(request))
+            payload = token.jwt_decode_token(jwt_value)
         except jwt.ExpiredSignatureError:
             msg = 'Signature has expired.'
             raise exceptions.AuthenticationFailed(msg)
@@ -31,7 +29,7 @@ class BaseJSONWebTokenAuthentication(BaseAuthentication):
             msg = 'Invalid token.'
             raise exceptions.AuthenticationFailed(msg)
 
-        return JSONWebTokenUser(payload), None
+        return jwt_user(payload), None
 
 
 class JSONWebTokenAuthentication(BaseJSONWebTokenAuthentication):
@@ -40,11 +38,11 @@ class JSONWebTokenAuthentication(BaseJSONWebTokenAuthentication):
     @staticmethod
     def get_jwt_value(request):
         auth = get_authorization_header(request).split()
-        auth_header_prefix = JWT_AUTH['JWT_AUTH_HEADER_PREFIX'].lower()
+        auth_header_prefix = jwt_settings.JWT_AUTH_HEADER_PREFIX.lower()
 
         if not auth:
-            if JWT_AUTH['JWT_AUTH_COOKIE']:
-                return request.COOKIES.get(JWT_AUTH['JWT_AUTH_COOKIE'])
+            if jwt_settings.JWT_AUTH_COOKIE:
+                return request.COOKIES.get(jwt_settings.JWT_AUTH_COOKIE)
             return None
 
         if smart_text(auth[0].lower()) != auth_header_prefix:
@@ -60,4 +58,4 @@ class JSONWebTokenAuthentication(BaseJSONWebTokenAuthentication):
         return auth[1]
 
     def authenticate_header(self, request):
-        return '{0} realm="{1}"'.format(JWT_AUTH['JWT_AUTH_HEADER_PREFIX'], self.www_authenticate_realm)
+        return '{0} realm="{1}"'.format(jwt_settings.JWT_AUTH_HEADER_PREFIX, self.www_authenticate_realm)
