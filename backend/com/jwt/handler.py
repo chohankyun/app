@@ -15,11 +15,9 @@ class Salt:
         host = request.META.get('HTTP_HOST', 'host')
         user_agent = request.META.get('HTTP_USER_AGENT', 'user_agent')
         connection = request.META.get('HTTP_CONNECTION', 'connection')
-        accept = request.META.get('HTTP_ACCEPT', 'accept')
         accept_encoding = request.META.get('HTTP_ACCEPT_ENCODING', 'accept_encoding')
         accept_language = request.META.get('HTTP_ACCEPT_LANGUAGE', 'accept_language')
-        referer = request.META.get('HTTP_REFERER', 'referer')
-        salt_data_list = [client_ip, host, user_agent, connection, accept, accept_encoding, accept_language, referer]
+        salt_data_list = [client_ip, host, user_agent, connection, accept_encoding, accept_language]
         self.salt = hashlib.md5(','.join(salt_data_list).encode()).hexdigest()
 
     def __str__(self):
