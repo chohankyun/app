@@ -1,0 +1,13 @@
+asgiref==3.3.1
+cffi==1.14.5
+cryptography==3.4.6
+Django==3.1.6
+django-fernet-fields==0.6
+djangorestframework==3.12.2
+pycparser==2.20
+PyJWT==2.0.1
+PyMySQL==1.0.2
+python-dateutil==2.8.1
+pytz==2020.5
+six==1.15.0
+sqlparse==0.4.1
