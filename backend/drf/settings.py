@@ -11,13 +11,15 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 import logging.config
-import os
+import os, sys
 import datetime
 from pathlib import Path
 from django.utils.module_loading import import_string
 from django.utils.translation import gettext_lazy as _
 
 import pymysql
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+print(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 
 from backend.com.util.env import EnvJson
 
