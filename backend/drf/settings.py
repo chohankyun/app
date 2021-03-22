@@ -104,8 +104,9 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.humanize',
     'rest_framework',
-    'backend.api.user.apps.UserConfig',
     'backend.com.jwt.apps.JwtConfig',
+    'backend.api.user.apps.UserConfig',
+    'backend.api.board.apps.BoardConfig',
 ]
 
 MIDDLEWARE = [

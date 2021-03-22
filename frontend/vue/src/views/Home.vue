@@ -27,7 +27,7 @@
                     <span class="sr-only">Next</span>
                 </div>
             </div>
-            <Range/>
+            <Category/>
             <div class="row">
                 <div class="col m-2">
                     <span class="text-light bg-dark" style="padding: 3px 5px;"> <i class="fa fa-calendar-alt" aria-hidden="true"> </i></span>
@@ -40,12 +40,12 @@
 
 <script>
 // @ is an alias to /src
-import Range from '@/components/category/Range.vue';
+import Category from '@/components/Category';
 
 export default {
     name: 'Home',
     components: {
-        Range
+        Category
     },
     data() {
         return {
