@@ -3,10 +3,26 @@ from django.contrib.auth import user_logged_in, authenticate
 from rest_framework import status
 from rest_framework.exceptions import AuthenticationFailed, PermissionDenied
 from rest_framework.generics import GenericAPIView
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
 from backend.com.jwt.handler import jwt_user
+
+
+class IsAuth(GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+
+    @staticmethod
+    def get(request, *args, **kwargs):
+        return Response(status=status.HTTP_200_OK)
+
+
+class Logout(GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+
+    @staticmethod
+    def get(request, *args, **kwargs):
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
 
 
 class Login(GenericAPIView):

@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import store from '../store';
 import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
 import Login from '../views/Login.vue';
@@ -10,13 +11,13 @@ const routes = [
         path: '/',
         name: 'Home',
         component: Home,
-        meta: { title: 'chohankyun.com' }
+        meta: {title: 'chohankyun.com'}
     },
     {
         path: '/login',
         name: 'Login',
         component: Login,
-        meta: { title: 'Login' }
+        meta: {title: 'Login'}
     }
 ];
 
@@ -28,7 +29,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     document.title = to.meta.title;
-    next();
+    store.dispatch('user/is_auth').then(() => next());
 });
 
 export default router;

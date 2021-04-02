@@ -19,6 +19,9 @@ export default {
 </script>
 
 <style>
+.mouse-hand {
+    cursor: pointer;
+}
 .card {
     border-radius: 0rem !important;
 }
