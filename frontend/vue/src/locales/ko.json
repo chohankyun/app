@@ -23,5 +23,20 @@
   "Go to find app id": "어플리케이션 아이디 찾기로 이동",
   "Forgot your username?": "사용자명을 잊으셨나요?",
   "Go to find password": "비밀번호 찾기로 이동",
-  "Forgot your password?": "비밀번호를 잊으셨나요?"
+  "Forgot your password?": "비밀번호를 잊으셨나요?",
+  "Write a post": "게시글 작성",
+  "Write": "글쓰기",
+  "Posts I wrote": "내가 작성한 게시글",
+  "My posts": "내글",
+  "Change my information": "내정보 변경",
+  "My info": "내정보",
+  "Change password": "비밀번호 변경",
+  "Date": "날짜",
+  "Category": "분류",
+  "Subject": "제목",
+  "Please choose": "선택해주세요",
+  "Please enter a subject. (300 characters or less)": "제목을 입력하세요. (300자 이하)",
+  "Recommend": "추천",
+  "Reply": "댓글",
+  "Lookup": "조회"
 }

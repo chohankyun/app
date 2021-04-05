@@ -18,7 +18,7 @@
                         <div class="btn-group">
                             <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-sm btn-block btn-outline-info dropdown-toggle" :title="$t('Username')">{{ user.name }}</button>
                             <div class="dropdown-menu">
-                                <button type="button" class="small dropdown-item" :title="$t('Write a post')">{{ $t('Write') }}</button>
+                                <button type="button" class="small dropdown-item" :title="$t('Write a post')" @click="$router.push('Post')">{{ $t('Write') }}</button>
                                 <button type="button" class="small dropdown-item" :title="$t('Posts I wrote')">{{ $t('My posts') }}</button>
                                 <button type="button" class="small dropdown-item" :title="$t('Change my information')">{{ $t('My info') }}</button>
                                 <button type="button" class="small dropdown-item" :title="$t('Change password')">{{ $t('Change password') }}</button>
