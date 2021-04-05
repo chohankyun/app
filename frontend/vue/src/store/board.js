@@ -21,6 +21,6 @@ export default {
             } catch (e) {
                 alert('카테고리 리스트 전송 실패.');
             }
-        },
+        }
     }
 };

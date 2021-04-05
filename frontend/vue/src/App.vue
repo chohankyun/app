@@ -1,20 +1,20 @@
 <template>
     <div id="app">
-        <app-header/>
+        <app-header />
         <router-view :key="$route.fullPath" />
-        <app-footer/>
+        <app-footer />
     </div>
 </template>
 
 <script>
-import AppHeader from "@/components/layout/AppHeader";
-import AppFooter from "@/components/layout/AppFooter";
+import AppHeader from '@/components/layout/AppHeader';
+import AppFooter from '@/components/layout/AppFooter';
 
 export default {
-     components: {
+    components: {
         AppHeader,
         AppFooter
-    },
+    }
 };
 </script>
 

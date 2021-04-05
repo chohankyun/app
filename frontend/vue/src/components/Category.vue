@@ -19,7 +19,7 @@ export default {
             category_list: this.$store.state.board.category_list
         };
     },
-    beforeMount: function () {
+    beforeMount: function() {
         this.$store.dispatch('board/get_category_list');
     },
     methods: {

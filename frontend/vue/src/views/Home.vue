@@ -9,13 +9,13 @@
                 </ol>
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img class="d-block w-100" :src="`${publicPath}/data/carousel/carousel_1.png`"/>
+                        <img class="d-block w-100" :src="`${publicPath}/data/carousel/carousel_1.png`" />
                     </div>
                     <div class="carousel-item">
-                        <img class="d-block w-100" :src="`${publicPath}/data/carousel/carousel_2.png`"/>
+                        <img class="d-block w-100" :src="`${publicPath}/data/carousel/carousel_2.png`" />
                     </div>
                     <div class="carousel-item">
-                        <img class="d-block w-100" :src="`${publicPath}/data/carousel/carousel_3.png`"/>
+                        <img class="d-block w-100" :src="`${publicPath}/data/carousel/carousel_3.png`" />
                     </div>
                 </div>
                 <div class="carousel-control-prev" href="#id_carousel_indicators" role="button" data-slide="prev">
@@ -27,7 +27,7 @@
                     <span class="sr-only">Next</span>
                 </div>
             </div>
-            <Category/>
+            <Category />
             <div class="row">
                 <div class="col m-2">
                     <span class="text-light bg-dark" style="padding: 3px 5px;"> <i class="fa fa-calendar-alt" aria-hidden="true"> </i></span>

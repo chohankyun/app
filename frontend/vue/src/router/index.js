@@ -11,13 +11,13 @@ const routes = [
         path: '/',
         name: 'Home',
         component: Home,
-        meta: {title: 'chohankyun.com'}
+        meta: { title: 'chohankyun.com' }
     },
     {
         path: '/login',
         name: 'Login',
         component: Login,
-        meta: {title: 'Login'}
+        meta: { title: 'Login' }
     }
 ];
 

@@ -2,10 +2,10 @@
     <div class="app-header">
         <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top site-top-border">
             <div class="container">
-                <a class="navbar-brand col-lg-3 col-md-4 col-sm-6 col mouse-hand" onClick="window.location.href='/'"> <img src="../../assets/logo.png" class="img-fluid" alt="logo image" :title="$t('chohankyun.com')"/> </a>
+                <a class="navbar-brand col-lg-3 col-md-4 col-sm-6 col mouse-hand" onClick="window.location.href='/'"> <img src="../../assets/logo.png" class="img-fluid" alt="logo image" :title="$t('chohankyun.com')" /> </a>
                 <div class="d-none d-md-block col">
                     <form class="input-group  pull-left">
-                        <input type="text" class="form-control form-control-sm" :placeholder="$t('Please enter your search term.')"/>
+                        <input type="text" class="form-control form-control-sm" :placeholder="$t('Please enter your search term.')" />
                         <div class="input-group-append">
                             <button class="btn btn-info btn-sm" type="submit" :title="$t('Search')">
                                 <i class="fa fa-search" aria-hidden="true"></i>
@@ -26,8 +26,7 @@
                         </div>
                     </li>
                     <li class="nav-item ml-1" v-show="user.is_authenticated">
-                        <button type="button" class="btn btn-sm btn-block btn-outline-info" @click="logout()" :title="$t('Logout')">{{ $t('Logout') }}
-                        </button>
+                        <button type="button" class="btn btn-sm btn-block btn-outline-info" @click="logout()" :title="$t('Logout')">{{ $t('Logout') }}</button>
                     </li>
                     <li class="nav-item ml-1" v-show="!user.is_authenticated">
                         <button type="button" class="btn btn-sm btn-block btn-outline-info" :title="$t('Login')" @click="$router.push('Login')">{{ $t('Login') }}</button>
@@ -57,12 +56,12 @@ export default {
     data() {
         return {
             lang: '한국어',
-            options: {ko: '한국어', en: 'English'},
+            options: { ko: '한국어', en: 'English' }
         };
     },
     computed: {
-        user: function () {
-            return this.$store.state.user.user
+        user: function() {
+            return this.$store.state.user.user;
         }
     },
     created() {
@@ -78,7 +77,7 @@ export default {
             this.lang = value;
         },
         logout() {
-            this.$store.dispatch('user/logout').then(() => window.location.href = '/');
+            this.$store.dispatch('user/logout').then(() => (window.location.href = '/'));
         }
     }
 };

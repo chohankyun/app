@@ -11,7 +11,7 @@ export default {
         }
     },
     actions: {
-        async login(context, {app_id, password}) {
+        async login(context, { app_id, password }) {
             try {
                 const response = await user_api.login(app_id, password);
 
@@ -28,7 +28,6 @@ export default {
             } catch (e) {
                 context.commit('setUser', '');
                 console.log('로그 아웃.');
-
             }
         },
         async is_auth(context) {
@@ -37,8 +36,7 @@ export default {
             } catch (e) {
                 context.commit('setUser', '');
                 console.log('인증 정보 전송 실패.');
-
             }
-        },
+        }
     }
 };

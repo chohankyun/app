@@ -5,20 +5,20 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use(
-    function (config) {
+    function(config) {
         return config;
     },
-    function (error) {
+    function(error) {
         return Promise.reject(error);
     }
 );
 
 instance.interceptors.response.use(
-    function (response) {
+    function(response) {
         return response;
     },
 
-    function (error) {
+    function(error) {
         return Promise.reject(error);
     }
 );
