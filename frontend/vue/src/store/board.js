@@ -3,6 +3,10 @@ import * as board_api from '@/api/board';
 export default {
     namespaced: true,
     state: {
+        category_default: [
+            { code: 'home', name: 'Home' },
+            { code: 'all', name: 'All' }
+        ],
         category_list: null
     },
     mutations: {

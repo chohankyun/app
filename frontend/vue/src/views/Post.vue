@@ -11,7 +11,7 @@
                                         <span class="badge badge-secondary">{{ $t('Date') }}</span>
                                     </h5>
                                     <div class="col-9">
-                                        <input type="text" id="id_local_datetime" name="local_datetime" class="form-control form-control-sm"/>
+                                        <input type="text" id="id_local_datetime" name="local_datetime" class="form-control form-control-sm" v-model="today"/>
                                     </div>
                                 </div>
                             </div>
@@ -35,8 +35,11 @@
                                         <span class="badge badge-secondary">{{ $t('Category') }}</span>
                                     </h5>
                                     <div class="col-9">
-                                        <select name="category" id="id_category" class="form-control form-control-sm" required>
+                                        <select name="category" id="id_category" class="form-control form-control-sm" v-model="category_code" required>
                                             <option value="">--- {{ $t('Please choose') }} ---</option>
+                                            <option v-for="category in category_list" :key="category.code">
+                                                {{ $t(category.name) }}
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
@@ -87,8 +90,17 @@
 </template>
 
 <script>
+import dayjs from 'dayjs';
+
 export default {
-    name: 'Post'
+    name: 'Post',
+    data() {
+        return {
+            today:dayjs().format('YYYY-MM-DD'),
+            category_code: '',
+            category_list: this.$store.state.board.category_list
+        };
+    }
 };
 </script>
 
@@ -101,5 +113,4 @@ export default {
     padding-top: 55px;
     margin-bottom: 30px;
 }
-
 </style>
