@@ -11,7 +11,7 @@
                                         <span class="badge badge-secondary">{{ $t('Date') }}</span>
                                     </h5>
                                     <div class="col-9">
-                                        <input type="text" id="id_local_datetime" name="local_datetime" class="form-control form-control-sm" v-model="today"/>
+                                        <input type="text" id="id_local_datetime" name="local_datetime" class="form-control form-control-sm" v-model="today" />
                                     </div>
                                 </div>
                             </div>
@@ -23,7 +23,7 @@
                                         <span class="badge badge-secondary">{{ $t('Username') }}</span>
                                     </h5>
                                     <div class="col-xl-9 col-lg-8 col-md-9 col-9">
-                                        <input type="text" id="id_username" name="username" class="form-control form-control-sm" required/>
+                                        <input type="text" id="id_username" name="username" class="form-control form-control-sm" required />
                                     </div>
                                 </div>
                             </div>
@@ -54,7 +54,7 @@
                                         <span class="badge badge-secondary">{{ $t('Subject') }}</span>
                                     </h5>
                                     <div class="col-9">
-                                        <input type="text" id="id_subject" name="subject" class="form-control form-control-sm" :placeholder="$t('Please enter a subject. (300 characters or less)')" required/>
+                                        <input type="text" id="id_subject" name="subject" class="form-control form-control-sm" :placeholder="$t('Please enter a subject. (300 characters or less)')" required />
                                     </div>
                                 </div>
                             </div>
@@ -77,7 +77,6 @@
                                     <h5>
                                         <span class="badge badge-secondary">{{ $t('Recommend') }}</span>
                                         <span class="badge badge-info"></span>
-                                        <toggle on="<i class='fa fa-thumbs-up'></i> $t('Cancel')" off="<i class='fa fa-thumbs-o-up'></i> $t('Recommend')" onstyle="btn-info" size="btn-sm"></toggle>
                                     </h5>
                                 </div>
                             </div>
@@ -85,18 +84,23 @@
                     </div>
                 </div>
             </div>
+            <Editor />
         </div>
     </div>
 </template>
 
 <script>
 import dayjs from 'dayjs';
+import Editor from '@/components/EditorTiptap';
 
 export default {
     name: 'Post',
+    components: {
+        Editor
+    },
     data() {
         return {
-            today:dayjs().format('YYYY-MM-DD'),
+            today: dayjs().format('YYYY-MM-DD'),
             category_code: '',
             category_list: this.$store.state.board.category_list
         };
