@@ -12,13 +12,13 @@
                         <h5>
                             <span class="badge badge-secondary">{{ $t('App Id') }}</span>
                         </h5>
-                        <input name="app_id" id="id_app_id" type="text" v-model="app_id" :placeholder="$t('App Id')" class="form-control form-control-sm" required />
+                        <input name="app_id" id="id_app_id" type="text" v-model="app_id" :placeholder="$t('App Id')" class="form-control form-control-sm" required/>
                     </div>
                     <div class="form-group">
                         <h5>
                             <span class="badge badge-secondary">{{ $t('Password') }}</span>
                         </h5>
-                        <input name="password" id="id_password" type="password" v-model="password" :placeholder="$t('Password')" class="form-control form-control-sm" required />
+                        <input name="password" id="id_password" type="password" v-model="password" :placeholder="$t('Password')" class="form-control form-control-sm" required/>
                     </div>
                     <div>
                         <button type="button" class="btn btn-sm btn-outline-info" @click="login" :title="$t('Login')">{{ $t('Login') }}</button>
@@ -46,12 +46,10 @@ export default {
     },
     methods: {
         login() {
-            this.$store
-                .dispatch('user/login', {
-                    app_id: this.app_id,
-                    password: this.password
-                })
-                .then(() => (window.location.href = '/'));
+            this.$store.dispatch('user/login', {
+                app_id: this.app_id,
+                password: this.password
+            }).then(() => (window.location.href = '/'));
         }
     }
 };

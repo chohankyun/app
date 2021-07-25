@@ -11,7 +11,7 @@
                                         <span class="badge badge-secondary">{{ $t('Date') }}</span>
                                     </h5>
                                     <div class="col-9">
-                                        <input type="text" id="id_local_datetime" name="local_datetime" class="form-control form-control-sm" v-model="today" />
+                                        <input type="text" id="id_local_datetime" name="local_datetime" class="form-control form-control-sm" v-model="today"/>
                                     </div>
                                 </div>
                             </div>
@@ -23,7 +23,7 @@
                                         <span class="badge badge-secondary">{{ $t('Username') }}</span>
                                     </h5>
                                     <div class="col-xl-9 col-lg-8 col-md-9 col-9">
-                                        <input type="text" id="id_username" name="username" class="form-control form-control-sm" required />
+                                        <input type="text" id="id_username" name="username" class="form-control form-control-sm" required/>
                                     </div>
                                 </div>
                             </div>
@@ -54,7 +54,7 @@
                                         <span class="badge badge-secondary">{{ $t('Subject') }}</span>
                                     </h5>
                                     <div class="col-9">
-                                        <input type="text" id="id_subject" name="subject" class="form-control form-control-sm" :placeholder="$t('Please enter a subject. (300 characters or less)')" required />
+                                        <input type="text" id="id_subject" name="subject" class="form-control form-control-sm" :placeholder="$t('Please enter a subject. (300 characters or less)')" required/>
                                     </div>
                                 </div>
                             </div>
@@ -84,22 +84,39 @@
                     </div>
                 </div>
             </div>
-            <Editor />
+            <editor
+                api-key="p453mc03irhw5ur9757lryy6q5l0yh1kkn8451225emn3v7n"
+                :init=editor_init
+            />
         </div>
     </div>
 </template>
 
 <script>
 import dayjs from 'dayjs';
-import Editor from '@/components/EditorTiptap';
+import Editor from '@tinymce/tinymce-vue'
 
 export default {
     name: 'Post',
     components: {
-        Editor
+        'editor': Editor
     },
     data() {
         return {
+            editor_init: {
+                language: 'ko_KR',
+                height: 500,
+                menubar: true,
+                plugins: [
+                    'advlist autolink lists link image charmap print preview anchor',
+                    'searchreplace visualblocks code fullscreen',
+                    'insertdatetime media table paste code help wordcount'
+                ],
+                toolbar:
+                    'undo redo | formatselect | bold italic backcolor | \
+                    alignleft aligncenter alignright alignjustify | \
+                    bullist numlist outdent indent | removeformat | help'
+            },
             today: dayjs().format('YYYY-MM-DD'),
             category_code: '',
             category_list: this.$store.state.board.category_list
