@@ -14,7 +14,7 @@
   "Youtube Link": "Youtube Link",
   "Blog": "Blog",
   "New": "New",
-  "Username": "Username",
+  "User": "User",
   "App Id": "App Id",
   "Password": "Password",
   "Cancel": "Cancel",
@@ -37,5 +37,6 @@
   "Please enter your contents. (20000 characters or less)": "Please enter your contents. (20000 characters or less)",
   "Recommend": "Recommend",
   "Reply": "Reply",
-  "Lookup": "Lookup"
+  "Lookup": "Lookup",
+  "Save": "Save"
 }

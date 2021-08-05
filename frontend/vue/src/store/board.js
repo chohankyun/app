@@ -4,20 +4,25 @@ export default {
     namespaced: true,
     state: {
         category_default: [
-            { code: 'home', name: 'Home' },
-            { code: 'all', name: 'All' }
+            { id: 'home', name: 'Home' },
+            { id: 'all', name: 'All' }
         ],
-        category_list: null
+        category_list: null,
+        category_id: 'home'
     },
     mutations: {
         setCategoryList(state, category_list) {
             state.category_list = category_list;
+        },
+        setCategoryId(state, category_id) {
+            console.log(category_id);
+            state.category_id = category_id;
         }
     },
     actions: {
-        async get_category_list(context) {
+        async get_categories(context) {
             try {
-                const response = await board_api.get_category_list();
+                const response = await board_api.get_categories();
 
                 if (response.status === 200) {
                     context.commit('setCategoryList', response.data);

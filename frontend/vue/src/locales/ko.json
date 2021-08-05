@@ -14,7 +14,7 @@
   "Youtube Link": "유투브 링크",
   "Blog": "블로그",
   "New": "최신",
-  "Username": "사용자명",
+  "User": "사용자",
   "App Id": "어플리케이션 아이디",
   "Password": "비밀번호",
   "Cancel": "취소",
@@ -39,5 +39,6 @@
   "Please enter your contents. (20000 characters or less)": "내용을 입력해주세요. (20000자 이하)",
   "Recommend": "추천",
   "Reply": "댓글",
-  "Lookup": "조회"
+  "Lookup": "조회",
+  "Save": "저장"
 }

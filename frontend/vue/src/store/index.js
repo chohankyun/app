@@ -6,6 +6,7 @@ Vue.use(Vuex);
 
 import user from './user';
 import board from './board';
+import lang from './lang';
 
 export default new Vuex.Store({
     state: {},
@@ -13,11 +14,12 @@ export default new Vuex.Store({
     actions: {},
     modules: {
         user,
-        board
+        board,
+        lang
     },
     plugins: [
         createPersistedState({
-            paths: ['user', 'board']
+            paths: ['user', 'board', 'lang']
         })
     ]
 });
