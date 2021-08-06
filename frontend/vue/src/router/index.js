@@ -5,6 +5,7 @@ import Home from '../views/Home.vue';
 import Board from '../views/Board.vue';
 import Login from '../views/Login.vue';
 import Post from '../views/Post.vue';
+import Search from '../views/Search.vue';
 
 Vue.use(VueRouter);
 
@@ -38,6 +39,12 @@ const routes = [
         name: 'Post',
         component: Post,
         meta: {title: 'Post'}
+    },
+    {
+        path: '/search',
+        name: 'Search',
+        component: Search,
+        meta: {title: 'Search'}
     }
 ];
 

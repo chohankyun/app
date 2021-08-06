@@ -5,9 +5,9 @@
                 <a class="navbar-brand col-lg-3 col-md-4 col-sm-6 col mouse-hand" onClick="window.location.href='/'"> <img src="../../assets/images/logo.png" class="img-fluid" alt="logo image" :title="$t('chohankyun.com')"/> </a>
                 <div class="d-none d-md-block col">
                     <form class="input-group  pull-left">
-                        <input type="text" class="form-control form-control-sm" :placeholder="$t('Please enter your search term.')"/>
+                        <input type="text" class="form-control form-control-sm" v-model="search_word" :placeholder="$t('Please enter your search term.')"/>
                         <div class="input-group-append">
-                            <button class="btn btn-info btn-sm" type="submit" :title="$t('Search')">
+                            <button class="btn btn-info btn-sm" type="button" @click="search()" :title="$t('Search')">
                                 <i class="fa fa-search" aria-hidden="true"></i>
                             </button>
                         </div>
@@ -51,12 +51,14 @@
 </template>
 
 <script>
+
 export default {
     name: 'AppHeader',
     data() {
         return {
             lang: '한국어',
-            options: {ko: '한국어', en: 'English'}
+            options: {ko: '한국어', en: 'English'},
+            search_word: ''
         };
     },
     computed: {
@@ -86,6 +88,12 @@ export default {
         },
         logout() {
             this.$store.dispatch('user/logout').then(() => (window.location.href = '/'));
+        },
+        search() {
+            console.log(this.search_word);
+            if (this.search_word !== '' && this.search_word.length >= 2) {
+                this.$router.push({name: 'Search', params: {search_word: this.search_word}});
+            }
         }
     }
 };

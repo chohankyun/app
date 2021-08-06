@@ -27,3 +27,7 @@ export async function create_reply(reply) {
 export async function get_replies_post(post_id) {
     return http.get('/api/board/replies/post/' + post_id);
 }
+
+export async function search_post(search_word, order) {
+    return http.get('/api/search/posts/' + search_word + '/' + order);
+}
