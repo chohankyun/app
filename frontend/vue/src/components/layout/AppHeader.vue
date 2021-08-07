@@ -2,21 +2,24 @@
     <div class="app-header">
         <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top site-top-border">
             <div class="container">
-                <a class="navbar-brand col-lg-3 col-md-4 col-sm-6 col mouse-hand" onClick="window.location.href='/'"> <img src="../../assets/images/logo.png" class="img-fluid" alt="logo image" :title="$t('chohankyun.com')"/> </a>
+                <a class="navbar-brand col-lg-3 col-md-4 col-sm-6 col mouse-hand" onClick="window.location.href='/'"> <img src="../../assets/images/logo.png" class="img-fluid" alt="logo image"
+                                                                                                                           :title="$t('chohankyun.com')"/> </a>
                 <div class="d-none d-md-block col">
-                    <form class="input-group  pull-left">
-                        <input type="text" class="form-control form-control-sm" v-model="search_word" :placeholder="$t('Please enter your search term.')"/>
+                    <div class="input-group  pull-left">
+                        <input type="text" class="form-control form-control-sm" @keydown.enter="search" v-model="search_word" :placeholder="$t('Please enter your search term.')"/>
                         <div class="input-group-append">
-                            <button class="btn btn-info btn-sm" type="button" @click="search()" :title="$t('Search')">
+                            <button class="btn btn-info btn-sm" type="button" @click="search" :title="$t('Search')">
                                 <i class="fa fa-search" aria-hidden="true"></i>
                             </button>
                         </div>
-                    </form>
+                    </div>
                 </div>
                 <ul class="nav">
                     <li class="nav-item ml-1" v-show="user.is_authenticated">
                         <div class="btn-group">
-                            <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-sm btn-block btn-outline-info dropdown-toggle" :title="$t('User')">{{ user.name }}</button>
+                            <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-sm btn-block btn-outline-info dropdown-toggle" :title="$t('User')">
+                                {{ user.name }}
+                            </button>
                             <div class="dropdown-menu">
                                 <button type="button" class="small dropdown-item" :title="$t('Write a post')" @click="$router.push('Post')">{{ $t('Write') }}</button>
                                 <button type="button" class="small dropdown-item" :title="$t('Posts I wrote')">{{ $t('My posts') }}</button>
@@ -36,7 +39,8 @@
                     </li>
                     <li class="nav-item ml-1">
                         <div id="lang" class="dropdown show">
-                            <a class="btn btn-sm btn-block btn-outline-info dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" :title="$t('Change Language')">
+                            <a class="btn btn-sm btn-block btn-outline-info dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                               :title="$t('Change Language')">
                                 {{ lang }}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -92,7 +96,7 @@ export default {
         search() {
             console.log(this.search_word);
             if (this.search_word !== '' && this.search_word.length >= 2) {
-                this.$router.push({name: 'Search', params: {search_word: this.search_word}});
+                this.$router.push({name: 'Search', params: {search_word: encodeURIComponent(this.search_word)}});
             }
         }
     }

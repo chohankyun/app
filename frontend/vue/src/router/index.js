@@ -41,7 +41,7 @@ const routes = [
         meta: {title: 'Post'}
     },
     {
-        path: '/search',
+        path: '/search/:search_word',
         name: 'Search',
         component: Search,
         meta: {title: 'Search'}

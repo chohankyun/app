@@ -2,13 +2,11 @@
     <div class="container">
         <div class="search search-padding">
             <div class="row">
-                <div class="col-3 py-4">
+                <div class="col-lg-8 col-sm-7 py-4">
                     <span class="text-light bg-dark" style="padding: 3px 5px;">
                         <i class="fa fa-list-ol" aria-hidden="true"></i></span> <strong>{{ $t('Total results') }} : {{ search.total }} </strong>
                 </div>
-                <div class="col">
-                    <Order @changeOrder="change_order"/>
-                </div>
+                <Order @changeOrder="change_order"/>
             </div>
             <div class="row">
                 <div class="col small">
