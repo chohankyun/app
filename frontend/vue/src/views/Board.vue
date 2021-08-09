@@ -3,7 +3,7 @@
         <div class="board board-padding">
             <div class="row">
                 <Category/>
-                <Order @changeOrder="change_order"/>
+                <Order @change="change_order"/>
             </div>
             <div class="row">
                 <div class="col-lg-3 col-md-6 col-sm-6 portfolio-item small" v-for="post in posts" :key="post.id">
@@ -40,7 +40,7 @@
 <script>
 import Category from '@/components/Category';
 import Order from '@/components/Order';
-import * as board_api from "@/api/board";
+import * as board_api from '@/api/board';
 
 export default {
     name: 'Board',
@@ -53,19 +53,31 @@ export default {
             category_id: 'all',
             order: 'updated_datetime',
             posts: null
-        }
+        };
     },
     created() {
-        this.category_id = this.$route.params.category_id
-        board_api.get_posts_by_category_order(this.category_id, this.order).then(res => {
-            this.posts = res.data.results;
-        });
+        this.category_id = this.$route.params.category_id;
+        board_api
+            .get_posts_by_category_order(this.category_id, this.order)
+            .then(res => {
+                this.posts = res.data.results;
+            })
+            .catch(e => {
+                this.posts = null;
+                alert(e.message);
+            });
     },
     methods: {
         change_order(order) {
-            board_api.get_posts_by_category_order(this.category_id, order).then(res => {
-                this.posts = res.data.results;
-            });
+            board_api
+                .get_posts_by_category_order(this.category_id, order)
+                .then(res => {
+                    this.posts = res.data.results;
+                })
+                .catch(e => {
+                    this.posts = null;
+                    alert(e.message);
+                });
         }
     }
 };

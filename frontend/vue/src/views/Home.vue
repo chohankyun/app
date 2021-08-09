@@ -173,7 +173,7 @@
 <script>
 // @ is an alias to /src
 import Category from '@/components/Category';
-import * as board_api from "@/api/board";
+import * as board_api from '@/api/board';
 
 export default {
     name: 'Home',
@@ -184,21 +184,26 @@ export default {
         return {
             publicPath: process.env.BASE_URL,
             posts: {
-                'updated_datetime': [],
-                'click_count': [],
-                'reply_count': [],
-                'recommend_count': []
+                updated_datetime: [],
+                click_count: [],
+                reply_count: [],
+                recommend_count: []
             }
         };
     },
     created() {
-        Object.keys(this.posts).forEach((value) => {
-            board_api.get_posts_for_home(value).then(res => {
-                this.posts[value] = res.data;
-            });
-
-        });
         this.$store.commit('board/setCategoryId', 'home');
+        Object.keys(this.posts).forEach((value) => {
+            board_api
+                .get_posts_for_home(value)
+                .then(res => {
+                    this.posts[value] = res.data;
+                })
+                .catch(e => {
+                    this.posts[value] = [];
+                    alert(e.message);
+                });
+        });
     }
 };
 </script>

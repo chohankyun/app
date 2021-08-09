@@ -25,7 +25,7 @@ export default {
     methods: {
         change(order_id) {
             this.order_id = order_id;
-            this.$emit('changeOrder', order_id);
+            this.$emit('change', order_id);
         }
     }
 };

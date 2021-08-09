@@ -3,32 +3,29 @@ import * as board_api from '@/api/board';
 export default {
     namespaced: true,
     state: {
+        category_id: 'home',
         category_default: [
             { id: 'home', name: 'Home' },
             { id: 'all', name: 'All' }
         ],
-        category_list: null,
-        category_id: 'home'
+        categories: null
     },
     mutations: {
-        setCategoryList(state, category_list) {
-            state.category_list = category_list;
+        setCategories(state, categories) {
+            state.category_list = categories;
         },
         setCategoryId(state, category_id) {
-            console.log(category_id);
             state.category_id = category_id;
         }
     },
     actions: {
-        async get_categories(context) {
+        async set_categories(context) {
             try {
                 const response = await board_api.get_categories();
-
-                if (response.status === 200) {
-                    context.commit('setCategoryList', response.data);
-                }
+                context.commit('setCategories', response.data);
             } catch (e) {
-                alert('카테고리 리스트 전송 실패.');
+                context.commit('setCategories', null);
+                alert(e.message);
             }
         }
     }

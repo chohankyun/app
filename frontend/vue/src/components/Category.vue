@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import router from "@/router";
+import router from '@/router';
 
 export default {
     name: 'Category',
@@ -23,19 +23,13 @@ export default {
             category_list: this.$store.state.board.category_list
         };
     },
-    beforeMount: function () {
-        this.$store.dispatch('board/get_categories');
+    beforeMount: function() {
+        this.$store.dispatch('board/set_categories');
     },
     methods: {
         select_category(category_id) {
-            this.category_id = category_id;
-            if (this.category_id === 'home') {
-                router.push({path: '/'})
-                this.$store.commit('board/setCategoryId',this.category_id);
-            } else {
-                router.push({name: 'Board', params: {category_id: category_id}});
-                this.$store.commit('board/setCategoryId',this.category_id);
-            }
+            this.$store.commit('board/setCategoryId', category_id);
+            router.push({ name: 'Board', params: { category_id: category_id } });
         }
     }
 };
