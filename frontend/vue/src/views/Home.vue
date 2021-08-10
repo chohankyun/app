@@ -39,10 +39,10 @@
             <div class="row">
                 <div class="mb-4 col-lg-3 col-md-6 col-sm-6 portfolio-item small" v-for="post in posts.updated_datetime" :key="post.id">
                     <div class="card h-100 site-polaroid">
-                        <router-link :to="{name: 'Post', params:{id: post.id}}"><img class="card-img-top site-thumbnail" :src="post.first_image_source ? post.first_image_source : 'http://via.placeholder.com/250x150?text=Text Only'"></router-link>
+                        <router-link :to="{path: '/post/'+ post.id}"><img class="card-img-top site-thumbnail" :src="post.first_image_source ? post.first_image_source : 'http://via.placeholder.com/250x150?text=Text Only'"></router-link>
                         <div class="card-body text-center px-1 py-3">
                             <p class="card-text text-truncate font-weight-bold">
-                                <router-link :to="{name: 'Post', params:{id: post.id}}" style="color: #5bc0de">{{ post.subject }}</router-link>
+                                <router-link :to="{path: '/post/'+ post.id}" style="color: #5bc0de">{{ post.subject }}</router-link>
                             </p>
                         </div>
                         <ul class="list-group list-group-flush">
@@ -73,10 +73,10 @@
             <div class="row">
                 <div class="mb-4 col-lg-3 col-md-6 col-sm-6 portfolio-item small" v-for="post in posts.recommend_count" :key="post.id">
                     <div class="card h-100 site-polaroid">
-                        <router-link :to="{name: 'Post', params:{id: post.id}}"><img class="card-img-top site-thumbnail" :src="post.first_image_source ? post.first_image_source : 'http://via.placeholder.com/250x150?text=Text Only'"></router-link>
+                        <router-link :to="{path: '/post/'+ post.id}"><img class="card-img-top site-thumbnail" :src="post.first_image_source ? post.first_image_source : 'http://via.placeholder.com/250x150?text=Text Only'"></router-link>
                         <div class="card-body text-center px-1 py-3">
                             <p class="card-text text-truncate font-weight-bold">
-                                <router-link :to="{name: 'Post', params:{id: post.id}}" style="color: #5bc0de">{{ post.subject }}</router-link>
+                                <router-link :to="{path: '/post/'+ post.id}" style="color: #5bc0de">{{ post.subject }}</router-link>
                             </p>
                         </div>
                         <ul class="list-group list-group-flush">
@@ -107,10 +107,10 @@
             <div class="row">
                 <div class="mb-4 col-lg-3 col-md-6 col-sm-6 portfolio-item small" v-for="post in posts.reply_count" :key="post.id">
                     <div class="card h-100 site-polaroid">
-                        <router-link :to="{name: 'Post', params:{id: post.id}}"><img class="card-img-top site-thumbnail" :src="post.first_image_source ? post.first_image_source : 'http://via.placeholder.com/250x150?text=Text Only'"></router-link>
+                        <router-link :to="{path: '/post/'+ post.id}"><img class="card-img-top site-thumbnail" :src="post.first_image_source ? post.first_image_source : 'http://via.placeholder.com/250x150?text=Text Only'"></router-link>
                         <div class="card-body text-center px-1 py-3">
                             <p class="card-text text-truncate font-weight-bold">
-                                <router-link :to="{name: 'Post', params:{id: post.id}}" style="color: #5bc0de">{{ post.subject }}</router-link>
+                                <router-link :to="{path: '/post/'+ post.id}" style="color: #5bc0de">{{ post.subject }}</router-link>
                             </p>
                         </div>
                         <ul class="list-group list-group-flush">
@@ -141,10 +141,10 @@
             <div class="row">
                 <div class="mb-4 col-lg-3 col-md-6 col-sm-6 portfolio-item small" v-for="post in posts.click_count" :key="post.id">
                     <div class="card h-100 site-polaroid">
-                        <router-link :to="{name: 'Post', params:{id: post.id}}"><img class="card-img-top site-thumbnail" :src="post.first_image_source ? post.first_image_source : 'http://via.placeholder.com/250x150?text=Text Only'"></router-link>
+                        <router-link :to="{path: '/post/'+ post.id}"><img class="card-img-top site-thumbnail" :src="post.first_image_source ? post.first_image_source : 'http://via.placeholder.com/250x150?text=Text Only'"></router-link>
                         <div class="card-body text-center px-1 py-3">
                             <p class="card-text text-truncate font-weight-bold">
-                                <router-link :to="{name: 'Post', params:{id: post.id}}" style="color: #5bc0de">{{ post.subject }}</router-link>
+                                <router-link :to="{path: '/post/'+ post.id}" style="color: #5bc0de">{{ post.subject }}</router-link>
                             </p>
                         </div>
                         <ul class="list-group list-group-flush">

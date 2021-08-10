@@ -7,7 +7,6 @@ export default [
     },
     {
         path: '/board/:category_id',
-        name: 'Board',
         component: Board,
         meta: { title: 'Board' }
     }

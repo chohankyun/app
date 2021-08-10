@@ -233,15 +233,16 @@ export default {
         };
     },
     created() {
-        console.log(this.$route.params);
-        board_api.get_post(this.$route.params.id).then(res => {
-            this.post = res.data;
-            console.log(this.post);
-        })
-        board_api.get_replies_post(this.$route.params.id).then(res => {
-            this.replies = res.data;
-            console.log(this.replies);
-        })
+        if (this.$route.params.id !== undefined) {
+            board_api.get_post(this.$route.params.id).then(res => {
+                this.post = res.data;
+                console.log(this.post);
+            })
+            board_api.get_replies_post(this.$route.params.id).then(res => {
+                this.replies = res.data;
+                console.log(this.replies);
+            })
+        }
     },
     methods: {
         save_post() {
