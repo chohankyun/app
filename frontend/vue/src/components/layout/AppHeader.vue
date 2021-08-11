@@ -94,9 +94,11 @@ export default {
             this.$store.dispatch('user/logout').then(() => (window.location.href = '/'));
         },
         search() {
-            console.log(this.search_word);
+            this.$log.debug(this.search_word);
             if (this.search_word !== '' && this.search_word.length >= 2) {
                 this.$router.push({name: 'Search', params: {search_word: encodeURIComponent(this.search_word)}});
+            } else {
+                alert('Please enter at least 2 characters.');
             }
         }
     }

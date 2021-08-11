@@ -11,12 +11,13 @@ export default {
         }
     },
     actions: {
-        async login(context, { app_id, password }) {
+        async login(context, {app_id, password}) {
             try {
                 const response = await user_api.login(app_id, password);
 
                 if (response.status === 200) {
                     context.commit('setUser', response.data);
+                    window.location.href = '/';
                 }
             } catch (e) {
                 alert('사용자 정보 전송 실패.');
@@ -27,6 +28,7 @@ export default {
                 await user_api.logout();
             } catch (e) {
                 context.commit('setUser', '');
+                window.location.href = '/';
                 console.log('로그 아웃.');
             }
         },

@@ -238,7 +238,7 @@ export default {
                 this.post = res.data;
                 console.log(this.post);
             })
-            board_api.get_replies_post(this.$route.params.id).then(res => {
+            board_api.get_replies_in_post(this.$route.params.id).then(res => {
                 this.replies = res.data;
                 console.log(this.replies);
             })

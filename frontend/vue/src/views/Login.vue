@@ -23,7 +23,7 @@
                     <div>
                         <button type="button" class="btn btn-sm btn-outline-info" @click="login" :title="$t('Login')">{{ $t('Login') }}</button>
                         <button type="button" class="btn btn-sm btn-outline-info mx-1" :title="$t('Register')">{{ $t('Register') }}</button>
-                        <button type="button" class="btn btn-sm btn-outline-info" @click="$router.push('/')" :title="$t('Cancel')">{{ $t('Cancel') }}</button>
+                        <button type="button" class="btn btn-sm btn-outline-info" @click="$router.go(-1)" :title="$t('Cancel')">{{ $t('Cancel') }}</button>
                     </div>
                     <div class="mt-4">
                         <a class="mr-1" :title="$t('Go to find app id')">{{ $t('Forgot your app id?') }}</a>
@@ -49,7 +49,7 @@ export default {
             this.$store.dispatch('user/login', {
                 app_id: this.app_id,
                 password: this.password
-            }).then(() => (window.location.href = '/'));
+            });
         }
     }
 };
