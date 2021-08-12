@@ -1,3 +1,5 @@
+import Vue from 'vue';
+import router from '../router';
 import * as user_api from '@/api/user';
 
 export default {
@@ -17,7 +19,7 @@ export default {
 
                 if (response.status === 200) {
                     context.commit('setUser', response.data);
-                    window.location.href = '/';
+                    await router.push('/');
                 }
             } catch (e) {
                 alert('사용자 정보 전송 실패.');
@@ -28,8 +30,8 @@ export default {
                 await user_api.logout();
             } catch (e) {
                 context.commit('setUser', '');
-                window.location.href = '/';
-                console.log('로그 아웃.');
+                alert('로그 아웃.');
+                await router.push('/');
             }
         },
         async is_auth(context) {
@@ -37,7 +39,7 @@ export default {
                 await user_api.is_auth();
             } catch (e) {
                 context.commit('setUser', '');
-                console.log('인증 정보 전송 실패.');
+                Vue.$log.debug('인증 정보 전송 실패.');
             }
         }
     }

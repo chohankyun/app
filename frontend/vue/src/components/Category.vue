@@ -24,7 +24,7 @@ export default {
         };
     },
     beforeMount: function () {
-        this.$store.dispatch('board/set_categories');
+        this.$store.dispatch('board/init_categories');
     },
     methods: {
         select_category(category_id) {

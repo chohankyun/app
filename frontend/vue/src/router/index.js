@@ -3,18 +3,12 @@ import store from '../store';
 import VueRouter from 'vue-router';
 import Home from './home';
 import Board from './board';
-import Login from './login';
-import Post from './post';
-import Search from './search';
 
 Vue.use(VueRouter);
 
 const routes = [
     ...Home,
-    ...Board,
-    ...Login,
-    ...Post,
-    ...Search
+    ...Board
 ];
 
 const router = new VueRouter({

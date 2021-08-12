@@ -19,7 +19,7 @@ export default {
         }
     },
     actions: {
-        async set_categories(context) {
+        async init_categories(context) {
             try {
                 const response = await board_api.get_categories();
                 context.commit('setCategories', response.data);

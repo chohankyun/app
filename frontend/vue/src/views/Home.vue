@@ -50,7 +50,7 @@
                                 <div class="cart-text">
                                     <div>
                                         <i class="fa fa-folder-open" aria-hidden="true"></i> {{ $t(post.category_name) }}
-                                        <i class="fa fa-user" aria-hidden="true"></i> {{ post.username }}
+                                        <i class="fa fa-user" aria-hidden="true"></i> {{ post.user_name }}
                                         <i class="fa fa-thumbs-up" aria-hidden="true"> </i> {{ post.recommend_count }}
                                         <i class="fa fa-comment-dots" aria-hidden="true"></i> {{ post.reply_count }}
                                         <i class="fa fa-envelope-open" aria-hidden="true"></i> {{ post.click_count }}
@@ -84,7 +84,7 @@
                                 <div class="cart-text">
                                     <div>
                                         <i class="fa fa-folder-open" aria-hidden="true"></i> {{ $t(post.category_name) }}
-                                        <i class="fa fa-user" aria-hidden="true"></i> {{ post.username }}
+                                        <i class="fa fa-user" aria-hidden="true"></i> {{ post.user_name }}
                                         <i class="fa fa-thumbs-up" aria-hidden="true"> </i> {{ post.recommend_count }}
                                         <i class="fa fa-comment-dots" aria-hidden="true"></i> {{ post.reply_count }}
                                         <i class="fa fa-envelope-open" aria-hidden="true"></i> {{ post.click_count }}
@@ -118,7 +118,7 @@
                                 <div class="cart-text">
                                     <div>
                                         <i class="fa fa-folder-open" aria-hidden="true"></i> {{ $t(post.category_name) }}
-                                        <i class="fa fa-user" aria-hidden="true"></i> {{ post.username }}
+                                        <i class="fa fa-user" aria-hidden="true"></i> {{ post.user_name }}
                                         <i class="fa fa-thumbs-up" aria-hidden="true"> </i> {{ post.recommend_count }}
                                         <i class="fa fa-comment-dots" aria-hidden="true"></i> {{ post.reply_count }}
                                         <i class="fa fa-envelope-open" aria-hidden="true"></i> {{ post.click_count }}
@@ -152,7 +152,7 @@
                                 <div class="cart-text">
                                     <div>
                                         <i class="fa fa-folder-open" aria-hidden="true"></i> {{ $t(post.category_name) }}
-                                        <i class="fa fa-user" aria-hidden="true"></i> {{ post.username }}
+                                        <i class="fa fa-user" aria-hidden="true"></i> {{ post.user_name }}
                                         <i class="fa fa-thumbs-up" aria-hidden="true"> </i> {{ post.recommend_count }}
                                         <i class="fa fa-comment-dots" aria-hidden="true"></i> {{ post.reply_count }}
                                         <i class="fa fa-envelope-open" aria-hidden="true"></i> {{ post.click_count }}

@@ -13,14 +13,14 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class PostSerializer(serializers.ModelSerializer):
     category_name = serializers.SerializerMethodField()
-    username = serializers.SerializerMethodField()
+    user_name = serializers.SerializerMethodField()
     local_datetime = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
         fields = '__all__'
         [fields].append('category_name')
-        [fields].append('username')
+        [fields].append('user_name')
         [fields].append('local_datetime')
 
     @staticmethod
@@ -28,7 +28,7 @@ class PostSerializer(serializers.ModelSerializer):
         return obj.category.name
 
     @staticmethod
-    def get_username(obj):
+    def get_user_name(obj):
         return obj.user.name
 
     @staticmethod
@@ -37,17 +37,17 @@ class PostSerializer(serializers.ModelSerializer):
 
 
 class ReplySerializer(serializers.ModelSerializer):
-    username = serializers.SerializerMethodField()
+    user_name = serializers.SerializerMethodField()
     local_datetime = serializers.SerializerMethodField()
 
     class Meta:
         model = Reply
         fields = '__all__'
-        [fields].append('username')
+        [fields].append('user_name')
         [fields].append('local_datetime')
 
     @staticmethod
-    def get_username(obj):
+    def get_user_name(obj):
         return obj.user.name
 
     @staticmethod

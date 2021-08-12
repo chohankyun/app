@@ -23,7 +23,7 @@
                                         <span class="align-middle badge-secondary">{{ $t('User') }}</span>
                                     </h5>
                                     <div class="col-xl-9 col-lg-8 col-md-9 col-9">
-                                        <input type="text" id="id_username" name="username" class="form-control form-control-sm" :readonly="true" v-model="post.username" required/>
+                                        <input type="text" id="id_user_name" name="user_name" class="form-control form-control-sm" :readonly="true" v-model="post.user_name" required/>
                                     </div>
                                 </div>
                             </div>
@@ -103,7 +103,7 @@
                 <div class="card mt-2">
                     <div class="white-box text-info" style="font-size: small;">
                         <label class="ml-2 my-1"><i class="fa fa-comment-dots" aria-hidden="true"></i>&nbsp;{{ $t('Reply') }}</label>
-                        <label class="ml-2">&nbsp;<i class="fa fa-user" aria-hidden="true"></i>&nbsp;{{ reply.username }}</label>
+                        <label class="ml-2">&nbsp;<i class="fa fa-user" aria-hidden="true"></i>&nbsp;{{ reply.user_name }}</label>
                         <label class="ml-2">&nbsp;<i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;{{ reply.local_datetime }}</label>
                     </div>
                 </div>
@@ -126,7 +126,7 @@
             <div class="card mt-2">
                 <div class="white-box text-info" style="font-size: small;">
                     <label class="ml-2 my-1"><i class="fa fa-comment-dots" aria-hidden="true"></i>&nbsp;{{ $t('Reply') }}</label>
-                    <label class="ml-2">&nbsp;<i class="fa fa-user" aria-hidden="true"></i>&nbsp;{{ reply.username }}</label>
+                    <label class="ml-2">&nbsp;<i class="fa fa-user" aria-hidden="true"></i>&nbsp;{{ reply.user_name }}</label>
                     <label class="ml-2">&nbsp;<i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;{{ reply.local_datetime }}</label>
                 </div>
             </div>
@@ -214,7 +214,7 @@ export default {
                 user: this.$store.state.user.user.id,
                 category: '',
                 local_datetime: dayjs().format('YYYY-MM-DD'),
-                username: this.$store.state.user.user.name,
+                user_name: this.$store.state.user.user.name,
                 subject: '',
                 reply_count: 0,
                 click_count: 0,
@@ -225,7 +225,7 @@ export default {
                 id: '',
                 post: this.$route.params.id,
                 user: this.$store.state.user.user.id,
-                username: '',
+                user_name: '',
                 local_datetime: dayjs().format('YYYY-MM-DD'),
                 content: ''
             },
@@ -234,33 +234,41 @@ export default {
     },
     created() {
         if (this.$route.params.id !== undefined) {
-            board_api.get_post(this.$route.params.id).then(res => {
-                this.post = res.data;
-                console.log(this.post);
-            })
-            board_api.get_replies_in_post(this.$route.params.id).then(res => {
-                this.replies = res.data;
-                console.log(this.replies);
-            })
+            board_api
+                .get_post(this.$route.params.id)
+                .then(res => {
+                    this.post = res.data;
+                })
+                .catch(e => {
+                    alert(e.message);
+                    this.$router.push('/');
+                })
+            board_api
+                .get_replies_in_post(this.$route.params.id)
+                .then(res => {
+                    this.replies = res.data;
+                })
+                .catch(e => {
+                    alert(e.message);
+                    this.$router.push('/');
+                })
         }
     },
     methods: {
-        save_post() {
-            console.log(this.post);
+        async save_post() {
             try {
-                const response = board_api.create_post(this.post);
-                console.log(response);
+                const response = await board_api.create_post(this.post);
+                this.$log.debug(response.data);
             } catch (e) {
-                alert('카테고리 리스트 전송 실패.');
+                alert(e.message);
             }
         },
-        save_reply() {
-            console.log(this.post);
+        async save_reply() {
             try {
-                const response = board_api.create_reply(this.reply);
-                console.log(response);
+                const response = await board_api.create_reply(this.reply);
+                this.$log.debug(response.data);
             } catch (e) {
-                alert('카테고리 리스트 전송 실패.');
+                alert(e.message);
             }
         }
     }
