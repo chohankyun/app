@@ -88,10 +88,10 @@
             <div class="card">
                 <div class="row justify-content-between mx-0 mb-3">
                     <div class="mt-3 col-3 col-sm-2 float-left">
-                        <button type="submit" class="btn btn-sm btn-outline-primary btn-block" @click="$router.go(-1)" :title="$t('Cancel')">{{ $t('Cancel') }}</button>
+                        <button type="submit" class="btn btn-sm btn-outline-info btn-block" @click="$router.go(-1)" :title="$t('Cancel')">{{ $t('Cancel') }}</button>
                     </div>
                     <div class="mt-3 col-3 col-sm-2 float-right">
-                        <button type="submit" class="btn btn-sm btn-outline-primary btn-block" v-if="!post_disabled()" @click="save_post" :title="$t('Save')">{{ $t('Save') }}</button>
+                        <button type="submit" class="btn btn-sm btn-outline-info btn-block" v-if="!post_disabled()" @click="save_post" :title="$t('Save')">{{ $t('Save') }}</button>
                     </div>
                 </div>
             </div>
@@ -103,33 +103,35 @@
                         <label class="ml-2">&nbsp;<i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;{{ reply.local_datetime }}</label>
                     </div>
                 </div>
-                <Editor api-key="p453mc03irhw5ur9757lryy6q5l0yh1kkn8451225emn3v7n" :init="replies_init" v-model="reply.content"/>
+                <Editor api-key="p453mc03irhw5ur9757lryy6q5l0yh1kkn8451225emn3v7n" :init="replies_init" :disabled="replied_disabled()" v-model="reply.content"/>
                 <div class="card">
                     <div class="row justify-content-between mx-0 mb-3">
                         <div class="mt-3 col-3 col-sm-2 float-left">
-                            <button type="submit" class="btn btn-sm btn-outline-primary btn-block" @click="$router.push('/')" :title="$t('Cancel')">{{ $t('Cancel') }}</button>
+                            <button type="submit" class="btn btn-sm btn-outline-info btn-block" v-if="!replied_disabled(reply.user.id)" @click="$router.push('/')" :title="$t('Cancel')">{{ $t('Cancel') }}</button>
                         </div>
                         <div class="mt-3 col-3 col-sm-2 float-right">
-                            <button type="submit" class="btn btn-sm btn-outline-primary btn-block" @click="save_reply" :title="$t('Save')">{{ $t('Save') }}</button>
+                            <button type="submit" class="btn btn-sm btn-outline-info btn-block" v-if="!replied_disabled(reply.user.id)" @click="save_reply" :title="$t('Save')">{{ $t('Save') }}</button>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="card mt-2">
-                <div class="white-box text-info" style="font-size: small;">
-                    <label class="ml-2 my-1"><i class="fa fa-comment-dots" aria-hidden="true"></i>&nbsp;{{ $t('Reply') }}</label>
-                    <label class="ml-2">&nbsp;<i class="fa fa-user" aria-hidden="true"></i>&nbsp;{{ reply.user_name }}</label>
-                    <label class="ml-2">&nbsp;<i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;{{ reply.local_datetime }}</label>
-                </div>
-            </div>
-            <Editor api-key="p453mc03irhw5ur9757lryy6q5l0yh1kkn8451225emn3v7n" :init="reply_init" v-model="reply.content"/>
-            <div class="card">
-                <div class="row justify-content-between mx-0 mb-3">
-                    <div class="mt-3 col-3 col-sm-2 float-left">
-                        <button type="submit" class="btn btn-sm btn-outline-primary btn-block" @click="$router.go(-1)" :title="$t('Cancel')">{{ $t('Cancel') }}</button>
+            <div v-if="!reply_disabled()">
+                <div class="card mt-2">
+                    <div class="white-box text-info" style="font-size: small;">
+                        <label class="ml-2 my-1"><i class="fa fa-comment-dots" aria-hidden="true"></i>&nbsp;{{ $t('Reply') }}</label>
+                        <label class="ml-2">&nbsp;<i class="fa fa-user" aria-hidden="true"></i>&nbsp;{{ reply.user_name }}</label>
+                        <label class="ml-2">&nbsp;<i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;{{ reply.local_datetime }}</label>
                     </div>
-                    <div class="mt-3 col-3 col-sm-2 float-right">
-                        <button type="submit" class="btn btn-sm btn-outline-primary btn-block" @click="save_reply" :title="$t('Save')">{{ $t('Save') }}</button>
+                </div>
+                <Editor api-key="p453mc03irhw5ur9757lryy6q5l0yh1kkn8451225emn3v7n" :init="reply_init" v-model="reply.content"/>
+                <div class="card">
+                    <div class="row justify-content-between mx-0 mb-3">
+                        <div class="mt-3 col-3 col-sm-2 float-left">
+                            <button type="submit" class="btn btn-sm btn-outline-info btn-block" @click="$router.go(-1)" :title="$t('Cancel')">{{ $t('Cancel') }}</button>
+                        </div>
+                        <div class="mt-3 col-3 col-sm-2 float-right">
+                            <button type="submit" class="btn btn-sm btn-outline-info btn-block" @click="save_reply" :title="$t('Save')">{{ $t('Save') }}</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -195,13 +197,19 @@ export default {
                 id: '',
                 post: this.$route.params.id,
                 user: this.$store.state.user.user.id,
-                user_name: '',
+                user_name: this.$store.state.user.user.name,
                 local_datetime: dayjs().format('YYYY-MM-DD'),
                 content: ''
             },
             replies: [],
             post_disabled: () => {
-                return this.post.category !== '' && this.post.user !== this.$store.state.user.user.id;
+                return this.post.id !== '' && this.post.user !== this.$store.state.user.user.id;
+            },
+            reply_disabled: () => {
+                return this.post.id === '' || this.$store.state.user.user.id === undefined;
+            },
+            replied_disabled: (user_id) => {
+                return user_id !== this.$store.state.user.user.id;
             }
         };
     },
