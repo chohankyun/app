@@ -8,7 +8,7 @@ export default {
             { id: 'home', name: 'Home' },
             { id: 'all', name: 'All' }
         ],
-        categories: null
+        categories: []
     },
     mutations: {
         setCategories(state, categories) {

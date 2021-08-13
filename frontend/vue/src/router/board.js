@@ -1,5 +1,5 @@
 import Board from '@/views/Board';
-import Post from "@/views/Post";
+import Post from '@/views/Post';
 
 export default [
     {
@@ -9,17 +9,17 @@ export default [
     {
         path: '/board/:category_id',
         component: Board,
-        meta: {title: 'Board'}
+        meta: { title: 'Board' }
     },
     {
         path: '/post',
         children: [
             {
-                path: ':id'
+                path: ':id',
+                meta: { title: 'Post' }
             }
         ],
         component: Post,
-        meta: {title: 'Post'}
+        meta: { title: 'Post' }
     }
 ];
-

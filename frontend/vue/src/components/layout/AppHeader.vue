@@ -2,8 +2,7 @@
     <div class="app-header">
         <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top site-top-border">
             <div class="container">
-                <a class="navbar-brand col-lg-3 col-md-4 col-sm-6 col mouse-hand" onClick="window.location.href='/'"> <img src="../../assets/images/logo.png" class="img-fluid" alt="logo image"
-                                                                                                                           :title="$t('chohankyun.com')"/> </a>
+                <a class="navbar-brand col-lg-3 col-md-4 col-sm-6 col mouse-hand" onClick="window.location.href='/'"> <img src="../../assets/images/logo.png" class="img-fluid" alt="logo image" :title="$t('chohankyun.com')"/> </a>
                 <div class="d-none d-md-block col">
                     <div class="input-group  pull-left">
                         <input type="text" class="form-control form-control-sm" @keydown.enter="search" v-model="search_word" :placeholder="$t('Please enter your search term.')"/>
@@ -39,8 +38,7 @@
                     </li>
                     <li class="nav-item ml-1">
                         <div id="lang" class="dropdown show">
-                            <a class="btn btn-sm btn-block btn-outline-info dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                               :title="$t('Change Language')">
+                            <a class="btn btn-sm btn-block btn-outline-info dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" :title="$t('Change Language')">
                                 {{ lang }}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -55,18 +53,17 @@
 </template>
 
 <script>
-
 export default {
     name: 'AppHeader',
     data() {
         return {
             lang: '한국어',
-            options: {ko: '한국어', en: 'English'},
+            options: { ko: '한국어', en: 'English' },
             search_word: ''
         };
     },
     computed: {
-        user: function () {
+        user: function() {
             return this.$store.state.user.user;
         }
     },
@@ -91,12 +88,11 @@ export default {
             this.$router.go(0);
         },
         logout() {
-            this.$store.dispatch('user/logout').then(() => (window.location.href = '/'));
+            this.$store.dispatch('user/logout');
         },
         search() {
-            this.$log.debug(this.search_word);
             if (this.search_word !== '' && this.search_word.length >= 2) {
-                this.$router.push({name: 'Search', params: {search_word: encodeURIComponent(this.search_word)}});
+                this.$router.push({ path: '/search/' + encodeURIComponent(this.search_word) });
             } else {
                 alert('Please enter at least 2 characters.');
             }

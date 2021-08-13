@@ -11,7 +11,7 @@
                                         <span class="align-middle badge-secondary">{{ $t('Date') }}</span>
                                     </h5>
                                     <div class="col-9">
-                                        <input type="text" id="id_local_datetime" name="local_datetime" class="form-control form-control-sm" :readonly="true" v-model="post.local_datetime"/>
+                                        <input type="text" id="id_local_datetime" name="local_datetime" class="form-control form-control-sm" :disabled="true" v-model="post.local_datetime"/>
                                     </div>
                                 </div>
                             </div>
@@ -23,7 +23,7 @@
                                         <span class="align-middle badge-secondary">{{ $t('User') }}</span>
                                     </h5>
                                     <div class="col-xl-9 col-lg-8 col-md-9 col-9">
-                                        <input type="text" id="id_user_name" name="user_name" class="form-control form-control-sm" :readonly="true" v-model="post.user_name" required/>
+                                        <input type="text" id="id_user_name" name="user_name" class="form-control form-control-sm" :disabled="true" v-model="post.user_name" required/>
                                     </div>
                                 </div>
                             </div>
@@ -35,7 +35,7 @@
                                         <span class="align-middle badge-secondary">{{ $t('Category') }}</span>
                                     </h5>
                                     <div class="col-9">
-                                        <select name="category" id="id_category" class="form-control form-control-sm" v-model="post.category" required>
+                                        <select name="category" id="id_category" class="form-control form-control-sm" :disabled="post_disabled()" v-model="post.category" required>
                                             <option value="">--- {{ $t('Please choose') }} ---</option>
                                             <option v-bind:value="category.id" v-for="category in category_list" :key="category.id">
                                                 {{ $t(category.name) }}
@@ -54,12 +54,12 @@
                                         <span class="align-middle badge-secondary">{{ $t('Subject') }}</span>
                                     </h5>
                                     <div class="col-9">
-                                        <input type="text" id="id_subject" name="subject" class="form-control form-control-sm" v-model="post.subject" :placeholder="$t('Please enter a subject. (300 characters or less)')" required/>
+                                        <input type="text" id="id_subject" name="subject" class="form-control form-control-sm" :disabled="post_disabled()" v-model="post.subject" :placeholder="$t('Please enter a subject. (300 characters or less)')" required/>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-12" v-show="post.id != ''">
+                        <div class="col-lg-4 col-12" v-show="post.id !== ''">
                             <div class="container">
                                 <div class="row">
                                     <h5>
@@ -71,7 +71,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-12" v-show="post.id != ''">
+                        <div class="col-lg-4 col-12" v-show="post.id !== ''">
                             <div class="container">
                                 <div class="row">
                                     <h5>
@@ -84,18 +84,14 @@
                     </div>
                 </div>
             </div>
-            <editor
-                api-key="p453mc03irhw5ur9757lryy6q5l0yh1kkn8451225emn3v7n"
-                :init=post_init
-                v-model="post.content"
-            />
+            <Editor api-key="p453mc03irhw5ur9757lryy6q5l0yh1kkn8451225emn3v7n" :init="post_init" :disabled="post_disabled()" v-model="post.content"/>
             <div class="card">
                 <div class="row justify-content-between mx-0 mb-3">
                     <div class="mt-3 col-3 col-sm-2 float-left">
                         <button type="submit" class="btn btn-sm btn-outline-primary btn-block" @click="$router.go(-1)" :title="$t('Cancel')">{{ $t('Cancel') }}</button>
                     </div>
                     <div class="mt-3 col-3 col-sm-2 float-right">
-                        <button type="submit" class="btn btn-sm btn-outline-primary btn-block" @click="save_post" :title="$t('Save')">{{ $t('Save') }}</button>
+                        <button type="submit" class="btn btn-sm btn-outline-primary btn-block" v-if="!post_disabled()" @click="save_post" :title="$t('Save')">{{ $t('Save') }}</button>
                     </div>
                 </div>
             </div>
@@ -107,11 +103,7 @@
                         <label class="ml-2">&nbsp;<i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;{{ reply.local_datetime }}</label>
                     </div>
                 </div>
-                <editor
-                    api-key="p453mc03irhw5ur9757lryy6q5l0yh1kkn8451225emn3v7n"
-                    :init=replies_init
-                    v-model="reply.content"
-                />
+                <Editor api-key="p453mc03irhw5ur9757lryy6q5l0yh1kkn8451225emn3v7n" :init="replies_init" v-model="reply.content"/>
                 <div class="card">
                     <div class="row justify-content-between mx-0 mb-3">
                         <div class="mt-3 col-3 col-sm-2 float-left">
@@ -130,11 +122,7 @@
                     <label class="ml-2">&nbsp;<i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;{{ reply.local_datetime }}</label>
                 </div>
             </div>
-            <editor
-                api-key="p453mc03irhw5ur9757lryy6q5l0yh1kkn8451225emn3v7n"
-                :init=reply_init
-                v-model="reply.content"
-            />
+            <Editor api-key="p453mc03irhw5ur9757lryy6q5l0yh1kkn8451225emn3v7n" :init="reply_init" v-model="reply.content"/>
             <div class="card">
                 <div class="row justify-content-between mx-0 mb-3">
                     <div class="mt-3 col-3 col-sm-2 float-left">
@@ -150,14 +138,14 @@
 </template>
 
 <script>
-import * as board_api from '@/api/board';
 import dayjs from 'dayjs';
-import Editor from '@tinymce/tinymce-vue'
+import Editor from '@tinymce/tinymce-vue';
+import * as board_api from '@/api/board';
 
 export default {
     name: 'Post',
     components: {
-        'editor': Editor
+        Editor
     },
     data() {
         return {
@@ -167,14 +155,8 @@ export default {
                 min_height: 500,
                 menubar: true,
                 autoresize_bottom_margin: 10,
-                plugins: [
-                    'advlist autolink lists link image charmap print preview anchor',
-                    'searchreplace visualblocks code fullscreen',
-                    'insertdatetime media table paste code help wordcount',
-                    'autoresize'
-                ],
-                toolbar:
-                    'undo redo | formatselect | bold italic backcolor | \
+                plugins: ['advlist autolink lists link image charmap print preview anchor', 'searchreplace visualblocks code fullscreen', 'insertdatetime media table paste code help wordcount', 'autoresize'],
+                toolbar: 'undo redo | formatselect | bold italic backcolor | \
                     alignleft aligncenter alignright alignjustify | \
                     bullist numlist outdent indent | removeformat | help'
             },
@@ -183,14 +165,8 @@ export default {
                 min_height: 150,
                 menubar: false,
                 autoresize_bottom_margin: 10,
-                plugins: [
-                    'advlist autolink lists link image charmap print preview anchor',
-                    'searchreplace visualblocks code fullscreen',
-                    'insertdatetime media table paste code help wordcount',
-                    'autoresize'
-                ],
-                toolbar:
-                    'undo redo | formatselect | bold italic backcolor | \
+                plugins: ['advlist autolink lists link image charmap print preview anchor', 'searchreplace visualblocks code fullscreen', 'insertdatetime media table paste code help wordcount', 'autoresize'],
+                toolbar: 'undo redo | formatselect | bold italic backcolor | \
                     alignleft aligncenter alignright alignjustify | \
                     bullist numlist outdent indent | removeformat | link image | help'
             },
@@ -198,14 +174,8 @@ export default {
                 language: this.$store.state.lang.locale,
                 menubar: false,
                 autoresize_bottom_margin: 10,
-                plugins: [
-                    'advlist autolink lists link image charmap print preview anchor',
-                    'searchreplace visualblocks code fullscreen',
-                    'insertdatetime media table paste code help wordcount',
-                    'autoresize'
-                ],
-                toolbar:
-                    'undo redo | formatselect | bold italic backcolor | \
+                plugins: ['advlist autolink lists link image charmap print preview anchor', 'searchreplace visualblocks code fullscreen', 'insertdatetime media table paste code help wordcount', 'autoresize'],
+                toolbar: 'undo redo | formatselect | bold italic backcolor | \
                     alignleft aligncenter alignright alignjustify | \
                     bullist numlist outdent indent | removeformat | link image | help'
             },
@@ -229,7 +199,10 @@ export default {
                 local_datetime: dayjs().format('YYYY-MM-DD'),
                 content: ''
             },
-            replies: null
+            replies: [],
+            post_disabled: () => {
+                return this.post.category !== '' && this.post.user !== this.$store.state.user.user.id;
+            }
         };
     },
     created() {
@@ -242,7 +215,7 @@ export default {
                 .catch(e => {
                     alert(e.message);
                     this.$router.push('/');
-                })
+                });
             board_api
                 .get_replies_in_post(this.$route.params.id)
                 .then(res => {
@@ -251,7 +224,7 @@ export default {
                 .catch(e => {
                     alert(e.message);
                     this.$router.push('/');
-                })
+                });
         }
     },
     methods: {
@@ -273,7 +246,6 @@ export default {
         }
     }
 };
-
 </script>
 
 <style scoped>

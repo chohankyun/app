@@ -1,11 +1,11 @@
 import Vue from 'vue';
-import router from '../router';
+import router from '@/router';
 import * as user_api from '@/api/user';
 
 export default {
     namespaced: true,
     state: {
-        user: null
+        user: ''
     },
     mutations: {
         setUser(state, user) {
@@ -13,14 +13,11 @@ export default {
         }
     },
     actions: {
-        async login(context, {app_id, password}) {
+        async login(context, { app_id, password }) {
             try {
                 const response = await user_api.login(app_id, password);
-
-                if (response.status === 200) {
-                    context.commit('setUser', response.data);
-                    await router.push('/');
-                }
+                context.commit('setUser', response.data);
+                await router.push('/');
             } catch (e) {
                 alert('사용자 정보 전송 실패.');
             }

@@ -1,15 +1,12 @@
 import Vue from 'vue';
-import store from '../store';
+import store from '@/store';
 import VueRouter from 'vue-router';
-import Home from './home';
-import Board from './board';
+import Home from '@/router/home';
+import Board from '@/router/board';
 
 Vue.use(VueRouter);
 
-const routes = [
-    ...Home,
-    ...Board
-];
+const routes = [...Home, ...Board];
 
 const router = new VueRouter({
     mode: 'hash',

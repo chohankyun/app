@@ -23,13 +23,13 @@ export default {
             category_list: this.$store.state.board.category_list
         };
     },
-    beforeMount: function () {
+    beforeMount: function() {
         this.$store.dispatch('board/init_categories');
     },
     methods: {
         select_category(category_id) {
             this.$store.commit('board/setCategoryId', category_id);
-            router.push({path: '/board/' + category_id});
+            router.push({ path: '/board/' + category_id });
         }
     }
 };
