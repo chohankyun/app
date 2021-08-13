@@ -95,26 +95,6 @@
                     </div>
                 </div>
             </div>
-            <div v-for="reply in replies" :key="reply.id">
-                <div class="card mt-2">
-                    <div class="white-box text-info" style="font-size: small;">
-                        <label class="ml-2 my-1"><i class="fa fa-comment-dots" aria-hidden="true"></i>&nbsp;{{ $t('Reply') }}</label>
-                        <label class="ml-2">&nbsp;<i class="fa fa-user" aria-hidden="true"></i>&nbsp;{{ reply.user_name }}</label>
-                        <label class="ml-2">&nbsp;<i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;{{ reply.local_datetime }}</label>
-                    </div>
-                </div>
-                <Editor api-key="p453mc03irhw5ur9757lryy6q5l0yh1kkn8451225emn3v7n" :init="replies_init" :disabled="replied_disabled()" v-model="reply.content"/>
-                <div class="card">
-                    <div class="row justify-content-between mx-0 mb-3">
-                        <div class="mt-3 col-3 col-sm-2 float-left">
-                            <button type="submit" class="btn btn-sm btn-outline-info btn-block" v-if="!replied_disabled(reply.user.id)" @click="$router.push('/')" :title="$t('Cancel')">{{ $t('Cancel') }}</button>
-                        </div>
-                        <div class="mt-3 col-3 col-sm-2 float-right">
-                            <button type="submit" class="btn btn-sm btn-outline-info btn-block" v-if="!replied_disabled(reply.user.id)" @click="save_reply" :title="$t('Save')">{{ $t('Save') }}</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div v-if="!reply_disabled()">
                 <div class="card mt-2">
                     <div class="white-box text-info" style="font-size: small;">
@@ -131,6 +111,26 @@
                         </div>
                         <div class="mt-3 col-3 col-sm-2 float-right">
                             <button type="submit" class="btn btn-sm btn-outline-info btn-block" @click="save_reply" :title="$t('Save')">{{ $t('Save') }}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div v-for="reply in replies" :key="reply.id">
+                <div class="card mt-2">
+                    <div class="white-box text-info" style="font-size: small;">
+                        <label class="ml-2 my-1"><i class="fa fa-comment-dots" aria-hidden="true"></i>&nbsp;{{ $t('Reply') }}</label>
+                        <label class="ml-2">&nbsp;<i class="fa fa-user" aria-hidden="true"></i>&nbsp;{{ reply.user_name }}</label>
+                        <label class="ml-2">&nbsp;<i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;{{ reply.local_datetime }}</label>
+                    </div>
+                </div>
+                <Editor api-key="p453mc03irhw5ur9757lryy6q5l0yh1kkn8451225emn3v7n" :init="replies_init" :disabled="replied_disabled(reply.user)" v-model="reply.content"/>
+                <div class="card">
+                    <div class="row justify-content-between mx-0 mb-3">
+                        <div class="mt-3 col-3 col-sm-2 float-left">
+                            <button type="submit" class="btn btn-sm btn-outline-info btn-block" @click="$router.push('/')" :title="$t('Cancel')">{{ $t('Cancel') }}</button>
+                        </div>
+                        <div class="mt-3 col-3 col-sm-2 float-right">
+                            <button type="submit" class="btn btn-sm btn-outline-info btn-block" v-if="!replied_disabled(reply.user)" @click="save_reply" :title="$t('Save')">{{ $t('Save') }}</button>
                         </div>
                     </div>
                 </div>
@@ -170,7 +170,7 @@ export default {
                 plugins: ['advlist autolink lists link image charmap print preview anchor', 'searchreplace visualblocks code fullscreen', 'insertdatetime media table paste code help wordcount', 'autoresize'],
                 toolbar: 'undo redo | formatselect | bold italic backcolor | \
                     alignleft aligncenter alignright alignjustify | \
-                    bullist numlist outdent indent | removeformat | link image | help'
+                    bullist numlist outdent indent | removeformat | link image media | help'
             },
             replies_init: {
                 language: this.$store.state.lang.locale,
@@ -179,7 +179,7 @@ export default {
                 plugins: ['advlist autolink lists link image charmap print preview anchor', 'searchreplace visualblocks code fullscreen', 'insertdatetime media table paste code help wordcount', 'autoresize'],
                 toolbar: 'undo redo | formatselect | bold italic backcolor | \
                     alignleft aligncenter alignright alignjustify | \
-                    bullist numlist outdent indent | removeformat | link image | help'
+                    bullist numlist outdent indent | removeformat | link image media | help'
             },
             post: {
                 id: '',
@@ -248,6 +248,7 @@ export default {
             try {
                 const response = await board_api.create_reply(this.reply);
                 this.$log.debug(response.data);
+                this.$router.go(0);
             } catch (e) {
                 alert(e.message);
             }
