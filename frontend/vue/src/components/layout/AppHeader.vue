@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <ul class="nav">
-                    <li class="nav-item ml-1" v-show="user.is_authenticated">
+                    <li class="nav-item ml-1" v-if="user.is_authenticated">
                         <div class="btn-group">
                             <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-sm btn-block btn-outline-info dropdown-toggle" :title="$t('User')">
                                 {{ user.name }}
@@ -27,13 +27,13 @@
                             </div>
                         </div>
                     </li>
-                    <li class="nav-item ml-1" v-show="user.is_authenticated">
+                    <li class="nav-item ml-1" v-if="user.is_authenticated">
                         <button type="button" class="btn btn-sm btn-block btn-outline-info" @click="logout()" :title="$t('Logout')">{{ $t('Logout') }}</button>
                     </li>
-                    <li class="nav-item ml-1" v-show="!user.is_authenticated">
+                    <li class="nav-item ml-1" v-if="!user.is_authenticated">
                         <button type="button" class="btn btn-sm btn-block btn-outline-info" :title="$t('Login')" @click="$router.push('/login')">{{ $t('Login') }}</button>
                     </li>
-                    <li class="nav-item ml-1" v-show="!user.is_authenticated">
+                    <li class="nav-item ml-1" v-if="!user.is_authenticated">
                         <button type="button" class="btn btn-sm btn-block btn-outline-info" :title="$t('Register')">{{ $t('Register') }}</button>
                     </li>
                     <li class="nav-item ml-1">

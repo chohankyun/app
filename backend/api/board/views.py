@@ -3,9 +3,10 @@ import logging
 from collections import OrderedDict
 
 from bs4 import BeautifulSoup
+from django.db.models import F
 from rest_framework.generics import ListAPIView
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
@@ -46,6 +47,15 @@ class PostViewSet(ModelViewSet):
         request.data['user'] = request.user.id
         request = HtmlContent.add_content_with_image(request)
         return super(PostViewSet, self).create(request, *args, **kwargs)
+
+    def increase_click_count(self):
+        post = Post.objects.get(pk=self.kwargs.get('pk'))
+        post.click_count = F('click_count') + 1
+        post.save()
+
+    def retrieve(self, request, *args, **kwargs):
+        self.increase_click_count()
+        return super(PostViewSet, self).retrieve(request, *args, **kwargs)
 
 
 class PostListPagination(PageNumberPagination):

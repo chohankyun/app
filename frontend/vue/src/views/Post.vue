@@ -66,7 +66,7 @@
                                         <span class="align-middle badge-secondary">{{ $t('Reply') }}</span>
                                         <span class="col-1 mx-2 align-middle badge-info">{{ post.reply_count }}</span>
                                         <span class="align-middle badge-secondary">{{ $t('Lookup') }}</span>
-                                        <span class="col-1 mx-2 align-middle badge-info">{{ post.reply_count }}</span>
+                                        <span class="col-1 mx-2 align-middle badge-info">{{ post.click_count }}</span>
                                     </h5>
                                 </div>
                             </div>
@@ -76,7 +76,7 @@
                                 <div class="row">
                                     <h5>
                                         <span class="align-middle badge-secondary">{{ $t('Recommend') }}</span>
-                                        <span class="col-1 mx-2 align-middle badge-info">{{ post.reply_count }}</span>
+                                        <span class="col-1 mx-2 align-middle badge-info">{{ post.recommend_count }}</span>
                                     </h5>
                                 </div>
                             </div>
@@ -92,26 +92,6 @@
                     </div>
                     <div class="mt-3 col-3 col-sm-2 float-right">
                         <button type="submit" class="btn btn-sm btn-outline-info btn-block" v-if="!post_disabled()" @click="save_post" :title="$t('Save')">{{ $t('Save') }}</button>
-                    </div>
-                </div>
-            </div>
-            <div v-if="!reply_disabled()">
-                <div class="card mt-2">
-                    <div class="white-box text-info" style="font-size: small;">
-                        <label class="ml-2 my-1"><i class="fa fa-comment-dots" aria-hidden="true"></i>&nbsp;{{ $t('Reply') }}</label>
-                        <label class="ml-2">&nbsp;<i class="fa fa-user" aria-hidden="true"></i>&nbsp;{{ reply.user_name }}</label>
-                        <label class="ml-2">&nbsp;<i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;{{ reply.local_datetime }}</label>
-                    </div>
-                </div>
-                <Editor api-key="p453mc03irhw5ur9757lryy6q5l0yh1kkn8451225emn3v7n" :init="reply_init" v-model="reply.content"/>
-                <div class="card">
-                    <div class="row justify-content-between mx-0 mb-3">
-                        <div class="mt-3 col-3 col-sm-2 float-left">
-                            <button type="submit" class="btn btn-sm btn-outline-info btn-block" @click="$router.go(-1)" :title="$t('Cancel')">{{ $t('Cancel') }}</button>
-                        </div>
-                        <div class="mt-3 col-3 col-sm-2 float-right">
-                            <button type="submit" class="btn btn-sm btn-outline-info btn-block" @click="save_reply" :title="$t('Save')">{{ $t('Save') }}</button>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -131,6 +111,26 @@
                         </div>
                         <div class="mt-3 col-3 col-sm-2 float-right">
                             <button type="submit" class="btn btn-sm btn-outline-info btn-block" v-if="!replied_disabled(reply.user)" @click="save_reply" :title="$t('Save')">{{ $t('Save') }}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div v-if="!reply_disabled()">
+                <div class="card mt-2">
+                    <div class="white-box text-info" style="font-size: small;">
+                        <label class="ml-2 my-1"><i class="fa fa-comment-dots" aria-hidden="true"></i>&nbsp;{{ $t('Reply') }}</label>
+                        <label class="ml-2">&nbsp;<i class="fa fa-user" aria-hidden="true"></i>&nbsp;{{ reply.user_name }}</label>
+                        <label class="ml-2">&nbsp;<i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;{{ reply.local_datetime }}</label>
+                    </div>
+                </div>
+                <Editor api-key="p453mc03irhw5ur9757lryy6q5l0yh1kkn8451225emn3v7n" :init="reply_init" v-model="reply.content"/>
+                <div class="card">
+                    <div class="row justify-content-between mx-0 mb-3">
+                        <div class="mt-3 col-3 col-sm-2 float-left">
+                            <button type="submit" class="btn btn-sm btn-outline-info btn-block" @click="$router.go(-1)" :title="$t('Cancel')">{{ $t('Cancel') }}</button>
+                        </div>
+                        <div class="mt-3 col-3 col-sm-2 float-right">
+                            <button type="submit" class="btn btn-sm btn-outline-info btn-block" @click="save_reply" :title="$t('Save')">{{ $t('Save') }}</button>
                         </div>
                     </div>
                 </div>
@@ -210,8 +210,14 @@ export default {
             },
             replied_disabled: (user_id) => {
                 return user_id !== this.$store.state.user.user.id;
-            }
+            },
+            recommend_value: false
         };
+    },
+    computed: {
+        user: function () {
+            return this.$store.state.user.user;
+        }
     },
     created() {
         if (this.$route.params.id !== undefined) {
@@ -252,7 +258,11 @@ export default {
             } catch (e) {
                 alert(e.message);
             }
+        },
+        async add_recommend() {
+
         }
+
     }
 };
 </script>
