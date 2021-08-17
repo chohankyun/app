@@ -31,3 +31,15 @@ export async function get_replies_in_post(post_id) {
 export async function search_post(search_word, order) {
     return http.get('/api/search/posts/' + search_word + '/' + order + '/');
 }
+
+export async function create_recommend(recommend) {
+    return http.post('/api/board/recommend/', recommend);
+}
+
+export async function delete_recommend(id) {
+    return http.delete('/api/board/recommend/' + id + '/');
+}
+
+export async function get_recommend_toggle(post_id) {
+    return http.get('/api/board/recommend/count/' + post_id + '/');
+}

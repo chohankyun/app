@@ -4,14 +4,15 @@ from collections import OrderedDict
 
 from bs4 import BeautifulSoup
 from django.db.models import F
-from rest_framework.generics import ListAPIView
+from rest_framework import status
+from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView, DestroyAPIView
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
-from backend.api.board.models import Category, Post, Reply
-from backend.api.board.serializers import CategorySerializer, PostSerializer, ReplySerializer
+from backend.api.board.models import Category, Post, Reply, Recommend
+from backend.api.board.serializers import CategorySerializer, PostSerializer, ReplySerializer, RecommendSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -119,3 +120,69 @@ class RepliesInPost(ListAPIView):
         queryset = Reply.objects.filter(post=self.kwargs.get('id'))
         queryset = queryset.order_by('-updated_datetime')
         return queryset
+
+
+class RecommendCount:
+    @staticmethod
+    def save(post_id):
+        post = Post.objects.get(pk=post_id)
+        post.recommend_count = Recommend.objects.filter(post=post_id).count()
+        post.save()
+
+
+class RecommendCountNOwner(RetrieveAPIView):
+    permission_classes = (AllowAny,)
+
+    def get(self, request, *args, **kwargs):
+        queryset = Recommend.objects.filter(post=self.kwargs.get('post_id'))
+        recommend_count = queryset.count()
+        is_recommend = queryset.filter(user=request.user.id).exists()
+        return Response({'recommend_count': recommend_count, 'is_recommend': is_recommend})
+
+
+class RecommendViewSet(ModelViewSet):
+    permission_classes = (AllowAny,)
+    queryset = Recommend.objects.all()
+    serializer_class = RecommendSerializer
+
+    def create(self, request, *args, **kwargs):
+        request.data['user'] = request.user.id
+        return super(RecommendViewSet, self).create(request, *args, **kwargs)
+
+    def get_success_headers(self, data):
+        RecommendCount.save(data.get('post'))
+        return super(RecommendViewSet, self).get_success_headers(data)
+
+    def destroy(self, request, *args, **kwargs):
+        queryset = Recommend.objects.filter(user=request.user.id)
+        queryset = queryset.filter(post=self.kwargs.get('post_id'))
+        instance = queryset.first()
+        self.perform_destroy(instance)
+        RecommendCount.save(self.kwargs.get('post_id'))
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+# class RecommendCreate(CreateAPIView):
+#     permission_classes = (IsAuthenticated,)
+#     queryset = Recommend.objects.all()
+#     serializer_class = RecommendSerializer
+#
+#     def create(self, request, *args, **kwargs):
+#         request.data['user'] = request.user.id
+#         return super(RecommendCreate, self).create(request, *args, **kwargs)
+#
+#     def get_success_headers(self, data):
+#         RecommendCount.save(data.get('post'))
+#         return super(RecommendCreate, self).get_success_headers(data)
+#
+#
+# class RecommendDelete(DestroyAPIView):
+#     permission_classes = (IsAuthenticated,)
+#
+#     def destroy(self, request, *args, **kwargs):
+#         queryset = Recommend.objects.filter(user=request.user.id)
+#         queryset = queryset.filter(post=self.kwargs.get('post_id'))
+#         instance = queryset.first()
+#         self.perform_destroy(instance)
+#         RecommendCount.save(self.kwargs.get('post_id'))
+#         return Response(status=status.HTTP_204_NO_CONTENT)

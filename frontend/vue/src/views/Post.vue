@@ -76,8 +76,11 @@
                                 <div class="row">
                                     <h5>
                                         <span class="align-middle badge-secondary">{{ $t('Recommend') }}</span>
-                                        <span class="col-1 mx-2 align-middle badge-info">{{ post.recommend_count }}</span>
+                                        <span class="col-1 mx-2 align-middle badge-info">{{ recommend_toggle.recommend_count }}</span>
                                     </h5>
+                                    <span v-if="post.user === user.id">
+                                        <toggle-button v-model="recommend_toggle.is_recommend" @change="save_recommend()" :labels="true" color="#17a2b8" :width="70" :height="28" :font-size="20"/>
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -140,9 +143,13 @@
 </template>
 
 <script>
+import Vue from 'vue';
+import ToggleButton from 'vue-js-toggle-button';
 import dayjs from 'dayjs';
 import Editor from '@tinymce/tinymce-vue';
 import * as board_api from '@/api/board';
+
+Vue.use(ToggleButton);
 
 export default {
     name: 'Post',
@@ -202,6 +209,12 @@ export default {
                 content: ''
             },
             replies: [],
+            recommend: {
+                id: '',
+                user: this.$store.state.user.user.id,
+                post: this.$route.params.id,
+                recommend_count: 0
+            },
             post_disabled: () => {
                 return this.post.id !== '' && this.post.user !== this.$store.state.user.user.id;
             },
@@ -211,11 +224,14 @@ export default {
             replied_disabled: (user_id) => {
                 return user_id !== this.$store.state.user.user.id;
             },
-            recommend_value: false
+            recommend_toggle: {
+                recommend_count: 0,
+                is_recommend: false
+            }
         };
     },
     computed: {
-        user: function () {
+        user: function() {
             return this.$store.state.user.user;
         }
     },
@@ -234,6 +250,15 @@ export default {
                 .get_replies_in_post(this.$route.params.id)
                 .then(res => {
                     this.replies = res.data;
+                })
+                .catch(e => {
+                    alert(e.message);
+                    this.$router.push('/');
+                });
+            board_api
+                .get_recommend_toggle(this.$route.params.id)
+                .then(res => {
+                    this.recommend_toggle = res.data;
                 })
                 .catch(e => {
                     alert(e.message);
@@ -259,10 +284,24 @@ export default {
                 alert(e.message);
             }
         },
-        async add_recommend() {
-
+        async save_recommend() {
+            if (this.recommend_toggle.is_recommend === true) {
+                try {
+                    const response = await board_api.create_recommend(this.recommend);
+                    this.recommend_toggle = await board_api.get_recommend_toggle()
+                    this.$log.debug(response.data);
+                } catch (e) {
+                    alert(e.message);
+                }
+            } else {
+                try {
+                    const response = await board_api.delete_recommend(this.recommend.id);
+                    this.$log.debug(response.data);
+                } catch (e) {
+                    alert(e.message);
+                }
+            }
         }
-
     }
 };
 </script>
