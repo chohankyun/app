@@ -5,7 +5,7 @@ from collections import OrderedDict
 from bs4 import BeautifulSoup
 from django.db.models import F
 from rest_framework import status
-from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView, DestroyAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
@@ -40,9 +40,15 @@ class HtmlContent:
 
 
 class PostViewSet(ModelViewSet):
-    permission_classes = (AllowAny,)
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [IsAuthenticated]
+        return [permission() for permission in permission_classes]
 
     def create(self, request, *args, **kwargs):
         request.data['user'] = request.user.id
@@ -95,9 +101,15 @@ class ReplyCount:
 
 
 class ReplyViewSet(ModelViewSet):
-    permission_classes = (AllowAny,)
     queryset = Reply.objects.all()
     serializer_class = ReplySerializer
+
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [IsAuthenticated]
+        return [permission() for permission in permission_classes]
 
     def create(self, request, *args, **kwargs):
         request.data['user'] = request.user.id
@@ -131,7 +143,7 @@ class RecommendCount:
 
 
 class RecommendCountNOwner(RetrieveAPIView):
-    permission_classes = (AllowAny,)
+    permission_classes = (IsAuthenticated,)
 
     def get(self, request, *args, **kwargs):
         queryset = Recommend.objects.filter(post=self.kwargs.get('post_id'))
@@ -141,9 +153,15 @@ class RecommendCountNOwner(RetrieveAPIView):
 
 
 class RecommendViewSet(ModelViewSet):
-    permission_classes = (AllowAny,)
     queryset = Recommend.objects.all()
     serializer_class = RecommendSerializer
+
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [IsAuthenticated]
+        return [permission() for permission in permission_classes]
 
     def create(self, request, *args, **kwargs):
         request.data['user'] = request.user.id
@@ -155,34 +173,9 @@ class RecommendViewSet(ModelViewSet):
 
     def destroy(self, request, *args, **kwargs):
         queryset = Recommend.objects.filter(user=request.user.id)
-        queryset = queryset.filter(post=self.kwargs.get('post_id'))
+        queryset = queryset.filter(post=self.kwargs.get('pk'))
         instance = queryset.first()
         self.perform_destroy(instance)
-        RecommendCount.save(self.kwargs.get('post_id'))
+        RecommendCount.save(self.kwargs.get('pk'))
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-
-# class RecommendCreate(CreateAPIView):
-#     permission_classes = (IsAuthenticated,)
-#     queryset = Recommend.objects.all()
-#     serializer_class = RecommendSerializer
-#
-#     def create(self, request, *args, **kwargs):
-#         request.data['user'] = request.user.id
-#         return super(RecommendCreate, self).create(request, *args, **kwargs)
-#
-#     def get_success_headers(self, data):
-#         RecommendCount.save(data.get('post'))
-#         return super(RecommendCreate, self).get_success_headers(data)
-#
-#
-# class RecommendDelete(DestroyAPIView):
-#     permission_classes = (IsAuthenticated,)
-#
-#     def destroy(self, request, *args, **kwargs):
-#         queryset = Recommend.objects.filter(user=request.user.id)
-#         queryset = queryset.filter(post=self.kwargs.get('post_id'))
-#         instance = queryset.first()
-#         self.perform_destroy(instance)
-#         RecommendCount.save(self.kwargs.get('post_id'))
-#         return Response(status=status.HTTP_204_NO_CONTENT)

@@ -212,8 +212,7 @@ export default {
             recommend: {
                 id: '',
                 user: this.$store.state.user.user.id,
-                post: this.$route.params.id,
-                recommend_count: 0
+                post: this.$route.params.id
             },
             post_disabled: () => {
                 return this.post.id !== '' && this.post.user !== this.$store.state.user.user.id;
@@ -231,7 +230,7 @@ export default {
         };
     },
     computed: {
-        user: function() {
+        user: function () {
             return this.$store.state.user.user;
         }
     },
@@ -258,6 +257,7 @@ export default {
             board_api
                 .get_recommend_toggle(this.$route.params.id)
                 .then(res => {
+                    console.log(res);
                     this.recommend_toggle = res.data;
                 })
                 .catch(e => {
@@ -287,16 +287,17 @@ export default {
         async save_recommend() {
             if (this.recommend_toggle.is_recommend === true) {
                 try {
-                    const response = await board_api.create_recommend(this.recommend);
-                    this.recommend_toggle = await board_api.get_recommend_toggle()
-                    this.$log.debug(response.data);
+                    await board_api.create_recommend(this.recommend);
+                    const recommend_toggle = await board_api.get_recommend_toggle(this.$route.params.id)
+                    this.recommend_toggle = recommend_toggle.data
                 } catch (e) {
                     alert(e.message);
                 }
             } else {
                 try {
-                    const response = await board_api.delete_recommend(this.recommend.id);
-                    this.$log.debug(response.data);
+                    await board_api.delete_recommend(this.$route.params.id);
+                    const recommend_toggle = await board_api.get_recommend_toggle(this.$route.params.id)
+                    this.recommend_toggle = recommend_toggle.data
                 } catch (e) {
                     alert(e.message);
                 }
