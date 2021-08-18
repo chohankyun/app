@@ -78,8 +78,8 @@
                                         <span class="align-middle badge-secondary">{{ $t('Recommend') }}</span>
                                         <span class="col-1 mx-2 align-middle badge-info">{{ recommend_toggle.recommend_count }}</span>
                                     </h5>
-                                    <span v-if="post.user === user.id">
-                                        <toggle-button v-model="recommend_toggle.is_recommend" @change="save_recommend()" :labels="true" color="#17a2b8" :width="70" :height="28" :font-size="20"/>
+                                    <span v-if="user.id !== undefined">
+                                        <toggle-button v-model="recommend_toggle.is_recommend" @change="save_recommend()" :sync="true" :labels="true" color="#17a2b8" :width="70" :height="28" :font-size="20"/>
                                     </span>
                                 </div>
                             </div>
@@ -257,7 +257,7 @@ export default {
             board_api
                 .get_recommend_toggle(this.$route.params.id)
                 .then(res => {
-                    console.log(res);
+                    console.log(res.data);
                     this.recommend_toggle = res.data;
                 })
                 .catch(e => {

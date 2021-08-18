@@ -143,7 +143,7 @@ class RecommendCount:
 
 
 class RecommendCountNOwner(RetrieveAPIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (AllowAny,)
 
     def get(self, request, *args, **kwargs):
         queryset = Recommend.objects.filter(post=self.kwargs.get('post_id'))
