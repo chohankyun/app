@@ -5,14 +5,14 @@
                 <div class="col-lg-8 col-sm-7 py-4">
                     <span class="text-light bg-dark" style="padding: 3px 5px;"> <i class="fa fa-list-ol" aria-hidden="true"></i></span> <strong>{{ $t('Total results') }} : {{ search.total }} </strong>
                 </div>
-                <Order @changeOrder="change_order" />
+                <Order @change="change_order" />
             </div>
             <div class="row">
                 <div class="col small">
                     <div class="card mb-2" v-for="post in search.results" :key="post.id">
                         <div class="card-body">
                             <p class="card-text text-truncate font-weight-bold">
-                                <a style="color: #5bc0de"> <i class="fas fa-external-link-alt" aria-hidden="true"></i> {{ post.subject }}</a>
+                                <router-link :to="{ path: '/post/' + post.id }" style="color: #5bc0de"> <i class="fas fa-external-link-alt" aria-hidden="true"></i>{{ post.subject }}</router-link>
                             </p>
                         </div>
                         <ul class="list-group list-group-flush">
@@ -67,7 +67,8 @@ export default {
         async change_order(order) {
             try {
                 const response = await board_api.search_post(this.$route.params.search_word, order);
-                this.posts = response.data.results;
+                this.search = response.data;
+                console.log(this.search);
             } catch (e) {
                 alert(e.message);
             }

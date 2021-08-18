@@ -110,7 +110,7 @@
                 <div class="card">
                     <div class="row justify-content-between mx-0 mb-3">
                         <div class="mt-3 col-3 col-sm-2 float-left">
-                            <button type="submit" class="btn btn-sm btn-outline-info btn-block" @click="$router.push('/')" :title="$t('Cancel')">{{ $t('Cancel') }}</button>
+                            <button type="submit" class="btn btn-sm btn-outline-info btn-block" @click="$router.go(-1)" :title="$t('Cancel')">{{ $t('Cancel') }}</button>
                         </div>
                         <div class="mt-3 col-3 col-sm-2 float-right">
                             <button type="submit" class="btn btn-sm btn-outline-info btn-block" v-if="!replied_disabled(reply.user)" @click="save_reply" :title="$t('Save')">{{ $t('Save') }}</button>
@@ -257,7 +257,6 @@ export default {
             board_api
                 .get_recommend_toggle(this.$route.params.id)
                 .then(res => {
-                    console.log(res.data);
                     this.recommend_toggle = res.data;
                 })
                 .catch(e => {

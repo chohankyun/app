@@ -130,7 +130,7 @@ class RepliesInPost(ListAPIView):
 
     def get_reply_by_post(self):
         queryset = Reply.objects.filter(post=self.kwargs.get('id'))
-        queryset = queryset.order_by('-updated_datetime')
+        queryset = queryset.order_by('updated_datetime')
         return queryset
 
 
