@@ -22,7 +22,7 @@
                     </div>
                     <div>
                         <button type="button" class="btn btn-sm btn-outline-info" @click="login" :title="$t('Login')">{{ $t('Login') }}</button>
-                        <button type="button" class="btn btn-sm btn-outline-info mx-1" :title="$t('Register')">{{ $t('Register') }}</button>
+                        <button type="button" class="btn btn-sm btn-outline-info mx-1" @click="$router.push('/register')" :title="$t('Register')">{{ $t('Register') }}</button>
                         <button type="button" class="btn btn-sm btn-outline-info" @click="$router.go(-1)" :title="$t('Cancel')">{{ $t('Cancel') }}</button>
                     </div>
                     <div class="mt-4">

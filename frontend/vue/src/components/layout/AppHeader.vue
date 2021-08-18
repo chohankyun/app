@@ -34,7 +34,7 @@
                         <button type="button" class="btn btn-sm btn-block btn-outline-info" :title="$t('Login')" @click="$router.push('/login')">{{ $t('Login') }}</button>
                     </li>
                     <li class="nav-item ml-1" v-if="!user.is_authenticated">
-                        <button type="button" class="btn btn-sm btn-block btn-outline-info" :title="$t('Register')">{{ $t('Register') }}</button>
+                        <button type="button" class="btn btn-sm btn-block btn-outline-info" :title="$t('Register')" @click="$router.push('/register')">{{ $t('Register') }}</button>
                     </li>
                     <li class="nav-item ml-1">
                         <div id="lang" class="dropdown show">

@@ -39,5 +39,12 @@
   "Reply": "Reply",
   "Lookup": "Lookup",
   "Save": "Save",
-  "Total results" : "Total results"
+  "Total results": "Total results",
+  "Confirm": "Confirm",
+  "Email": "Email",
+  "The password is a combination of 8 or more characters, numbers and letters.": "The password is a combination of 8 or more characters, numbers and letters.",
+  "Please enter the correct email.": "Please enter the correct email.",
+  "If it is a invalid email, we will not be able to process your email verification.": "If it is a invalid email, we will not be able to process your email verification.",
+  "You need the registration process again.": "You need the registration process again.",
+  "User Name": "User Name"
 }
