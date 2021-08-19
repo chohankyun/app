@@ -14,3 +14,7 @@ export async function is_auth() {
 export async function logout() {
     return http.get('/api/user/logout/');
 }
+
+export async function create_register(register) {
+    return http.post('/api/user/register/', register);
+}

@@ -17,11 +17,11 @@
                     <div class="form-group">
                         <h5><span class="badge badge-secondary">{{ $t('Password') }}</span></h5>
                         <div class="text-danger">{{ $t('The password is a combination of 8 or more characters, numbers and letters.') }}</div>
-                        <input name="password1" id="id_password1" class="form-control form-control-sm" type="password" v-model="register.password1" :placeholder="$t('Password')" required/>
+                        <input name="password1" id="id_password1" class="form-control form-control-sm" type="password" v-model="register.password" :placeholder="$t('Password')" required/>
                     </div>
                     <div class="form-group">
                         <h5><span class="badge badge-secondary">{{ $t('Password') }} {{ $t('Confirm') }}</span></h5>
-                        <input name="password2" id="id_password2" class="form-control form-control-sm" type="password" v-model="register.password2" :placeholder="$t('Password') + $t('Confirm')" required/>
+                        <input name="password2" id="id_password2" class="form-control form-control-sm" type="password" v-model="register.re_password" :placeholder="$t('Password') + $t('Confirm')" required/>
                     </div>
                     <div class="form-group">
                         <h5><span class="badge badge-secondary">{{ $t('Email') }}</span></h5>
@@ -31,7 +31,7 @@
                         <input name="email" id="id_email" class="form-control form-control-sm" type="email" v-model="register.email" :placeholder="$t('Email')" required/>
                     </div>
                     <div>
-                        <button type="submit" class="btn btn-sm btn-outline-info" :title="$t('Register')">{{ $t('Register') }}</button>
+                        <button type="submit" class="btn btn-sm btn-outline-info" @click="save_register" :title="$t('Register')">{{ $t('Register') }}</button>
                         <button type="button" class="btn btn-sm btn-outline-info  mx-1" @click="$router.push('/login')" :title="$t('Login')">{{ $t('Login') }}</button>
                         <button type="button" class="btn btn-sm btn-outline-info" @click="$router.go(-1)" :title="$t('Cancel')">{{ $t('Cancel') }}</button>
                     </div>
@@ -42,6 +42,8 @@
 </template>
 
 <script>
+import * as user_api from '@/api/user';
+
 export default {
     name: 'Register',
     data() {
@@ -49,13 +51,23 @@ export default {
             register: {
                 id: '',
                 app_id: '',
-                password1: '',
-                password2: '',
+                name: '',
+                password: '',
+                re_password: '',
                 email: ''
             }
         };
     },
-    methods: {}
+    methods: {
+        async save_register() {
+            try {
+                const response = await user_api.create_register(this.register);
+                this.$log.debug(response.data);
+            } catch (e) {
+                alert(e.message);
+            }
+        }
+    }
 };
 </script>
 
