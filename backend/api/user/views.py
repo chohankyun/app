@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth import user_logged_in, authenticate, get_user_model
 from rest_framework import status
-from rest_framework.exceptions import AuthenticationFailed, PermissionDenied, ValidationError
+from rest_framework.exceptions import AuthenticationFailed, PermissionDenied, ParseError
 from rest_framework.generics import GenericAPIView, CreateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
-from backend.api.user.serializers import UserSerializer
+from backend.api.user.serializers import RegisterSerializer
 from backend.com.jwt.handler import jwt_user
 
 
@@ -53,20 +53,24 @@ class Login(GenericAPIView):
 class RegisterView(CreateAPIView):
     permission_classes = (AllowAny,)
     queryset = get_user_model().objects.all()
-    serializer_class = UserSerializer
+    serializer_class = RegisterSerializer
 
     def create(self, request, *args, **kwargs):
         if self.request.data['password'] != self.request.data['re_password']:
-            raise ValidationError(detail="The two password fields didn't match.")
+            raise ParseError(detail="The two password fields didn't match.")
         if get_user_model().objects.filter(app_id=self.request.data['app_id']).exists():
-            raise ValidationError(detail='A user is already registered with this username.')
+            raise ParseError(detail='A user is already registered with this username.')
 
         emails = get_user_model().objects.values_list('email', flat=True).distinct()
         if self.request.data['email'] in emails:
-            raise ValidationError(detail='A user is already registered with this email.')
+            raise ParseError(detail='A user is already registered with this email.')
 
         return super(RegisterView, self).create(request, *args, **kwargs)
 
+    def perform_create(self, serializer):
+        serializer.create_user()
+
     def get_success_headers(self, data):
+        # 메일 전송 추가
         return super(RegisterView, self).get_success_headers(data)
 
