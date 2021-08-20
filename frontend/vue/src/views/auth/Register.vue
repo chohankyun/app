@@ -42,7 +42,6 @@
 </template>
 
 <script>
-import * as user_api from '@/api/user';
 
 export default {
     name: 'Register',
@@ -59,13 +58,8 @@ export default {
         };
     },
     methods: {
-        async save_register() {
-            try {
-                const response = await user_api.create_register(this.register);
-                this.$log.debug(response.data);
-            } catch (e) {
-                alert(e.message);
-            }
+        save_register() {
+            this.$store.dispatch('user/register', this.register);
         }
     }
 };

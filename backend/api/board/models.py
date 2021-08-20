@@ -1,5 +1,6 @@
-from django.contrib.auth import get_user_model
 from django.db import models
+
+from backend.api.user.models import User
 
 
 class Category(models.Model):
@@ -14,7 +15,7 @@ class Category(models.Model):
 
 
 class Post(models.Model):
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     subject = models.CharField(max_length=300, blank=False)
     content = models.TextField(blank=False)
@@ -31,7 +32,7 @@ class Post(models.Model):
 
 
 class Reply(models.Model):
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     content = models.TextField(blank=False)
     text_content = models.CharField(max_length=20000, blank=False)
@@ -43,7 +44,7 @@ class Reply(models.Model):
 
 
 class Recommend(models.Model):
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     created_datetime = models.DateTimeField(auto_now_add=True)
     updated_datetime = models.DateTimeField(auto_now=True)

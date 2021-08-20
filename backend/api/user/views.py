@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-from django.contrib.auth import user_logged_in, authenticate, get_user_model
+from django.contrib.auth import user_logged_in, authenticate
 from rest_framework import status
 from rest_framework.exceptions import AuthenticationFailed, PermissionDenied, ParseError
-from rest_framework.generics import GenericAPIView, CreateAPIView
+from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
-from backend.api.user.serializers import RegisterSerializer
+from backend.api.user.models import User
 from backend.com.jwt.handler import jwt_user
 
 
@@ -50,27 +50,26 @@ class Login(GenericAPIView):
         return user
 
 
-class RegisterView(CreateAPIView):
+class RegisterView(GenericAPIView):
     permission_classes = (AllowAny,)
-    queryset = get_user_model().objects.all()
-    serializer_class = RegisterSerializer
 
-    def create(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
+        user = self.register()
+        user_logged_in.send(sender=user.__class__, request=self.request, user=user)
+        request.user = jwt_user(user)
+        return Response(request.user.__dict__, status=status.HTTP_200_OK)
+
+    def register(self):
         if self.request.data['password'] != self.request.data['re_password']:
             raise ParseError(detail="The two password fields didn't match.")
-        if get_user_model().objects.filter(app_id=self.request.data['app_id']).exists():
+        if User.objects.filter(app_id=self.request.data['app_id']).exists():
             raise ParseError(detail='A user is already registered with this username.')
 
-        emails = get_user_model().objects.values_list('email', flat=True).distinct()
+        emails = User.objects.values_list('email', flat=True).distinct()
         if self.request.data['email'] in emails:
             raise ParseError(detail='A user is already registered with this email.')
 
-        return super(RegisterView, self).create(request, *args, **kwargs)
-
-    def perform_create(self, serializer):
-        serializer.create_user()
-
-    def get_success_headers(self, data):
-        # 메일 전송 추가
-        return super(RegisterView, self).get_success_headers(data)
-
+        user_item_names = [field.name for field in User._meta.fields if field.name != 'id']
+        register_data = {key: self.request.data[key] for key in self.request.data if key in user_item_names}
+        user = User.objects.create_user(**register_data)
+        return user
