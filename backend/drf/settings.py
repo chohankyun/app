@@ -86,8 +86,8 @@ logging.config.dictConfig(LOGGING)
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = EnvJson.get('SECRET_KEY')
-
 # SECURITY WARNING: don't run with debug turned on in production!
+
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
@@ -228,3 +228,10 @@ JWT_AUTH = {
 
 # Message
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'email-smtp.ap-northeast-2.amazonaws.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'AKIATDLV5W7XPTHAF4UN'
+EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
+DEFAULT_FROM_EMAIL = 'aws-lsg-billing@lsitc.com'

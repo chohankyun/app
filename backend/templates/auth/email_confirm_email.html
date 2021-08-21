@@ -1,0 +1,14 @@
+{% load i18n %}
+{% autoescape off %}
+    {% blocktrans %}Hello from {{ site_name }}!{% endblocktrans %}
+
+    {% blocktrans %}You're receiving this e-mail because user {{ username }} has given yours as an e-mail address to connect their account.{% endblocktrans %}
+
+    {% blocktrans %}To confirm this is correct, go to.{% endblocktrans %}
+
+    {{ activate_url }}
+
+    {% blocktrans %}Thank you.{% endblocktrans %}
+
+    {{ site_name }} : {{ protocol }}://{{ domain }}
+{% endautoescape %}

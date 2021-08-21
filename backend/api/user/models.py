@@ -4,7 +4,6 @@ from django.contrib.auth.models import PermissionsMixin, UserManager
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from fernet_fields import EncryptedEmailField
 
 
 class AppUserManager(UserManager):
@@ -40,7 +39,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     app_id = models.CharField(_('application identifier'), max_length=150, unique=True, validators=[app_id_validator])
     name = models.CharField(_('user name'), max_length=150, blank=False)
-    email = EncryptedEmailField(_('email address'), blank=False)
+    email = models.EmailField(_('email address'), blank=False)
     is_staff = models.BooleanField(_('staff status'), default=False)
     is_active = models.BooleanField(_('active'), default=True)
     is_email_verified = models.BooleanField(_('email verified'), default=False)

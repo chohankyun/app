@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth import user_logged_in, authenticate
+from django.http import HttpResponse
+from django.utils.translation import ugettext_lazy as _
 from rest_framework import status
 from rest_framework.exceptions import AuthenticationFailed, PermissionDenied, ParseError
 from rest_framework.generics import GenericAPIView
@@ -7,6 +9,8 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
 from backend.api.user.models import User
+from backend.com.email.confirmation import EmailConfirmationHMAC
+from backend.com.email.email import EmailMixin
 from backend.com.jwt.handler import jwt_user
 
 
@@ -50,26 +54,39 @@ class Login(GenericAPIView):
         return user
 
 
-class RegisterView(GenericAPIView):
+class RegisterView(GenericAPIView, EmailMixin):
     permission_classes = (AllowAny,)
 
     def post(self, request, *args, **kwargs):
         user = self.register()
-        user_logged_in.send(sender=user.__class__, request=self.request, user=user)
-        request.user = jwt_user(user)
-        return Response(request.user.__dict__, status=status.HTTP_200_OK)
+        self.send_email(user, 'auth/email_confirm_subject.txt', 'auth/email_confirm_email.html')
+        return Response('Verification email sent.', status=status.HTTP_200_OK)
 
     def register(self):
         if self.request.data['password'] != self.request.data['re_password']:
             raise ParseError(detail="The two password fields didn't match.")
         if User.objects.filter(app_id=self.request.data['app_id']).exists():
             raise ParseError(detail='A user is already registered with this username.')
-
-        emails = User.objects.values_list('email', flat=True).distinct()
-        if self.request.data['email'] in emails:
+        if User.objects.filter(email=self.request.data['email']).exists():
             raise ParseError(detail='A user is already registered with this email.')
 
         user_item_names = [field.name for field in User._meta.fields if field.name != 'id']
         register_data = {key: self.request.data[key] for key in self.request.data if key in user_item_names}
         user = User.objects.create_user(**register_data)
         return user
+
+    def get_extras(self, user):
+        confirmation = EmailConfirmationHMAC(user.email)
+        return {'activate_url': confirmation.get_email_confirmation_url(self.request, confirmation)}
+
+
+class EmailConfirmView(GenericAPIView):
+    permission_classes = (AllowAny,)
+
+    def get(self, request, **kwargs):
+        confirmation = EmailConfirmationHMAC.from_key(self.kwargs['key'])
+        if not confirmation:
+            raise ParseError(detail='Invalid key.')
+        else:
+            confirmation.confirm()
+        return HttpResponse(_('Your email has been verified.'))

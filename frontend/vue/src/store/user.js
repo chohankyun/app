@@ -39,14 +39,5 @@ export default {
                 Vue.$log.debug('인증 정보 전송 실패.');
             }
         },
-        async register(context, register) {
-            try {
-                const response = await user_api.create_register(register);
-                context.commit('setUser', response.data);
-                await router.push('/');
-            } catch (e) {
-                alert('사용자 정보 전송 실패.');
-            }
-        },
     }
 };
