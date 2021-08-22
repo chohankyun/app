@@ -28,6 +28,8 @@ class EmailConfirmationHMAC:
 
     def confirm(self):
         user = User.objects.filter(email=self.email).first()
+        if user is None:
+            return None
         if not user.is_email_verified:
             user.is_email_verified = True
             user.save()

@@ -87,6 +87,7 @@ class EmailConfirmView(GenericAPIView):
         confirmation = EmailConfirmationHMAC.from_key(self.kwargs['key'])
         if not confirmation:
             raise ParseError(detail='Invalid key.')
-        else:
-            confirmation.confirm()
+        if not confirmation.confirm():
+            raise ParseError(detail='E-mail address matching query does not exist.')
         return HttpResponse(_('Your email has been verified.'))
+
