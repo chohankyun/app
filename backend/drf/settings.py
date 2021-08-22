@@ -86,6 +86,7 @@ logging.config.dictConfig(LOGGING)
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = EnvJson.get('SECRET_KEY')
+FIELD_ENCRYPTION_KEYS = EnvJson.get('FIELD_ENCRYPTION_KEYS')
 # SECURITY WARNING: don't run with debug turned on in production!
 
 DEBUG = True
@@ -104,6 +105,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.humanize',
     'rest_framework',
+    'encrypted_fields',
     'backend.com.jwt.apps.JwtConfig',
     'backend.api.user.apps.UserConfig',
     'backend.api.board.apps.BoardConfig',
@@ -154,6 +156,8 @@ DATABASES = {
         'PASSWORD': EnvJson.get('DB_PASSWORD'),
     }
 }
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
