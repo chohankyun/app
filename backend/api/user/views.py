@@ -91,3 +91,38 @@ class EmailConfirmView(GenericAPIView):
             raise ParseError(detail='E-mail address matching query does not exist.')
         return HttpResponse(_('Your email has been verified.'))
 
+
+class AppIdFindView(GenericAPIView, EmailMixin):
+    permission_classes = (AllowAny,)
+
+    def post(self, request):
+        user = User.objects.filter(email=self.request.data['email']).first()
+        if not user:
+            raise AuthenticationFailed(detail='E-mail address matching query does not exist.')
+        if not user.is_active:
+            raise PermissionDenied(detail='User account is disabled.')
+
+        self.send_email(user, 'auth/app_id_find_subject.txt', 'auth/app_id_find_email.html')
+        return Response('Your username has been sent to your e-mail address.')
+
+
+class PasswordResetView(GenericAPIView, EmailMixin):
+    permission_classes = (AllowAny,)
+
+    def post(self, request):
+        user = User.objects.filter(email=self.request.data['email']).first()
+        if not user:
+            raise AuthenticationFailed(detail='E-mail address matching query does not exist.')
+        if not user.is_active:
+            raise PermissionDenied(detail='User account is disabled.')
+
+        self.send_email(user, 'auth/app_id_find_subject.txt', 'auth/app_id_find_email.html')
+        return Response('Password reset e-mail has been sent.')
+
+
+class PasswordResetConfirmView(GenericAPIView):
+    permission_classes = (AllowAny,)
+
+    def get(self, request, **kwargs):
+        return HttpResponse(_('Password has been reset with the new password.'))
+
