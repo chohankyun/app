@@ -1,0 +1,50 @@
+<template>
+    <div class="password password-padding">
+        <div id="password" class="row justify-content-center mt-5">
+            <div class="card  site-polaroid" style="width: 30rem;">
+                <div class="card-header text-light bg-info">
+                    <h2 align="center"><strong>{{ $t('Change password') }}</strong></h2>
+                </div>
+                <div class="card-body small">
+                    <div class="form-group">
+                        <h5><span class="badge badge-secondary">{{ $t('Old password') }}</span></h5>
+                        <input name="password" id="id_password" class="form-control form-control-sm" type="password" :placeholder="$t('Old password')" required/>
+                    </div>
+                    <div class="form-group">
+                        <h5><span class="badge badge-secondary">{{ $t('New password') }}</span></h5>
+                        <div class="text-danger">{{ $t('The password is a combination of 8 or more characters, numbers and letters.') }}</div>
+                        <input name="new_password1" id="id_new_password1" class="form-control form-control-sm" type="password" :placeholder="$t('New password')" required/>
+                    </div>
+                    <div class="form-group">
+                        <h5><span class="badge badge-secondary">{{ $t('New password') }} {{ $t('Confirm') }}</span></h5>
+                        <input name="new_password2" id="id_new_password2" class="form-control form-control-sm" type="password" :placeholder="$t('New password') + $t('Confirm')" required/>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-sm btn-outline-info" :title="$t('Save')">{{ $t('Save') }}</button>
+                        <button type="button" class="btn btn-sm btn-outline-info" :title="$t('Cancel')">{{ $t('Cancel') }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+export default {
+    name: 'Password',
+    data() {
+    },
+    methods: {}
+};
+</script>
+
+<style scoped>
+.password-padding {
+    padding-top: 55px;
+    padding-bottom: 50px;
+}
+
+.password {
+    background-color: #eee;
+}
+</style>

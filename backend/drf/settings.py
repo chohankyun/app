@@ -107,6 +107,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'encrypted_fields',
     'backend.com.jwt.apps.JwtConfig',
+    'backend.api.join.apps.JoinConfig',
     'backend.api.user.apps.UserConfig',
     'backend.api.board.apps.BoardConfig',
 ]

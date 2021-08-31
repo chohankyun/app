@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import router from '@/router';
-import * as user_api from '@/api/user';
+import * as join_api from '@/api/join';
 
 export default {
     namespaced: true,
@@ -15,7 +15,7 @@ export default {
     actions: {
         async login(context, { app_id, password }) {
             try {
-                const response = await user_api.login(app_id, password);
+                const response = await join_api.login(app_id, password);
                 context.commit('setUser', response.data);
                 await router.push('/');
             } catch (e) {
@@ -24,7 +24,7 @@ export default {
         },
         async logout(context) {
             try {
-                await user_api.logout();
+                await join_api.logout();
             } catch (e) {
                 context.commit('setUser', '');
                 alert('로그 아웃.');
@@ -33,7 +33,7 @@ export default {
         },
         async is_auth(context) {
             try {
-                await user_api.is_auth();
+                await join_api.is_auth();
             } catch (e) {
                 context.commit('setUser', '');
                 Vue.$log.debug('인증 정보 전송 실패.');

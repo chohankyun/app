@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import * as user_api from '@/api/user';
+import * as join_api from '@/api/join';
 
 export default {
     name: 'Find',
@@ -41,10 +41,10 @@ export default {
             try {
                 let response = null;
                 if (this.type === 'App Id') {
-                    response = await user_api.find_app_id(this.email);
+                    response = await join_api.find_app_id(this.email);
                 }
                 if (this.type === 'Password') {
-                    response = await user_api.find_password(this.email);
+                    response = await join_api.reset_password(this.email);
                 }
                 alert(response.data);
                 await this.$router.push('/');
