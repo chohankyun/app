@@ -1,7 +1,7 @@
 <template>
     <div class="find find-padding">
         <div id="find" class="row justify-content-center mt-5">
-            <div class="card  site-polaroid" style="width: 30rem;">
+            <div class="card  site-polaroid" style="width: 23rem;">
                 <div class="card-header text-white bg-info">
                     <h2 align="center"><strong>{{ $t(types[type]) }}</strong></h2>
                 </div>
