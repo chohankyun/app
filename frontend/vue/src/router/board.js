@@ -1,5 +1,5 @@
-import Board from '@/views/Board';
-import Post from '@/views/Post';
+import Board from '@/views/board/Board';
+import Post from '@/views/board/Post';
 
 export default [
     {

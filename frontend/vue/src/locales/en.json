@@ -46,5 +46,6 @@
   "Please enter the correct email.": "Please enter the correct email.",
   "If it is a invalid email, we will not be able to process your email verification.": "If it is a invalid email, we will not be able to process your email verification.",
   "You need the registration process again.": "You need the registration process again.",
-  "User Name": "User Name"
+  "User Name": "User Name",
+  "Send email": "Send email"
 }

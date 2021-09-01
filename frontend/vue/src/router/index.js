@@ -3,10 +3,11 @@ import store from '@/store';
 import VueRouter from 'vue-router';
 import Home from '@/router/home';
 import Board from '@/router/board';
+import Login from '@/router/login';
 
 Vue.use(VueRouter);
 
-const routes = [...Home, ...Board];
+const routes = [...Home, ...Board, ...Login];
 
 const router = new VueRouter({
     mode: 'hash',

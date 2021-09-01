@@ -12,8 +12,8 @@
                     </div>
                     <div>
                         <button type="submit" class="btn btn-sm btn-outline-info" :title="$t(types[type]) + $t('Send email')">{{ $t(types[type]) }} {{ $t('Send email') }}</button>
-                        <button type="button" class="btn btn-sm btn-outline-info" @click="$router.push('/login')" :title="$t('Login')">{{ $t('Login') }}</button>
-                        <button type="button" class="btn btn-sm btn-outline-info" @click="$router.go(-1)" :title="$t('Cancel')">{{ $t('Cancel')</button>
+                        <button type="button" class="btn btn-sm btn-outline-info mx-1" @click="$router.push('/login')" :title="$t('Login')">{{ $t('Login') }}</button>
+                        <button type="button" class="btn btn-sm btn-outline-info" @click="$router.go(-1)" :title="$t('Cancel')">{{ $t('Cancel') }}</button>
                     </div>
                 </div>
             </div>

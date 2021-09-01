@@ -48,5 +48,6 @@
   "Please enter the correct email.": "정확한 이메일를 입력하세요.",
   "If it is a invalid email, we will not be able to process your email verification.": "잘못된 이메일이면 이메일 검증을 처리 할 수 없으며,",
   "You need the registration process again.": "회원가입 절차를 다시 하셔야 합니다.",
-  "User Name": "사용자명"
+  "User Name": "사용자명",
+  "Send email": "메일 발송"
 }

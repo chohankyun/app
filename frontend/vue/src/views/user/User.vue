@@ -8,7 +8,7 @@
                 <div class="card-body small">
                     <div class="form-group">
                         <h5><span class="badge badge-secondary">{{ $t('Username') }}</span></h5>
-                        <input name="app_id" id="id_app_id" class="form-control form-control-sm" type="text"  :placeholder="$t('App Id')" required/>
+                        <input name="app_id" id="id_app_id" class="form-control form-control-sm" type="text" :placeholder="$t('App Id')" required/>
                     </div>
                     <div class="form-group">
                         <h5><span class="badge badge-secondary">{{ $('Password') }}</span></h5>
@@ -19,7 +19,7 @@
                         <input name="email" id="id_email" class="form-control form-control-sm" type="email" :placeholder="$t('Email')" disabled/>
                     </div>
                     <div class="form-group">
-                        <h5><span class="badge badge-secondary">{{ 'Last login time' | translate }}</span></h5>
+                        <h5><span class="badge badge-secondary">{{ $t('Last login time') }}</span></h5>
                         <input name="login_time" id="id_login_time" class="form-control form-control-sm" type="text" :placeholder="$t('Last login time')" disabled/>
                     </div>
                     <div>
