@@ -1,4 +1,4 @@
 {% load i18n %}
 {% autoescape off %}
-[{{ site_name }}] {% blocktrans %}application identifier finding on.{% endblocktrans %}
+[{{ site_name }}] {% blocktrans %}Application identifier finding on.{% endblocktrans %}
 {% endautoescape %}

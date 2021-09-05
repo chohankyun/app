@@ -32,6 +32,27 @@ msgstr "생성 일시"
 
 msgid "updated datetime"
 msgstr "수정 일시"
+
+msgid "You're receiving this e-mail because you requested a application identifier for your user account at %(site_name)s."
+msgstr "%(site_name)s 의 아이디 찾기 요청으로 이 이메일이 전송되었습니다."
+
+msgid "Your application identifier, in case you've forgotten:"
+msgstr "아이디 :"
+
+msgid "Application identifier finding on."
+msgstr "아이디 찾기 이메일입니다."
+
+msgid "The id or password do not match."
+msgstr "아이디 또는 비밀번호가 일치하지 않습니다."
+
+msgid "This is disabled id."
+msgstr "비활성화된 아이디입니다."
+
+msgid "Email verification has not been completed."
+msgstr "이메일 인증이 완료되지 않았습니다."
+
+msgid "You do not have permission."
+msgstr "당신은 권한이 없습니다."
 # end
 
 msgid "Please Confirm Your E-mail Address for Sign Up."

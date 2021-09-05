@@ -4,7 +4,7 @@ import createPersistedState from 'vuex-persistedstate';
 
 Vue.use(Vuex);
 
-import join from './join';
+import user from './user';
 import board from './board';
 import lang from './lang';
 
@@ -13,13 +13,13 @@ export default new Vuex.Store({
     mutations: {},
     actions: {},
     modules: {
-        join,
+        user,
         board,
         lang
     },
     plugins: [
         createPersistedState({
-            paths: ['join', 'board', 'lang']
+            paths: ['user', 'board', 'lang']
         })
     ]
 });

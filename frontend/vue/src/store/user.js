@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import router from '@/router';
-import * as join_api from '@/api/join';
+import * as user_api from '@/api/user';
 
 export default {
     namespaced: true,
@@ -13,27 +13,27 @@ export default {
         }
     },
     actions: {
-        async login(context, { app_id, password }) {
+        async login(context, credentials) {
             try {
-                const response = await join_api.login(app_id, password);
+                const response = await user_api.login(credentials);
                 context.commit('setUser', response.data);
-                await router.push('/');
+                await router.push('/').catch(()=>{});
             } catch (e) {
-                alert('사용자 정보 전송 실패.');
+                alert(e.response.data.detail);
             }
         },
         async logout(context) {
             try {
-                await join_api.logout();
+                await user_api.logout();
             } catch (e) {
                 context.commit('setUser', '');
                 alert('로그 아웃.');
-                await router.push('/');
+                await router.push('/').catch(()=>{});
             }
         },
         async is_auth(context) {
             try {
-                await join_api.is_auth();
+                await user_api.is_auth();
             } catch (e) {
                 context.commit('setUser', '');
                 Vue.$log.debug('인증 정보 전송 실패.');

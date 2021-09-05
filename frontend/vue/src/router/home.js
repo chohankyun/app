@@ -1,8 +1,8 @@
 import Home from '@/views/home/Home';
 import Search from '@/views/home/Search';
-import Login from '@/views/join/Login';
-import Register from '@/views/join/Register';
-import Password from '@/views/join/Password';
+import Login from '@/views/user/Login';
+import Register from '@/views/user/Register';
+import Password from '@/views/user/Password';
 
 export default [
     {

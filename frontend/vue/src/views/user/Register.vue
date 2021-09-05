@@ -43,7 +43,7 @@
 
 <script>
 
-import * as join_api from "@/api/join";
+import * as join_api from "@/api/user";
 
 export default {
     name: 'Register',

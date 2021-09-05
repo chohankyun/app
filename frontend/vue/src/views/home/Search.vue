@@ -68,7 +68,6 @@ export default {
             try {
                 const response = await board_api.search_post(this.$route.params.search_word, order);
                 this.search = response.data;
-                console.log(this.search);
             } catch (e) {
                 alert(e.message);
             }

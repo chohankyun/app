@@ -58,18 +58,18 @@ export default {
     data() {
         return {
             lang: '한국어',
-            options: { ko: '한국어', en: 'English' },
+            options: {ko: '한국어', en: 'English'},
             search_word: ''
         };
     },
     computed: {
-        user: function() {
-            return this.$store.state.join.user;
+        user: function ()  {
+            return this.$store.state.user.user;
         }
     },
     created() {
         if (this.$store.state.lang.locale === 'none') {
-            let language = navigator.language || navigator.userLanguage;
+            let language = navigator.language;
             language = language.substring(0, 2);
             if (language === 'ko') {
                 this.$store.commit('lang/setLocale', language);
@@ -92,9 +92,9 @@ export default {
         },
         search() {
             if (this.search_word !== '' && this.search_word.length >= 2) {
-                this.$router.push({ path: '/search/' + encodeURIComponent(this.search_word) });
+                this.$router.push({path: '/search/' + encodeURIComponent(this.search_word)});
             } else {
-                alert('Please enter at least 2 characters.');
+                alert(this.$t('Please enter at least 2 characters.'));
             }
         }
     }
