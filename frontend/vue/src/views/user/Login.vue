@@ -52,7 +52,7 @@ export default {
                 alert(this.$t('Enter your app id or password.'))
                 return;
             }
-            this.$store.dispatch('join/login', this.credentials);
+            this.$store.dispatch('user/login', this.credentials);
         }
     }
 };

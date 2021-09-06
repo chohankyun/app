@@ -190,10 +190,10 @@ export default {
             },
             post: {
                 id: '',
-                user: this.$store.state.join.user.id,
+                user: this.$store.state.user.user.id,
                 category: '',
                 local_datetime: dayjs().format('YYYY-MM-DD'),
-                user_name: this.$store.state.join.user.name,
+                user_name: this.$store.state.user.user.name,
                 subject: '',
                 reply_count: 0,
                 click_count: 0,
@@ -203,25 +203,25 @@ export default {
             reply: {
                 id: '',
                 post: this.$route.params.id,
-                user: this.$store.state.join.user.id,
-                user_name: this.$store.state.join.user.name,
+                user: this.$store.state.user.user.id,
+                user_name: this.$store.state.user.user.name,
                 local_datetime: dayjs().format('YYYY-MM-DD'),
                 content: ''
             },
             replies: [],
             recommend: {
                 id: '',
-                user: this.$store.state.join.user.id,
+                user: this.$store.state.user.user.id,
                 post: this.$route.params.id
             },
             post_disabled: () => {
-                return this.post.id !== '' && this.post.user !== this.$store.state.join.user.id;
+                return this.post.id !== '' && this.post.user !== this.$store.state.user.user.id;
             },
             reply_disabled: () => {
-                return this.post.id === '' || this.$store.state.join.user.id === undefined;
+                return this.post.id === '' || this.$store.state.user.user.id === undefined;
             },
             replied_disabled: (user_id) => {
-                return user_id !== this.$store.state.join.user.id;
+                return user_id !== this.$store.state.user.user.id;
             },
             recommend_toggle: {
                 recommend_count: 0,
@@ -231,7 +231,7 @@ export default {
     },
     computed: {
         user: function () {
-            return this.$store.state.join.user;
+            return this.$store.state.user.user;
         }
     },
     created() {
@@ -246,7 +246,7 @@ export default {
                     this.$router.push('/');
                 });
             board_api
-                .get_replies_in_post(this.$route.params.id)
+                .get_replies(this.$route.params.id)
                 .then(res => {
                     this.replies = res.data;
                 })
@@ -255,7 +255,7 @@ export default {
                     this.$router.push('/');
                 });
             board_api
-                .get_recommend_toggle(this.$route.params.id)
+                .get_recommend_count(this.$route.params.id)
                 .then(res => {
                     this.recommend_toggle = res.data;
                 })
@@ -287,7 +287,7 @@ export default {
             if (this.recommend_toggle.is_recommend === true) {
                 try {
                     await board_api.create_recommend(this.recommend);
-                    const recommend_toggle = await board_api.get_recommend_toggle(this.$route.params.id)
+                    const recommend_toggle = await board_api.get_recommend_count(this.$route.params.id)
                     this.recommend_toggle = recommend_toggle.data
                 } catch (e) {
                     alert(e.message);

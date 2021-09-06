@@ -153,7 +153,7 @@
 <script>
 // @ is an alias to /src
 import Category from '@/components/Category';
-import * as board_api from '@/api/board';
+import * as home_api from '@/api/home';
 
 export default {
     name: 'Home',
@@ -174,14 +174,14 @@ export default {
     created() {
         this.$store.commit('board/setCategoryId', 'home');
         Object.keys(this.posts).forEach(order => {
-            board_api
+            home_api
                 .get_home_posts(order)
                 .then(res => {
                     this.posts[order] = res.data;
                 })
                 .catch(e => {
                     this.posts[order] = [];
-                    alert(e.message);
+                    alert(e.response.data.detail);
                 });
         });
     }

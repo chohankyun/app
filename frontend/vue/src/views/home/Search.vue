@@ -9,7 +9,7 @@
             </div>
             <div class="row">
                 <div class="col small">
-                    <div class="card mb-2" v-for="post in search.results" :key="post.id">
+                    <div class="card mb-2" v-for="post in search" :key="post.id">
                         <div class="card-body">
                             <p class="card-text text-truncate font-weight-bold">
                                 <router-link :to="{ path: '/post/' + post.id }" style="color: #5bc0de"><i class="fas fa-external-link-alt" aria-hidden="true"></i>{{ post.subject }}</router-link>
@@ -42,7 +42,7 @@
 
 <script>
 import Order from '@/components/Order';
-import * as board_api from '@/api/board';
+import * as search_api from '@/api/search';
 
 export default {
     name: 'Search',
@@ -54,8 +54,8 @@ export default {
         };
     },
     created() {
-        board_api
-            .search_post(this.$route.params.search_word, this.order)
+        search_api
+            .search_posts(this.$route.params.search_word, this.order)
             .then(res => {
                 this.search = res.data;
             })
@@ -66,7 +66,7 @@ export default {
     methods: {
         async change_order(order) {
             try {
-                const response = await board_api.search_post(this.$route.params.search_word, order);
+                const response = await search_api.search_posts(this.$route.params.search_word, order);
                 this.search = response.data;
             } catch (e) {
                 alert(e.message);

@@ -44,9 +44,9 @@ class PostSet(ModelViewSet):
     def get_queryset(self):
         queryset = Post.objects.all()
         if self.request.query_params.get('category') not in ['all', None]:
-            queryset = queryset.filter(category=self.kwargs.get('category'))
-        if self.kwargs.get('order') not in None:
-            queryset = queryset.order_by('-%s' % self.kwargs.get('order'))
+            queryset = queryset.filter(category=self.request.query_params.get('category'))
+        if self.request.query_params.get('order'):
+            queryset = queryset.order_by('-%s' % self.request.query_params.get('order'))
         return queryset
 
     def get_permissions(self):

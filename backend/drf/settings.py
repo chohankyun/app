@@ -91,6 +91,8 @@ FIELD_ENCRYPTION_KEYS = EnvJson.get('FIELD_ENCRYPTION_KEYS')
 
 DEBUG = True
 
+APPEND_SLASH = False
+
 ALLOWED_HOSTS = ['*']
 
 # Application definition

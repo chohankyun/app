@@ -25,7 +25,7 @@ export default {
                 context.commit('setCategories', response.data);
             } catch (e) {
                 context.commit('setCategories', []);
-                alert(e.message);
+                alert(e.response.data.detail);
             }
         }
     }

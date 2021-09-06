@@ -55,21 +55,21 @@ export default {
         board_api
             .get_posts(this.category_id, this.order)
             .then(res => {
-                this.posts = res.data.results;
+                this.posts = res.data;
             })
             .catch(e => {
                 this.posts = null;
-                alert(e.message);
+                alert(e.response.data.detail);
             });
     },
     methods: {
         async change_order(order) {
             try {
                 const response = await board_api.get_posts(this.category_id, order);
-                this.posts = response.data.results;
+                this.posts = response.data;
             } catch (e) {
                 this.posts = null;
-                alert(e.message);
+                alert(e.response.data.detail);
             }
         }
     }
