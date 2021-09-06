@@ -12,8 +12,6 @@
 </template>
 
 <script>
-import router from '@/router';
-
 export default {
     name: 'Category',
     data() {
@@ -29,7 +27,7 @@ export default {
     methods: {
         select_category(category_id) {
             this.$store.commit('board/setCategoryId', category_id);
-            router.push({ path: '/board/' + category_id });
+            this.$router.push({ path: '/board/' + category_id });
         }
     }
 };

@@ -53,7 +53,7 @@ export default {
     created() {
         this.category_id = this.$route.params.category_id;
         board_api
-            .get_posts_by_category_order(this.category_id, this.order)
+            .get_posts(this.category_id, this.order)
             .then(res => {
                 this.posts = res.data.results;
             })
@@ -65,7 +65,7 @@ export default {
     methods: {
         async change_order(order) {
             try {
-                const response = await board_api.get_posts_by_category_order(this.category_id, order);
+                const response = await board_api.get_posts(this.category_id, order);
                 this.posts = response.data.results;
             } catch (e) {
                 this.posts = null;

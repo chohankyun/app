@@ -24,7 +24,7 @@ export default {
                 const response = await board_api.get_categories();
                 context.commit('setCategories', response.data);
             } catch (e) {
-                context.commit('setCategories', null);
+                context.commit('setCategories', []);
                 alert(e.message);
             }
         }

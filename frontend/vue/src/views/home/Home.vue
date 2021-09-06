@@ -9,13 +9,13 @@
                 </ol>
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img class="d-block w-100" :src="`${publicPath}/data/carousel/carousel_1.png`" />
+                        <img class="d-block w-100" :src="`${publicPath}/data/carousel/carousel_1.png`"/>
                     </div>
                     <div class="carousel-item">
-                        <img class="d-block w-100" :src="`${publicPath}/data/carousel/carousel_2.png`" />
+                        <img class="d-block w-100" :src="`${publicPath}/data/carousel/carousel_2.png`"/>
                     </div>
                     <div class="carousel-item">
-                        <img class="d-block w-100" :src="`${publicPath}/data/carousel/carousel_3.png`" />
+                        <img class="d-block w-100" :src="`${publicPath}/data/carousel/carousel_3.png`"/>
                     </div>
                 </div>
                 <div class="carousel-control-prev" href="#id_carousel_indicators" role="button" data-slide="prev">
@@ -28,7 +28,7 @@
                 </div>
             </div>
             <div class="row">
-                <Category />
+                <Category/>
             </div>
             <div class="row">
                 <div class="col m-2">
@@ -173,14 +173,14 @@ export default {
     },
     created() {
         this.$store.commit('board/setCategoryId', 'home');
-        Object.keys(this.posts).forEach(value => {
+        Object.keys(this.posts).forEach(order => {
             board_api
-                .get_posts_for_home(value)
+                .get_home_posts(order)
                 .then(res => {
-                    this.posts[value] = res.data;
+                    this.posts[order] = res.data;
                 })
                 .catch(e => {
-                    this.posts[value] = [];
+                    this.posts[order] = [];
                     alert(e.message);
                 });
         });

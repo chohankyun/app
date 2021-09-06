@@ -5,14 +5,12 @@ from backend.api.board.models import Post
 from backend.api.board.serializers import PostSerializer
 
 
-class PostsForHome(ListAPIView):
+class Posts(ListAPIView):
     permission_classes = (AllowAny,)
     serializer_class = PostSerializer
 
     def get_queryset(self):
-        return self.get_four_post_by_order()
-
-    def get_four_post_by_order(self):
-        queryset = Post.objects.order_by('-%s' % self.kwargs.get('order'))
+        queryset = Post.objects.order_by('-%s' % self.request.query_params.get('order'))
         queryset = queryset[:4]
         return queryset
+

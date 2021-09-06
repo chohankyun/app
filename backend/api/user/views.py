@@ -61,7 +61,7 @@ class Login(GenericAPIView):
         return user
 
 
-class RegisterView(GenericAPIView, EmailMixin):
+class Register(GenericAPIView, EmailMixin):
     permission_classes = (AllowAny,)
 
     def post(self, request, *args, **kwargs):
@@ -87,7 +87,7 @@ class RegisterView(GenericAPIView, EmailMixin):
         return {'activate_url': confirmation.get_email_confirmation_url(self.request, confirmation)}
 
 
-class EmailConfirmView(GenericAPIView):
+class EmailConfirm(GenericAPIView):
     permission_classes = (AllowAny,)
 
     def get(self, request, **kwargs):
@@ -99,7 +99,7 @@ class EmailConfirmView(GenericAPIView):
         return HttpResponse(_('Your email has been verified.'))
 
 
-class AppIdFindView(GenericAPIView, EmailMixin):
+class AppIdFind(GenericAPIView, EmailMixin):
     permission_classes = (AllowAny,)
 
     def post(self, request):
@@ -113,7 +113,7 @@ class AppIdFindView(GenericAPIView, EmailMixin):
         return Response('Your username has been sent to your e-mail address.')
 
 
-class PasswordResetView(GenericAPIView, EmailMixin):
+class PasswordReset(GenericAPIView, EmailMixin):
     permission_classes = (AllowAny,)
 
     def post(self, request):
@@ -135,7 +135,7 @@ class PasswordResetView(GenericAPIView, EmailMixin):
         }
 
 
-class PasswordResetConfirmView(GenericAPIView):
+class PasswordResetConfirm(GenericAPIView):
     permission_classes = (AllowAny,)
 
     def get(self, request, *args, **kwargs):
@@ -156,7 +156,7 @@ class PasswordResetConfirmView(GenericAPIView):
         user.save()
 
 
-class PasswordChangeView(GenericAPIView, EmailMixin):
+class PasswordChange(GenericAPIView, EmailMixin):
     permission_classes = (IsAuthenticated,)
 
     def post(self, request, *args, **kwargs):

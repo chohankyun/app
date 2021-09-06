@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 import logging
-from collections import OrderedDict
 
 from bs4 import BeautifulSoup
 from django.db.models import F
 from rest_framework import status
 from rest_framework.generics import ListAPIView, RetrieveAPIView
-from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
@@ -39,9 +37,17 @@ class HtmlContent:
         return request
 
 
-class PostViewSet(ModelViewSet):
+class PostSet(ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+
+    def get_queryset(self):
+        queryset = Post.objects.all()
+        if self.request.query_params.get('category') not in ['all', None]:
+            queryset = queryset.filter(category=self.kwargs.get('category'))
+        if self.kwargs.get('order') not in None:
+            queryset = queryset.order_by('-%s' % self.kwargs.get('order'))
+        return queryset
 
     def get_permissions(self):
         if self.action in ['list', 'retrieve']:
@@ -50,46 +56,19 @@ class PostViewSet(ModelViewSet):
             permission_classes = [IsAuthenticated]
         return [permission() for permission in permission_classes]
 
-    def create(self, request, *args, **kwargs):
-        request.data['user'] = request.user.id
-        request = HtmlContent.add_content_with_image(request)
-        return super(PostViewSet, self).create(request, *args, **kwargs)
-
     def increase_click_count(self):
         post = Post.objects.get(pk=self.kwargs.get('pk'))
         post.click_count = F('click_count') + 1
         post.save()
 
+    def create(self, request, *args, **kwargs):
+        request.data['user'] = request.user.id
+        request = HtmlContent.add_content_with_image(request)
+        return super(PostSet, self).create(request, *args, **kwargs)
+
     def retrieve(self, request, *args, **kwargs):
         self.increase_click_count()
-        return super(PostViewSet, self).retrieve(request, *args, **kwargs)
-
-
-class PostListPagination(PageNumberPagination):
-    page_size = 16
-
-    def get_paginated_response(self, data):
-        return Response(OrderedDict([
-            ('page', self.page.number),
-            ('total', self.page.paginator.count),
-            ('page_size', self.page_size),
-            ('results', data)
-        ]))
-
-
-class PostsByCategoryNOrder(ListAPIView):
-    permission_classes = (AllowAny,)
-    pagination_class = PostListPagination
-    serializer_class = PostSerializer
-
-    def get_queryset(self):
-        return self.get_post_by_category_and_order()
-
-    def get_post_by_category_and_order(self):
-        queryset = Post.objects.order_by('-%s' % self.kwargs.get('order'))
-        if 'all' != self.kwargs.get('category'):
-            queryset = queryset.filter(category=self.kwargs.get('category'))
-        return queryset
+        return super(PostSet, self).retrieve(request, *args, **kwargs)
 
 
 class ReplyCount:
@@ -100,7 +79,7 @@ class ReplyCount:
         post.save()
 
 
-class ReplyViewSet(ModelViewSet):
+class ReplySet(ModelViewSet):
     queryset = Reply.objects.all()
     serializer_class = ReplySerializer
 
@@ -114,22 +93,19 @@ class ReplyViewSet(ModelViewSet):
     def create(self, request, *args, **kwargs):
         request.data['user'] = request.user.id
         request = HtmlContent.add_content(request)
-        return super(ReplyViewSet, self).create(request, *args, **kwargs)
+        return super(ReplySet, self).create(request, *args, **kwargs)
 
     def get_success_headers(self, data):
         ReplyCount.save(data.get('post'))
-        return super(ReplyViewSet, self).get_success_headers(data)
+        return super(ReplySet, self).get_success_headers(data)
 
 
-class RepliesInPost(ListAPIView):
+class PostReplies(ListAPIView):
     permission_classes = (AllowAny,)
     serializer_class = ReplySerializer
 
     def get_queryset(self):
-        return self.get_reply_by_post()
-
-    def get_reply_by_post(self):
-        queryset = Reply.objects.filter(post=self.kwargs.get('id'))
+        queryset = Reply.objects.filter(post=self.kwargs.get('post_id'))
         queryset = queryset.order_by('updated_datetime')
         return queryset
 
@@ -142,7 +118,7 @@ class RecommendCount:
         post.save()
 
 
-class RecommendCountNOwner(RetrieveAPIView):
+class PostRecommendCount(RetrieveAPIView):
     permission_classes = (AllowAny,)
 
     def get(self, request, *args, **kwargs):
@@ -152,7 +128,7 @@ class RecommendCountNOwner(RetrieveAPIView):
         return Response({'recommend_count': recommend_count, 'is_recommend': is_recommend})
 
 
-class RecommendViewSet(ModelViewSet):
+class RecommendSet(ModelViewSet):
     queryset = Recommend.objects.all()
     serializer_class = RecommendSerializer
 
@@ -165,11 +141,11 @@ class RecommendViewSet(ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         request.data['user'] = request.user.id
-        return super(RecommendViewSet, self).create(request, *args, **kwargs)
+        return super(RecommendSet, self).create(request, *args, **kwargs)
 
     def get_success_headers(self, data):
         RecommendCount.save(data.get('post'))
-        return super(RecommendViewSet, self).get_success_headers(data)
+        return super(RecommendSet, self).get_success_headers(data)
 
     def destroy(self, request, *args, **kwargs):
         queryset = Recommend.objects.filter(user=request.user.id)
@@ -178,4 +154,3 @@ class RecommendViewSet(ModelViewSet):
         self.perform_destroy(instance)
         RecommendCount.save(self.kwargs.get('pk'))
         return Response(status=status.HTTP_204_NO_CONTENT)
-

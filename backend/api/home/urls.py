@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-from django.urls import re_path
+from django.urls import path
 
-from backend.api.home.views import PostsForHome
+from backend.api.home.views import Posts
 
 urlpatterns = [
-    re_path(r'^posts/(?P<order>\w+)$', PostsForHome.as_view(), name='home_posts_by_order'),
+    path('posts$', Posts.as_view(), name='home_posts'),
 ]
