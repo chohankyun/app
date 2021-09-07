@@ -53,6 +53,9 @@ msgstr "이메일 인증이 완료되지 않았습니다."
 
 msgid "You do not have permission."
 msgstr "당신은 권한이 없습니다."
+
+msgid "Logout"
+msgstr "로그아웃"
 # end
 
 msgid "Please Confirm Your E-mail Address for Sign Up."

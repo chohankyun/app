@@ -5,8 +5,8 @@ export default {
     state: {
         category_id: 'home',
         category_default: [
-            { id: 'home', name: 'Home' },
-            { id: 'all', name: 'All' }
+            {id: 'home', name: 'Home'},
+            {id: 'all', name: 'All'}
         ],
         categories: []
     },
@@ -25,7 +25,7 @@ export default {
                 context.commit('setCategories', response.data);
             } catch (e) {
                 context.commit('setCategories', []);
-                alert(e.response.data.detail);
+                alert(e.response.status + ' : ' + e.response.statusText);
             }
         }
     }

@@ -1,4 +1,3 @@
-import Vue from 'vue';
 import router from '@/router';
 import * as user_api from '@/api/user';
 
@@ -17,18 +16,28 @@ export default {
             try {
                 const response = await user_api.login(credentials);
                 context.commit('setUser', response.data);
-                await router.push('/').catch(()=>{});
+                router.push('/').catch(() => {
+                });
             } catch (e) {
-                alert(e.response.data.detail);
+                if (e.response.data.detail !== undefined) {
+                    alert(e.response.data.detail);
+                } else {
+                    alert(e.response.status + ' : ' + e.response.statusText);
+                }
             }
         },
         async logout(context) {
             try {
                 await user_api.logout();
             } catch (e) {
+                if (e.response.data.detail !== undefined) {
+                    alert(e.response.data.detail);
+                } else {
+                    alert(e.response.status + ' : ' + e.response.statusText);
+                }
                 context.commit('setUser', '');
-                alert('로그 아웃.');
-                await router.push('/').catch(()=>{});
+                await router.push('/').catch(() => {
+                });
             }
         },
         async is_auth(context) {
@@ -36,7 +45,6 @@ export default {
                 await user_api.is_auth();
             } catch (e) {
                 context.commit('setUser', '');
-                Vue.$log.debug('인증 정보 전송 실패.');
             }
         },
     }

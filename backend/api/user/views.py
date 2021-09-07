@@ -34,7 +34,7 @@ class Logout(GenericAPIView):
 
     @staticmethod
     def get(request, *args, **kwargs):
-        return Response(status=status.HTTP_401_UNAUTHORIZED)
+        return Response(data={'detail': _('Logout')}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 class Login(GenericAPIView):
