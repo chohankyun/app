@@ -110,7 +110,7 @@ class AppIdFind(GenericAPIView, EmailMixin):
             raise PermissionDenied(detail='User account is disabled.')
 
         self.send_email(user, 'auth/app_id_find_subject.txt', 'auth/app_id_find_email.html')
-        return Response('Your username has been sent to your e-mail address.')
+        return Response({'detail': 'Your username has been sent to your e-mail address.'})
 
 
 class PasswordReset(GenericAPIView, EmailMixin):

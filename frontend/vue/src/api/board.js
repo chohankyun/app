@@ -32,6 +32,6 @@ export async function delete_recommend(post_id) {
     return http.delete('/api/board/recommend/' + post_id);
 }
 
-export async function get_recommend_count(post_id) {
-    return http.get('/api/board/posts/' + post_id + '/recommend-count');
+export async function get_recommend_toggle(post_id) {
+    return http.get('/api/board/posts/' + post_id + '/recommend-toggle');
 }

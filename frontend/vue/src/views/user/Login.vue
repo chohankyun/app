@@ -43,13 +43,13 @@ export default {
             credentials: {
                 app_id: '',
                 password: ''
-            },
+            }
         };
     },
     methods: {
         login() {
             if (Object.values(this.credentials).includes('')) {
-                alert(this.$t('Enter your app id or password.'))
+                alert(this.$t('Enter your app id or password.'));
                 return;
             }
             this.$store.dispatch('user/login', this.credentials);

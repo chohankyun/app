@@ -174,14 +174,13 @@ export default {
     created() {
         this.$store.commit('board/setCategoryId', 'home');
         Object.keys(this.posts).forEach(order => {
-            home_api
-                .get_home_posts(order)
+            home_api.get_posts(order)
                 .then(res => {
                     this.posts[order] = res.data;
                 })
                 .catch(e => {
                     this.posts[order] = [];
-                    alert(e.response.data.detail);
+                    this.$server_error(e);
                 });
         });
     }

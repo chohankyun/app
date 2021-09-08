@@ -118,7 +118,7 @@ class RecommendCount:
         post.save()
 
 
-class PostRecommendCount(RetrieveAPIView):
+class PostRecommendToggle(RetrieveAPIView):
     permission_classes = (AllowAny,)
 
     def get(self, request, *args, **kwargs):

@@ -54,22 +54,21 @@ export default {
         };
     },
     created() {
-        search_api
-            .search_posts(this.$route.params.search_word, this.order)
+        search_api.get_posts(this.$route.params.search_word, this.order)
             .then(res => {
                 this.search = res.data;
             })
             .catch(e => {
-                alert(e.message);
+                this.$server_error(e);
             });
     },
     methods: {
         async change_order(order) {
             try {
-                const response = await search_api.search_posts(this.$route.params.search_word, order);
-                this.search = response.data;
+                const res = await search_api.get_posts(this.$route.params.search_word, order);
+                this.search = res.data;
             } catch (e) {
-                alert(e.message);
+                this.$server_error(e);
             }
         }
     }

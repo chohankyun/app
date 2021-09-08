@@ -69,16 +69,16 @@ export default {
     },
     created() {
         if (this.$store.state.lang.locale === 'none') {
-            let language = navigator.language;
-            language = language.substring(0, 2);
-            if (language === 'ko') {
-                this.$store.commit('lang/setLocale', language);
+            let lang = navigator.language;
+            lang = lang.substring(0, 2);
+            if (lang === 'ko') {
+                this.$store.commit('lang/setLocale', lang);
             } else {
                 this.$store.commit('lang/setLocale', 'en');
             }
         }
-        this.$i18n.locale = this.$store.state.lang.locale.substring(0, 2);
-        this.lang = this.options[this.$store.state.lang.locale.substring(0, 2)];
+        this.$i18n.locale = this.$store.state.lang.getters.lang;
+        this.lang = this.options[this.$store.state.lang.getters.lang];
     },
     methods: {
         change_lang(value, key) {
@@ -94,7 +94,7 @@ export default {
             if (this.search_word !== '' && this.search_word.length >= 2) {
                 this.$router.push({path: '/search/' + encodeURIComponent(this.search_word)});
             } else {
-                alert(this.$t('Please enter at least 2 characters.'));
+                this.$client_error(this.$t('Please enter at least 2 characters.'));
             }
         }
     }

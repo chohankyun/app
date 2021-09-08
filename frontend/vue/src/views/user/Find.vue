@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import * as join_api from '@/api/user';
+import * as user_api from '@/api/user';
 
 export default {
     name: 'Find',
@@ -38,19 +38,19 @@ export default {
     },
     methods: {
         async find() {
+            let res = null;
             try {
-                let response = null;
-                console.log(this.type);
                 if (this.type === 'app_id') {
-                    response = await join_api.find_app_id({'email': this.email});
+                    res = await user_api.find_app_id({ 'email': this.email });
                 }
                 if (this.type === 'password') {
-                    response = await join_api.reset_password({'email': this.email});
+                    res = await user_api.reset_password({ 'email': this.email });
                 }
-                alert(response.data);
-                await this.$router.push('/');
+                this.$server_message(res);
+                await this.$router.push('/').catch(() => {
+                });
             } catch (e) {
-                alert(e.message);
+                this.$server_error(e);
             }
         }
     }

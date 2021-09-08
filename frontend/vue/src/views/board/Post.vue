@@ -230,75 +230,74 @@ export default {
         };
     },
     computed: {
-        user: function () {
+        user: function() {
             return this.$store.state.user.user;
         }
     },
     created() {
         if (this.$route.params.id !== undefined) {
-            board_api
-                .get_post(this.$route.params.id)
+            board_api.get_post(this.$route.params.id)
                 .then(res => {
                     this.post = res.data;
                 })
                 .catch(e => {
-                    alert(e.message);
-                    this.$router.push('/');
+                    this.$server_error(e);
+                    this.$router.push('/').catch(() => {
+                    });
                 });
-            board_api
-                .get_replies(this.$route.params.id)
+            board_api.get_replies(this.$route.params.id)
                 .then(res => {
                     this.replies = res.data;
                 })
                 .catch(e => {
-                    alert(e.message);
-                    this.$router.push('/');
+                    this.$server_error(e);
+                    this.$router.push('/').catch(() => {
+                    });
                 });
-            board_api
-                .get_recommend_count(this.$route.params.id)
+            board_api.get_recommend_toggle(this.$route.params.id)
                 .then(res => {
                     this.recommend_toggle = res.data;
                 })
                 .catch(e => {
-                    alert(e.message);
-                    this.$router.push('/');
+                    this.$server_error(e);
+                    this.$router.push('/').catch(() => {
+                    });
                 });
         }
     },
     methods: {
         async save_post() {
             try {
-                const response = await board_api.create_post(this.post);
-                this.$log.debug(response.data);
+                await board_api.create_post(this.post);
+                this.$router.go(0);
             } catch (e) {
-                alert(e.message);
+                this.$server_error(e);
             }
         },
         async save_reply() {
             try {
-                const response = await board_api.create_reply(this.reply);
-                this.$log.debug(response.data);
+                await board_api.create_reply(this.reply);
                 this.$router.go(0);
             } catch (e) {
-                alert(e.message);
+                this.$server_error(e);
             }
         },
         async save_recommend() {
             if (this.recommend_toggle.is_recommend === true) {
                 try {
                     await board_api.create_recommend(this.recommend);
-                    const recommend_toggle = await board_api.get_recommend_count(this.$route.params.id)
-                    this.recommend_toggle = recommend_toggle.data
+                    const res = await board_api.get_recommend_toggle(this.$route.params.id);
+                    this.recommend_toggle = res.data;
                 } catch (e) {
-                    alert(e.message);
+                    this.$server_error(e);
                 }
             } else {
                 try {
                     await board_api.delete_recommend(this.$route.params.id);
-                    const recommend_toggle = await board_api.get_recommend_toggle(this.$route.params.id)
-                    this.recommend_toggle = recommend_toggle.data
+                    const res = await board_api.get_recommend_toggle(this.$route.params.id);
+                    this.recommend_toggle = res.data;
                 } catch (e) {
-                    alert(e.message);
+                    this.$server_error(e);
                 }
             }
         }

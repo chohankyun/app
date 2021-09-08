@@ -52,24 +52,23 @@ export default {
     },
     created() {
         this.category_id = this.$route.params.category_id;
-        board_api
-            .get_posts(this.category_id, this.order)
+        board_api.get_posts(this.category_id, this.order)
             .then(res => {
                 this.posts = res.data;
             })
             .catch(e => {
-                this.posts = null;
-                alert(e.response.data.detail);
+                this.posts = [];
+                this.$server_error(e);
             });
     },
     methods: {
         async change_order(order) {
             try {
-                const response = await board_api.get_posts(this.category_id, order);
-                this.posts = response.data;
+                const res = await board_api.get_posts(this.category_id, order);
+                this.posts = res.data;
             } catch (e) {
-                this.posts = null;
-                alert(e.response.data.detail);
+                this.posts = [];
+                this.$server_error(e);
             }
         }
     }

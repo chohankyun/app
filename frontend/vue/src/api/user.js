@@ -17,9 +17,9 @@ export async function create_register(register) {
 }
 
 export async function find_app_id(email) {
-    return http.post('/api/user/find/app-id', email);
+    return http.post('/api/user/app-id/find', email);
 }
 
 export async function reset_password(email) {
-    return http.post('/api/user/reset/password', email);
+    return http.post('/api/user/password/reset', email);
 }

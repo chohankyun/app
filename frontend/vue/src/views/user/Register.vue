@@ -42,8 +42,7 @@
 </template>
 
 <script>
-
-import * as join_api from "@/api/user";
+import * as user_api from '@/api/user';
 
 export default {
     name: 'Register',
@@ -61,12 +60,13 @@ export default {
     },
     methods: {
         async save_register() {
-            try{
-                const response = await join_api.create_register(this.register);
-                alert(response.data);
-                await this.$router.push('/')
-            } catch (e){
-                alert(e.message);
+            try {
+                const res = await user_api.create_register(this.register);
+                this.$server_message(res);
+                await this.$router.push('/').catch(() => {
+                });
+            } catch (e) {
+                this.$server_error(e);
             }
         }
     }
