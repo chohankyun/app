@@ -1,4 +1,4 @@
-import util from '/@util';
+import util from '@/util';
 import * as board_api from '@/api/board';
 
 export default {

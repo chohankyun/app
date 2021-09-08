@@ -70,15 +70,14 @@ export default {
     created() {
         if (this.$store.state.lang.locale === 'none') {
             let lang = navigator.language;
-            lang = lang.substring(0, 2);
             if (lang === 'ko') {
                 this.$store.commit('lang/setLocale', lang);
             } else {
                 this.$store.commit('lang/setLocale', 'en');
             }
         }
-        this.$i18n.locale = this.$store.state.lang.getters.lang;
-        this.lang = this.options[this.$store.state.lang.getters.lang];
+        this.$i18n.locale = this.$store.getters['lang/get_lang'];
+        this.lang = this.options[this.$store.getters['lang/get_lang']];
     },
     methods: {
         change_lang(value, key) {

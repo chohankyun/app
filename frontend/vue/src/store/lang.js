@@ -13,10 +13,10 @@ export default {
         }
     },
     getters: {
-        lang: function(state) {
+        get_lang: function(state) {
             return state.locale.substring(0, 2);
         },
-        locale: function(state) {
+        get_locale: function(state) {
             return state.locale;
         }
     },
