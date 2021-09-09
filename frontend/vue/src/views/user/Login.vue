@@ -48,6 +48,7 @@ export default {
     },
     methods: {
         login() {
+            this.$server_message('1111111111111');
             if (Object.values(this.credentials).includes('')) {
                 alert(this.$t('Enter your app id or password.'));
                 return;

@@ -1,11 +1,14 @@
 export default {
     install(Vue) {
-        Vue.prototype.$server_message = function (res) {
+        const server_message = function(res) {
             alert(res);
             // alert(res.data.detail);
             return true;
         };
-        Vue.prototype.$server_error = function (error) {
+        Vue.server_message = server_message;
+        Vue.prototype.$server_message = server_message;
+
+        const server_error = function(error) {
             if (error.response.data.detail !== undefined) {
                 alert(error.response.data.detail);
             } else {
@@ -13,10 +16,14 @@ export default {
             }
             return true;
         };
-        Vue.prototype.$client_error = function (error) {
+        Vue.server_error = server_error;
+        Vue.prototype.$server_error = server_error;
+
+        const client_error = function(error) {
             alert(error.response.data.detail);
             return true;
         };
+        Vue.client_error = client_error;
+        Vue.prototype.$client_error = client_error;
     }
 };
-

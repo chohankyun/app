@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import router from '@/router';
-// import util from '@/util';
 import * as user_api from '@/api/user';
 
 export default {
@@ -16,7 +15,7 @@ export default {
     actions: {
         async login(context, credentials) {
             try {
-                Vue.prototype.$server_message('credentials');
+                Vue.server_message('22222222222222222222222222');
                 const res = await user_api.login(credentials);
                 context.commit('setUser', res.data);
                 router.push('/').catch(() => {
