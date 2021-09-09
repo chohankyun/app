@@ -5,7 +5,7 @@
                 <a class="navbar-brand col-lg-3 col-md-4 col-sm-6 col mouse-hand" onClick="window.location.href='/'"> <img src="../../assets/images/logo.png" class="img-fluid" alt="logo image" :title="$t('chohankyun.com')"/> </a>
                 <div class="d-none d-md-block col">
                     <div class="input-group  pull-left">
-                        <input type="text" class="form-control form-control-sm" @keydown.enter="search" v-model="search_word" :placeholder="$t('Please enter your search term.')"/>
+                        <input type="text" class="form-control form-control-sm" @keyup.enter="search" v-model="search_word" :placeholder="$t('Please enter your search term.')"/>
                         <div class="input-group-append">
                             <button class="btn btn-info btn-sm" type="button" @click="search" :title="$t('Search')">
                                 <i class="fa fa-search" aria-hidden="true"></i>

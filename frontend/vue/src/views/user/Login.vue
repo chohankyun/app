@@ -12,13 +12,13 @@
                         <h5>
                             <span class="badge badge-secondary">{{ $t('App Id') }}</span>
                         </h5>
-                        <input name="app_id" id="id_app_id" type="text" @keydown.enter="login" v-model="credentials.app_id" :placeholder="$t('App Id')" class="form-control form-control-sm" required/>
+                        <input name="app_id" id="id_app_id" type="text" @keyup.enter="login" v-model="credentials.app_id" :placeholder="$t('App Id')" class="form-control form-control-sm" required/>
                     </div>
                     <div class="form-group">
                         <h5>
                             <span class="badge badge-secondary">{{ $t('Password') }}</span>
                         </h5>
-                        <input name="password" id="id_password" type="password" @keydown.enter="login" v-model="credentials.password" :placeholder="$t('Password')" class="form-control form-control-sm" required/>
+                        <input name="password" id="id_password" type="password" @keyup.enter="login" v-model="credentials.password" :placeholder="$t('Password')" class="form-control form-control-sm" required/>
                     </div>
                     <div>
                         <button type="button" class="btn btn-sm btn-outline-info" @click="login" :title="$t('Login')">{{ $t('Login') }}</button>
@@ -48,9 +48,8 @@ export default {
     },
     methods: {
         login() {
-            this.$server_message('1111111111111');
             if (Object.values(this.credentials).includes('')) {
-                alert(this.$t('Enter your app id or password.'));
+                this.$client_error(this.$t('Enter your app id or password.'));
                 return;
             }
             this.$store.dispatch('user/login', this.credentials);

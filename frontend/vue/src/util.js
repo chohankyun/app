@@ -1,21 +1,23 @@
 export default {
     install(Vue) {
-        const server_message = function(res) {
-            Vue.alert(res);
-            // alert(res);
-            // alert(res.data.detail);
+        const server_message = function (res) {
+            Vue.swal(res.data.detail).then(() => {
+            });
             return true;
         };
-        const server_error = function(error) {
+        const server_error = function (error) {
             if (error.response.data.detail !== undefined) {
-                alert(error.response.data.detail);
+                Vue.swal(error.response.data.detail).then(() => {
+                });
             } else {
-                alert(error.response.status + ' : ' + error.response.statusText);
+                Vue.swal(error.response.status + ' : ' + error.response.statusText).then(() => {
+                });
             }
             return true;
         };
-        const client_error = function(error) {
-            alert(error.response.data.detail);
+        const client_error = function (error) {
+            Vue.swal(error).then(() => {
+            });
             return true;
         };
 
