@@ -3,20 +3,21 @@ import App from '@/App.vue';
 import router from '@/router';
 import store from '@/store';
 import i18n from '@/i18n';
-import util from '@/util';
+import VueSimpleAlert from 'vue-simple-alert';
 import 'expose-loader?exposes[]=$&exposes[]=jQuery!jquery';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.css';
 import '@fortawesome/fontawesome-free/js/all.js';
+import util from '@/util';
 
 Vue.config.productionTip = false;
+Vue.use(VueSimpleAlert);
 Vue.use(util);
 
 new Vue({
     router,
     store,
     i18n,
-    util,
     render: h => h(App)
 }).$mount('#app');
