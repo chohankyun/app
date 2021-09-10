@@ -51,5 +51,6 @@
   "User Name": "사용자명",
   "Send email": "메일 발송",
   "Enter your app id or password.": "아이디 또는 비밀번호를 입력하세요.",
-  "Please enter at least 2 characters.": "2 글자 이상 입력하세요."
+  "Please enter at least 2 characters.": "2 글자 이상 입력하세요.",
+  "Please enter your email.": "이메일을 입력하세요."
 }

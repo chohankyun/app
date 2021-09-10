@@ -11,7 +11,7 @@
                         <input name="email" id="id_email" type="text" v-model="email" :placeholder="$t('Email')" class="form-control form-control-sm" required/>
                     </div>
                     <div>
-                        <button type="submit" class="btn btn-sm btn-outline-info" @click="find()" :title="$t('Send email')">{{ $t('Send email') }}</button>
+                        <button type="submit" class="btn btn-sm btn-outline-info" @click="send_email" :title="$t('Send email')">{{ $t('Send email') }}</button>
                         <button type="button" class="btn btn-sm btn-outline-info mx-1" @click="$router.push('/login')" :title="$t('Login')">{{ $t('Login') }}</button>
                         <button type="button" class="btn btn-sm btn-outline-info" @click="$router.go(-1)" :title="$t('Cancel')">{{ $t('Cancel') }}</button>
                     </div>
@@ -37,14 +37,18 @@ export default {
         };
     },
     methods: {
-        async find() {
+        async send_email() {
             let response = null;
             try {
+                if (this.email === '') {
+                    this.$client_error(this.$t('Please enter your email.'));
+                    return;
+                }
                 if (this.type === 'app_id') {
-                    response = await user_api.find_app_id({ 'email': this.email });
+                    response = await user_api.find_app_id({'email': this.email});
                 }
                 if (this.type === 'password') {
-                    response = await user_api.reset_password({ 'email': this.email });
+                    response = await user_api.reset_password({'email': this.email});
                 }
                 this.$server_message(response);
                 this.$router.push('/').catch(() => {
