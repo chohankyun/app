@@ -48,7 +48,7 @@ msgstr "아이디 또는 비밀번호가 일치하지 않습니다."
 msgid "This is disabled id."
 msgstr "비활성화된 아이디입니다."
 
-msgid "Email verification has not been completed."
+msgid "The email verification has not been completed."
 msgstr "이메일 인증이 완료되지 않았습니다."
 
 msgid "You do not have permission."
@@ -56,6 +56,48 @@ msgstr "당신은 권한이 없습니다."
 
 msgid "Logout"
 msgstr "로그아웃"
+
+msgid "The two password fields didn't match."
+msgstr "두 개의 비밀번호가 일치하지 않습니다."
+
+msgid "This id is already registered."
+msgstr "이미 등록된 아이디입니다."
+
+msgid "This email is already registered."
+msgstr "이미 등록된 이메일입니다."
+
+msgid "Verification email sent."
+msgstr "검증 이메일이 전송되었습니다."
+
+msgid "Invalid verification information."
+msgstr "잘못된 검증 정보입니다."
+
+msgid "The email does not exist."
+msgstr "이메일 주소가 존재하지 않습니다."
+
+msgid "Your email has been verified."
+msgstr "당신의 이메일이 검증되었습니다."
+
+msgid "Your id has been sent to your email."
+msgstr "아이디가 이메일로 전송되었습니다."
+
+msgid "Password reset email has been sent."
+msgstr "비밀번호 재설정 이메일이 발송되었습니다."
+
+msgid "The id does not exist."
+msgstr "아이디가 존재하지 않습니다."
+
+msgid "Invalid token information."
+msgstr "잘못된 토큰 정보입니다."
+
+msgid "Password has been reset with the new password."
+msgstr "비밀번호가 새 비밀번호로 재설정되었습니다."
+
+msgid "Invalid old password."
+msgstr "잘못된 이전 비밀번호입니다."
+
+msgid "Password has been changed with the new password."
+msgstr "비밀번호가 새 비밀번호로 변경되었습니다."
 # end
 
 msgid "Please Confirm Your E-mail Address for Sign Up."
@@ -114,6 +156,3 @@ msgstr "비밀번호 재설정이 완료되었습니다."
 
 msgid "Invalid input."
 msgstr "잘못된 입력값입니다."
-
-msgid "Your email has been verified."
-msgstr "귀하의 이메일이 확인되었습니다."

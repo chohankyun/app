@@ -25,11 +25,11 @@ export async function get_replies(post_id) {
 }
 
 export async function create_recommend(recommend) {
-    return http.post('/api/board/recommend', recommend);
+    return http.post('/api/board/recommends', recommend);
 }
 
 export async function delete_recommend(post_id) {
-    return http.delete('/api/board/recommend/' + post_id);
+    return http.delete('/api/board/recommends/' + post_id);
 }
 
 export async function get_recommend_toggle(post_id) {

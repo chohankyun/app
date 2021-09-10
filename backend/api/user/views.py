@@ -53,7 +53,7 @@ class Login(GenericAPIView):
         if not user.is_active:
             raise AuthenticationFailed(detail=_('This is disabled id.'))
         if not user.is_email_verified:
-            raise PermissionDenied(detail=_('Email verification has not been completed.'))
+            raise PermissionDenied(detail=_('The email verification has not been completed.'))
         if user.is_staff or user.is_superuser:
             raise PermissionDenied(detail=_('You do not have permission.'))
 
@@ -67,15 +67,15 @@ class Register(GenericAPIView, EmailMixin):
     def post(self, request, *args, **kwargs):
         user = self.register()
         self.send_email(user, 'auth/email_confirm_subject.txt', 'auth/email_confirm_email.html')
-        return Response('Verification email sent.', status=status.HTTP_200_OK)
+        return Response({'detail': _('Verification email sent.')}, status=status.HTTP_200_OK)
 
     def register(self):
         if self.request.data['password'] != self.request.data['re_password']:
-            raise ParseError(detail="The two password fields didn't match.")
+            raise ParseError(detail=_("The two password fields didn't match."))
         if User.objects.filter(app_id=self.request.data['app_id']).exists():
-            raise ParseError(detail='A user is already registered with this username.')
+            raise ParseError(detail=_('This id is already registered.'))
         if User.objects.filter(email=self.request.data['email']).exists():
-            raise ParseError(detail='A user is already registered with this email.')
+            raise ParseError(detail=_('This email is already registered.'))
 
         user_item_names = [field.name for field in User._meta.fields if field.name != 'id']
         register_data = {key: self.request.data[key] for key in self.request.data if key in user_item_names}
@@ -93,9 +93,9 @@ class EmailConfirm(GenericAPIView):
     def get(self, request, **kwargs):
         confirmation = EmailConfirmationHMAC.from_key(self.kwargs['key'])
         if not confirmation:
-            raise ParseError(detail='Invalid key.')
+            raise ParseError(detail=_('Invalid verification information.'))
         if not confirmation.confirm():
-            raise ParseError(detail='E-mail address matching query does not exist.')
+            raise ParseError(detail=_('This email does not exist.'))
         return HttpResponse(_('Your email has been verified.'))
 
 
@@ -105,12 +105,12 @@ class AppIdFind(GenericAPIView, EmailMixin):
     def post(self, request):
         user = User.objects.filter(email=self.request.data['email']).first()
         if not user:
-            raise AuthenticationFailed(detail='E-mail address matching query does not exist.')
+            raise AuthenticationFailed(detail=_('This email does not exist.'))
         if not user.is_active:
-            raise PermissionDenied(detail='User account is disabled.')
+            raise PermissionDenied(detail=_('This is disabled id.'))
 
         self.send_email(user, 'auth/app_id_find_subject.txt', 'auth/app_id_find_email.html')
-        return Response({'detail': 'Your username has been sent to your e-mail address.'})
+        return Response({'detail': _('Your id has been sent to your email.')})
 
 
 class PasswordReset(GenericAPIView, EmailMixin):
@@ -119,12 +119,12 @@ class PasswordReset(GenericAPIView, EmailMixin):
     def post(self, request):
         user = User.objects.filter(email=self.request.data['email']).first()
         if not user:
-            raise AuthenticationFailed(detail='E-mail address matching query does not exist.')
+            raise AuthenticationFailed(detail=_('This email does not exist.'))
         if not user.is_active:
-            raise PermissionDenied(detail='User account is disabled.')
+            raise PermissionDenied(detail=_('This is disabled id.'))
 
         self.send_email(user, 'auth/password_reset_subject.txt', 'auth/password_reset_email.html')
-        return Response('Password reset e-mail has been sent.')
+        return Response({'detail': _('Password reset email has been sent.')})
 
     def get_extras(self, user):
         return {
@@ -143,9 +143,9 @@ class PasswordResetConfirm(GenericAPIView):
             uid = force_text(uid_decoder(self.kwargs['uid']))
             user = User.objects.get(pk=uid)
         except (TypeError, ValueError, OverflowError, User.DoesNotExist):
-            raise AuthenticationFailed(detail='user matching query does not exist.')
+            raise AuthenticationFailed(detail=_('The id does not exist.'))
         if not default_token_generator.check_token(user, self.kwargs['token']):
-            raise AuthenticationFailed(detail='Invalid token.')
+            raise AuthenticationFailed(detail=_('Invalid token information.'))
 
         self.reset_password(user)
         return HttpResponse(_('Password has been reset with the new password.'))
@@ -163,20 +163,20 @@ class PasswordChange(GenericAPIView, EmailMixin):
         try:
             user = User.objects.get(pk=self.request.user.id)
         except User.DoesNotExist:
-            raise AuthenticationFailed(detail='User matching query does not exist.')
+            raise AuthenticationFailed(detail=_('The id does not exist.'))
 
         if not user.is_active:
-            raise AuthenticationFailed(detail='User account is disabled.')
+            raise AuthenticationFailed(detail=_('This is disabled id.'))
 
         if not user.check_password(self.request.data['old_password']):
-            raise AuthenticationFailed(detail='Invalid old password.')
+            raise AuthenticationFailed(detail=_('Invalid old password.'))
 
         if self.request.data['new_password1'] != self.request.data['new_password2']:
-            raise AuthenticationFailed(detail="The two password fields didn't match.")
+            raise AuthenticationFailed(detail=_("The two password fields didn't match."))
 
         self.change_password(user)
         self.send_email(user, 'auth/password_changed_subject.txt', 'auth/password_changed_email.html')
-        return Response('Password has been changed with the new password.')
+        return Response({'detail': _('Password has been changed with the new password.')})
 
     def get_extras(self, user):
         return {

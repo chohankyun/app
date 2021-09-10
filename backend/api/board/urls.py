@@ -7,7 +7,7 @@ from backend.api.board.views import Categories, PostSet, ReplySet, PostReplies, 
 router = DefaultRouter(trailing_slash=False)
 router.register(r'posts', PostSet)
 router.register(r'replies', ReplySet)
-router.register(r'recommend', RecommendSet)
+router.register(r'recommends', RecommendSet)
 
 urlpatterns = [
     re_path(r'^posts/(?P<post_id>\w+)/replies', PostReplies.as_view(), name='board_post_replies'),
