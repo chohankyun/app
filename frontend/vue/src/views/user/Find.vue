@@ -38,19 +38,19 @@ export default {
     },
     methods: {
         async find() {
-            let res = null;
+            let response = null;
             try {
                 if (this.type === 'app_id') {
-                    res = await user_api.find_app_id({ 'email': this.email });
+                    response = await user_api.find_app_id({ 'email': this.email });
                 }
                 if (this.type === 'password') {
-                    res = await user_api.reset_password({ 'email': this.email });
+                    response = await user_api.reset_password({ 'email': this.email });
                 }
-                this.$server_message(res);
-                await this.$router.push('/').catch(() => {
+                this.$server_message(response);
+                this.$router.push('/').catch(() => {
                 });
-            } catch (e) {
-                this.$server_error(e);
+            } catch (error) {
+                this.$server_error(error);
             }
         }
     }

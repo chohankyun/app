@@ -53,22 +53,22 @@ export default {
     created() {
         this.category_id = this.$route.params.category_id;
         board_api.get_posts(this.category_id, this.order)
-            .then(res => {
-                this.posts = res.data;
+            .then(response => {
+                this.posts = response.data;
             })
-            .catch(e => {
+            .catch(error => {
                 this.posts = [];
-                this.$server_error(e);
+                this.$server_error(error);
             });
     },
     methods: {
         async change_order(order) {
             try {
-                const res = await board_api.get_posts(this.category_id, order);
-                this.posts = res.data;
-            } catch (e) {
+                const response = await board_api.get_posts(this.category_id, order);
+                this.posts = response.data;
+            } catch (error) {
                 this.posts = [];
-                this.$server_error(e);
+                this.$server_error(error);
             }
         }
     }

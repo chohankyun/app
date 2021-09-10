@@ -15,7 +15,9 @@ import util from '@/util';
 Vue.config.productionTip = false;
 
 const options = {
-    position: 'center'
+    width: 'auto',
+    confirmButtonColor: '#17a2b8',
+    confirmButtonText: i18n.t('Confirm')
 };
 
 Vue.use(VueSweetalert2, options);

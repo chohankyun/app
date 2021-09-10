@@ -1,23 +1,19 @@
 export default {
     install(Vue) {
-        const server_message = function (res) {
-            Vue.swal(res.data.detail).then(() => {
-            });
+        const server_message = function(response) {
+            Vue.swal({ text: response.data.detail });
             return true;
         };
-        const server_error = function (error) {
+        const server_error = function(error) {
             if (error.response.data.detail !== undefined) {
-                Vue.swal(error.response.data.detail).then(() => {
-                });
+                Vue.swal({ text: error.response.data.detail });
             } else {
-                Vue.swal(error.response.status + ' : ' + error.response.statusText).then(() => {
-                });
+                Vue.swal({ text: error.response.status + ' : ' + error.response.statusText });
             }
             return true;
         };
-        const client_error = function (error) {
-            Vue.swal(error).then(() => {
-            });
+        const client_error = function(error) {
+            Vue.swal({ text: error });
             return true;
         };
 

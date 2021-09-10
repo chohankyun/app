@@ -55,20 +55,20 @@ export default {
     },
     created() {
         search_api.get_posts(this.$route.params.search_word, this.order)
-            .then(res => {
-                this.search = res.data;
+            .then(response => {
+                this.search = response.data;
             })
-            .catch(e => {
-                this.$server_error(e);
+            .catch(error => {
+                this.$server_error(error);
             });
     },
     methods: {
         async change_order(order) {
             try {
-                const res = await search_api.get_posts(this.$route.params.search_word, order);
-                this.search = res.data;
-            } catch (e) {
-                this.$server_error(e);
+                const response = await search_api.get_posts(this.$route.params.search_word, order);
+                this.search = response.data;
+            } catch (error) {
+                this.$server_error(error);
             }
         }
     }

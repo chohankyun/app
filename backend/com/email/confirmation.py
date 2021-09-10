@@ -36,7 +36,7 @@ class EmailConfirmationHMAC:
             return user
 
     def get_email_confirmation_url(self, request, confirmation):
-        url = reverse("email_confirm", args=[confirmation.key])
+        url = reverse("user_email_confirm", args=[confirmation.key])
         ret = self.build_absolute_uri(request, url)
         return ret
 

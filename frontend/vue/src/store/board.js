@@ -22,11 +22,11 @@ export default {
     actions: {
         async init_categories(context) {
             try {
-                const res = await board_api.get_categories();
-                context.commit('setCategories', res.data);
-            } catch (e) {
+                const response = await board_api.get_categories();
+                context.commit('setCategories', response.data);
+            } catch (error) {
                 context.commit('setCategories', []);
-                util.$server_error(e);
+                util.$server_error(error);
             }
         }
     }

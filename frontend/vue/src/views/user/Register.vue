@@ -61,12 +61,12 @@ export default {
     methods: {
         async save_register() {
             try {
-                const res = await user_api.create_register(this.register);
-                this.$server_message(res);
+                const response = await user_api.create_register(this.register);
+                this.$server_message(response);
                 await this.$router.push('/').catch(() => {
                 });
-            } catch (e) {
-                this.$server_error(e);
+            } catch (error) {
+                this.$server_error(error);
             }
         }
     }

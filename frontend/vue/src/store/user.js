@@ -15,28 +15,28 @@ export default {
     actions: {
         async login(context, credentials) {
             try {
-                const res = await user_api.login(credentials);
-                context.commit('setUser', res.data);
+                const response = await user_api.login(credentials);
+                context.commit('setUser', response.data);
                 router.push('/').catch(() => {
                 });
-            } catch (e) {
-                Vue.server_error(e);
+            } catch (error) {
+                Vue.server_error(error);
             }
         },
         async logout(context) {
             try {
                 await user_api.logout();
-            } catch (e) {
-                Vue.server_error(e);
+            } catch (error) {
+                Vue.server_error(error);
                 context.commit('setUser', '');
-                await router.push('/').catch(() => {
+                router.push('/').catch(() => {
                 });
             }
         },
         async is_auth(context) {
             try {
                 await user_api.is_auth();
-            } catch (e) {
+            } catch (error) {
                 context.commit('setUser', '');
             }
         },
