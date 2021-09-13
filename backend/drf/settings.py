@@ -190,6 +190,7 @@ USE_I18N = True
 
 USE_L10N = True
 
+# if USE_TZ = true is using UTC
 USE_TZ = True
 
 LANGUAGES = [

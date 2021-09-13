@@ -29,11 +29,11 @@ export default {
     data() {
         return {
             email: '',
+            type: this.$route.params.type,
             types: {
                 app_id: 'App Id',
                 password: 'Password'
-            },
-            type: this.$route.params.type
+            }
         };
     },
     methods: {
