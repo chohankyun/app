@@ -2,6 +2,7 @@ import Home from '@/views/home/Home';
 import Search from '@/views/home/Search';
 import Login from '@/views/user/Login';
 import Register from '@/views/user/Register';
+import User from '@/views/user/User';
 import Password from '@/views/user/Password';
 
 export default [
@@ -26,7 +27,12 @@ export default [
         meta: { title: 'Register' }
     },
     {
-        path: '/Password',
+        path: '/user',
+        component: User,
+        meta: { title: 'User' }
+    },
+    {
+        path: '/password',
         component: Password,
         meta: { title: 'Password' }
     }

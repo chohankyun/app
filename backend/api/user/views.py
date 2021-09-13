@@ -14,8 +14,10 @@ from rest_framework.exceptions import AuthenticationFailed, PermissionDenied, Pa
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.viewsets import ModelViewSet
 
 from backend.api.user.models import User
+from backend.api.user.serializers import UserSerializer
 from backend.com.email.confirmation import EmailConfirmationHMAC
 from backend.com.email.email import EmailMixin
 from backend.com.jwt.handler import jwt_user
@@ -188,3 +190,20 @@ class PasswordChange(GenericAPIView, EmailMixin):
         password = self.request.data["new_password1"]
         user.set_password(password)
         user.save()
+
+
+class UserSet(ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [IsAuthenticated]
+        return [permission() for permission in permission_classes]
+
+    def retrieve(self, request, *args, **kwargs):
+        if str(request.user.id) != self.kwargs.get('pk'):
+            raise ParseError(detail=_('Invalid identify information.'))
+        return super(UserSet, self).retrieve(request, *args, **kwargs)

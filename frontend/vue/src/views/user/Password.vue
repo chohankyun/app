@@ -21,7 +21,7 @@
                     </div>
                     <div>
                         <button type="submit" class="btn btn-sm btn-outline-info" :title="$t('Save')">{{ $t('Save') }}</button>
-                        <button type="button" class="btn btn-sm btn-outline-info" :title="$t('Cancel')">{{ $t('Cancel') }}</button>
+                        <button type="button" class="btn btn-sm btn-outline-info mx-1" :title="$t('Cancel')">{{ $t('Cancel') }}</button>
                     </div>
                 </div>
             </div>

@@ -21,9 +21,8 @@
                             </button>
                             <div class="dropdown-menu">
                                 <button type="button" class="small dropdown-item" :title="$t('Write a post')" @click="$router.push('/post')">{{ $t('Write') }}</button>
-                                <button type="button" class="small dropdown-item" :title="$t('Posts I wrote')">{{ $t('My posts') }}</button>
-                                <button type="button" class="small dropdown-item" :title="$t('Change my information')">{{ $t('My info') }}</button>
-                                <button type="button" class="small dropdown-item" :title="$t('Change password')">{{ $t('Change password') }}</button>
+                                <button type="button" class="small dropdown-item" :title="$t('Change my information')" @click="$router.push('/user')">{{ $t('My info') }}</button>
+                                <button type="button" class="small dropdown-item" :title="$t('Change password')"  @click="$router.push('/password')">{{ $t('Change password') }}</button>
                             </div>
                         </div>
                     </li>

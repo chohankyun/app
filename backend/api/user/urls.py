@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
-from django.urls import path, re_path
+from django.urls import path, re_path, include
+from rest_framework.routers import DefaultRouter
 
-from backend.api.user.views import Login, Logout, IsAuth, Register, EmailConfirm, AppIdFind, PasswordReset, PasswordChange, PasswordResetConfirm
+from backend.api.user.views import Login, Logout, IsAuth, Register, EmailConfirm, AppIdFind, PasswordReset, PasswordChange, PasswordResetConfirm, UserSet
+
+router = DefaultRouter(trailing_slash=False)
+router.register(r'users', UserSet)
 
 urlpatterns = [
     path('login', Login.as_view(), name='user_login'),
@@ -13,4 +17,5 @@ urlpatterns = [
     path('password/reset', PasswordReset.as_view(), name='user_password_reset'),
     re_path(r'^password/reset/confirm/(?P<uid>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/(?P<password>.+)', PasswordResetConfirm.as_view(), name='user_password_reset_confirm'),
     path('password/change', PasswordChange.as_view(), name='user_password_change'),
+    path('', include(router.urls)),
 ]

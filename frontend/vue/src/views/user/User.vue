@@ -7,24 +7,24 @@
                 </div>
                 <div class="card-body small">
                     <div class="form-group">
-                        <h5><span class="badge badge-secondary">{{ $t('Username') }}</span></h5>
-                        <input name="app_id" id="id_app_id" class="form-control form-control-sm" type="text" :placeholder="$t('App Id')" required/>
+                        <h5><span class="badge badge-secondary">{{ $t('App Id') }}</span></h5>
+                        <input name="app_id" id="id_app_id" class="form-control form-control-sm" type="text" v-model="user.app_id" :placeholder="$t('App Id')"/>
                     </div>
                     <div class="form-group">
-                        <h5><span class="badge badge-secondary">{{ $('Password') }}</span></h5>
-                        <input name="password" id="id_password" class="form-control form-control-sm" type="password" :placeholder="$t('Password')" required/>
+                        <h5><span class="badge badge-secondary">{{ $t('User Name') }}</span></h5>
+                        <input name="app_id" id="id_name" class="form-control form-control-sm" type="text" v-model="user.name" :placeholder="$t('User Name')"/>
                     </div>
                     <div class="form-group">
                         <h5><span class="badge badge-secondary">{{ $t('Email') }}</span></h5>
-                        <input name="email" id="id_email" class="form-control form-control-sm" type="email" :placeholder="$t('Email')" disabled/>
+                        <input name="email" id="id_email" class="form-control form-control-sm" type="email" v-model="user.email" :placeholder="$t('Email')" disabled/>
                     </div>
                     <div class="form-group">
                         <h5><span class="badge badge-secondary">{{ $t('Last login time') }}</span></h5>
-                        <input name="login_time" id="id_login_time" class="form-control form-control-sm" type="text" :placeholder="$t('Last login time')" disabled/>
+                        <input name="login_time" id="id_login_time" class="form-control form-control-sm" type="text" v-model="user.local_last_login" :placeholder="$t('Last login time')" disabled/>
                     </div>
                     <div>
                         <button type="submit" class="btn btn-sm btn-outline-info" :title="$t('Save')">{{ $t('Save') }}</button>
-                        <button type="button" class="btn btn-sm btn-outline-info" :title="$t('Update')">{{ $t('Update') }}</button>
+                        <button type="button" class="btn btn-sm btn-outline-info mx-1" :title="$t('Update')">{{ $t('Update') }}</button>
                         <button type="button" class="btn btn-sm btn-outline-info" :title="$t('Cancel')">{{ $t('Cancel') }}</button>
                         <button type="button" class="float-right btn btn-sm btn-outline-danger" :title="$t('Withdrawal')">{{ $t('Withdrawal') }}</button>
                     </div>
@@ -35,9 +35,25 @@
 </template>
 
 <script>
+import * as user_api from '@/api/user';
+
 export default {
     name: 'User',
     data() {
+        return {
+            user: ''
+        };
+
+    },
+    created() {
+        user_api.get_user(this.$store.state.user.user.id)
+            .then(response => {
+                this.user = response.data;
+            })
+            .catch(error => {
+                this.user = [];
+                this.$server_error(error);
+            });
     },
     methods: {}
 };

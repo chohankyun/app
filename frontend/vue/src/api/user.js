@@ -23,3 +23,8 @@ export async function find_app_id(email) {
 export async function reset_password(email) {
     return http.post('/api/user/password/reset', email);
 }
+
+export async function get_user(user_id) {
+    return http.get('/api/user/users/' + user_id);
+}
+
