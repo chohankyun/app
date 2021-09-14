@@ -2,8 +2,8 @@
     <div class="container">
         <div class="board board-padding">
             <div class="row">
-                <Category />
-                <Order @change="change_order" />
+                <Category/>
+                <Order @change="change_order"/>
             </div>
             <div class="row">
                 <div class="col-lg-3 col-md-6 col-sm-6 portfolio-item small" v-for="post in posts" :key="post.id">
@@ -21,7 +21,7 @@
                                         <i class="fa fa-folder-open" aria-hidden="true"></i> {{ $t(post.category_name) }} <i class="fa fa-user" aria-hidden="true"></i> {{ post.user_name }} <i class="fa fa-thumbs-up" aria-hidden="true"> </i> {{ post.recommend_count }}
                                         <i class="fa fa-comment-dots" aria-hidden="true"></i> {{ post.reply_count }} <i class="fa fa-envelope-open" aria-hidden="true"></i> {{ post.click_count }}
                                     </div>
-                                    <div><i class="fa fa-calendar" aria-hidden="true"> </i> {{ post.local_datetime }}</div>
+                                    <div><i class="fa fa-calendar" aria-hidden="true"> </i> {{ post.updated_datetime | local_time }}</div>
                                 </div>
                             </li>
                         </ul>

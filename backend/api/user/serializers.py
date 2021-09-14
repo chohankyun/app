@@ -6,12 +6,7 @@ from backend.api.user.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
-    local_last_login = serializers.SerializerMethodField()
 
     class Meta:
         model = User
-        fields = ['app_id', 'name', 'email', 'local_last_login']
-
-    @staticmethod
-    def get_local_last_login(obj):
-        return l10n.localize(obj.last_login)
+        fields = ['app_id', 'name', 'email', 'last_login']

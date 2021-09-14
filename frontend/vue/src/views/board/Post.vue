@@ -11,7 +11,7 @@
                                         <span class="align-middle badge-secondary">{{ $t('Date') }}</span>
                                     </h5>
                                     <div class="col-9">
-                                        <input type="text" id="id_local_datetime" name="local_datetime" class="form-control form-control-sm" :disabled="true" v-model="post.local_datetime"/>
+                                        <input type="text" id="id_local_datetime" name="local_datetime" class="form-control form-control-sm" :disabled="true" :value="post.updated_datetime | local_time"/>
                                     </div>
                                 </div>
                             </div>
@@ -103,7 +103,7 @@
                     <div class="white-box text-info" style="font-size: small;">
                         <label class="ml-2 my-1"><i class="fa fa-comment-dots" aria-hidden="true"></i>&nbsp;{{ $t('Reply') }}</label>
                         <label class="ml-2">&nbsp;<i class="fa fa-user" aria-hidden="true"></i>&nbsp;{{ reply.user_name }}</label>
-                        <label class="ml-2">&nbsp;<i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;{{ reply.local_datetime }}</label>
+                        <label class="ml-2">&nbsp;<i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;{{ reply.updated_datetime | local_time  }}</label>
                     </div>
                 </div>
                 <Editor api-key="p453mc03irhw5ur9757lryy6q5l0yh1kkn8451225emn3v7n" :init="replies_init" :disabled="replied_disabled(reply.user)" v-model="reply.content"/>
@@ -123,7 +123,7 @@
                     <div class="white-box text-info" style="font-size: small;">
                         <label class="ml-2 my-1"><i class="fa fa-comment-dots" aria-hidden="true"></i>&nbsp;{{ $t('Reply') }}</label>
                         <label class="ml-2">&nbsp;<i class="fa fa-user" aria-hidden="true"></i>&nbsp;{{ reply.user_name }}</label>
-                        <label class="ml-2">&nbsp;<i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;{{ reply.local_datetime }}</label>
+                        <label class="ml-2">&nbsp;<i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;{{ reply.updated_datetime | local_time  }}</label>
                     </div>
                 </div>
                 <Editor api-key="p453mc03irhw5ur9757lryy6q5l0yh1kkn8451225emn3v7n" :init="reply_init" v-model="reply.content"/>
@@ -192,7 +192,7 @@ export default {
                 id: '',
                 user: this.$store.state.user.user.id,
                 category: '',
-                local_datetime: dayjs().format('LLL'),
+                updated_datetime: dayjs(),
                 user_name: this.$store.state.user.user.name,
                 subject: '',
                 reply_count: 0,
@@ -205,7 +205,7 @@ export default {
                 post: this.$route.params.id,
                 user: this.$store.state.user.user.id,
                 user_name: this.$store.state.user.user.name,
-                local_datetime: dayjs().format('YYYY-MM-DD'),
+                updated_datetime: dayjs(),
                 content: ''
             },
             replies: [],
@@ -230,7 +230,7 @@ export default {
         };
     },
     computed: {
-        user: function() {
+        user: function () {
             return this.$store.state.user.user;
         }
     },

@@ -22,7 +22,7 @@
                             <div class="dropdown-menu">
                                 <button type="button" class="small dropdown-item" :title="$t('Write a post')" @click="$router.push('/post')">{{ $t('Write') }}</button>
                                 <button type="button" class="small dropdown-item" :title="$t('Change my information')" @click="$router.push('/user')">{{ $t('My info') }}</button>
-                                <button type="button" class="small dropdown-item" :title="$t('Change password')"  @click="$router.push('/password')">{{ $t('Change password') }}</button>
+                                <button type="button" class="small dropdown-item" :title="$t('Change password')" @click="$router.push('/password')">{{ $t('Change password') }}</button>
                             </div>
                         </div>
                     </li>
@@ -62,23 +62,19 @@ export default {
         };
     },
     computed: {
-        user: function ()  {
+        user: function () {
             return this.$store.state.user.user;
         }
     },
     created() {
-        console.log(navigator.language);
-        console.log(this.$store.state.lang.locale);
         if (this.$store.state.lang.locale === 'none') {
-            let lang = navigator.language;
+            let lang = navigator.language.substring(0, 2);
             if (lang === 'ko') {
                 this.$store.commit('lang/setLocale', lang);
             } else {
-                console.log(navigator.language);
                 this.$store.commit('lang/setLocale', 'en');
             }
         }
-        console.log(this.$store.getters['lang/get_lang']);
         this.$i18n.locale = this.$store.getters['lang/get_lang'];
         this.lang = this.options[this.$store.getters['lang/get_lang']];
     },

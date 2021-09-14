@@ -10,6 +10,7 @@ import '@fortawesome/fontawesome-free/css/all.css';
 import '@fortawesome/fontawesome-free/js/all.js';
 import sweetalert from '@/utils/sweetalert';
 import '@/utils/dayjs';
+import '@/utils/filters';
 
 Vue.config.productionTip = false;
 
