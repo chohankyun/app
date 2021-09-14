@@ -5,6 +5,7 @@ export default {
     },
     mutations: {
         setLocale(state, lang) {
+            console.log(lang);
             if (lang === 'ko') {
                 state.locale = 'ko_KR';
             } else {

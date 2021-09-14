@@ -1,4 +1,4 @@
-import util from '@/util';
+import sweetalert from '@/utils/sweetalert';
 import * as board_api from '@/api/board';
 
 export default {
@@ -26,7 +26,7 @@ export default {
                 context.commit('setCategories', response.data);
             } catch (error) {
                 context.commit('setCategories', []);
-                util.$server_error(error);
+                sweetalert.$server_error(error);
             }
         }
     }

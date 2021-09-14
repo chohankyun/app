@@ -67,14 +67,18 @@ export default {
         }
     },
     created() {
+        console.log(navigator.language);
+        console.log(this.$store.state.lang.locale);
         if (this.$store.state.lang.locale === 'none') {
             let lang = navigator.language;
             if (lang === 'ko') {
                 this.$store.commit('lang/setLocale', lang);
             } else {
+                console.log(navigator.language);
                 this.$store.commit('lang/setLocale', 'en');
             }
         }
+        console.log(this.$store.getters['lang/get_lang']);
         this.$i18n.locale = this.$store.getters['lang/get_lang'];
         this.lang = this.options[this.$store.getters['lang/get_lang']];
     },

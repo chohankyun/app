@@ -192,7 +192,7 @@ export default {
                 id: '',
                 user: this.$store.state.user.user.id,
                 category: '',
-                local_datetime: dayjs().format('YYYY-MM-DD'),
+                local_datetime: dayjs().format('LLL'),
                 user_name: this.$store.state.user.user.name,
                 subject: '',
                 reply_count: 0,

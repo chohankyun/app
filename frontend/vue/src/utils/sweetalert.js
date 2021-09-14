@@ -1,3 +1,16 @@
+import Vue from 'vue';
+import i18n from '@/i18n';
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+
+const options = {
+    width: 'auto',
+    confirmButtonColor: '#17a2b8',
+    confirmButtonText: i18n.t('Confirm')
+};
+
+Vue.use(VueSweetalert2, options);
+
 export default {
     install(Vue) {
         const server_message = function(response) {
