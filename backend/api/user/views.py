@@ -131,7 +131,7 @@ class PasswordReset(GenericAPIView, EmailMixin):
     def get_extras(self, user):
         return {
             'password': ''.join(random.choices(string.ascii_letters + string.digits, k=10)),
-            'uid': urlsafe_base64_encode(force_bytes(user.pk)).decode(),
+            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
             'token': PasswordResetTokenGenerator().make_token(user),
             'host': self.request.get_host()
         }
@@ -146,6 +146,7 @@ class PasswordResetConfirm(GenericAPIView):
             user = User.objects.get(pk=uid)
         except (TypeError, ValueError, OverflowError, User.DoesNotExist):
             raise AuthenticationFailed(detail=_('The id does not exist.'))
+
         if not default_token_generator.check_token(user, self.kwargs['token']):
             raise AuthenticationFailed(detail=_('Invalid token information.'))
 
@@ -207,3 +208,8 @@ class UserSet(ModelViewSet):
         if str(request.user.id) != self.kwargs.get('pk'):
             raise ParseError(detail=_('Invalid identify information.'))
         return super(UserSet, self).retrieve(request, *args, **kwargs)
+
+    def update(self, request, *args, **kwargs):
+        if str(request.user.id) != self.kwargs.get('pk'):
+            raise ParseError(detail=_('Invalid identify information.'))
+        return super(UserSet, self).update(request, *args, **kwargs)

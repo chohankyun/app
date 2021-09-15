@@ -23,9 +23,8 @@
                         <input name="login_time" id="id_login_time" class="form-control form-control-sm" type="text" :value="user.last_login | local_time" :placeholder="$t('Last login time')" disabled/>
                     </div>
                     <div>
-                        <button type="submit" class="btn btn-sm btn-outline-info" :title="$t('Save')">{{ $t('Save') }}</button>
-                        <button type="button" class="btn btn-sm btn-outline-info mx-1" :title="$t('Update')">{{ $t('Update') }}</button>
-                        <button type="button" class="btn btn-sm btn-outline-info" :title="$t('Cancel')">{{ $t('Cancel') }}</button>
+                        <button type="button" class="btn btn-sm btn-outline-info" @click="update_user" :title="$t('Update')">{{ $t('Update') }}</button>
+                        <button type="button" class="btn btn-sm btn-outline-info mx-1" @click="$router.go(-1)" :title="$t('Cancel')">{{ $t('Cancel') }}</button>
                         <button type="button" class="float-right btn btn-sm btn-outline-danger" :title="$t('Withdrawal')">{{ $t('Withdrawal') }}</button>
                     </div>
                 </div>
@@ -55,7 +54,18 @@ export default {
                 this.$server_error(error);
             });
     },
-    methods: {}
+    methods: {
+        async update_user() {
+            try {
+                const response = await user_api.update_user(this.$store.state.user.user.id, this.user);
+                this.$server_message(response);
+                await this.$router.push('/').catch(() => {
+                });
+            } catch (error) {
+                this.$server_error(error);
+            }
+        }
+    }
 };
 </script>
 

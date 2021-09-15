@@ -28,3 +28,10 @@ export async function get_user(user_id) {
     return http.get('/api/user/users/' + user_id);
 }
 
+export async function change_password(change) {
+    return http.post('/api/user/password/change', change);
+}
+
+export async function update_user(user_id, user) {
+    return http.put('/api/user/users/' + user_id, user);
+}

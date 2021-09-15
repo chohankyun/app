@@ -2,6 +2,8 @@
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMultiAlternatives
 from django.template import loader
+from django.utils import translation
+
 from backend.drf import settings
 
 
@@ -24,10 +26,15 @@ class BaseEmailMixin:
             'protocol': 'https' if self.request.is_secure() else 'http',
         }
 
-        opt.update(self.get_extras(user))
-        subject = loader.render_to_string(subject_template_name, opt)
-        subject = ''.join(subject.splitlines())
-        body = loader.render_to_string(email_template_name, opt)
+        accept_language = self.request.META['HTTP_ACCEPT_LANGUAGE']
+        lang = accept_language.split(',')[0][:2]
+
+        with translation.override(lang):
+            opt.update(self.get_extras(user))
+            subject = loader.render_to_string(subject_template_name, opt)
+            subject = ''.join(subject.splitlines())
+            body = loader.render_to_string(email_template_name, opt)
+
         return EmailMultiAlternatives(subject, body, settings.DEFAULT_FROM_EMAIL, [user.email])
 
 
