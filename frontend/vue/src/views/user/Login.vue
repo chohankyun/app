@@ -10,9 +10,9 @@
                 <div class="card-body small">
                     <div class="form-group">
                         <h5>
-                            <span class="badge badge-secondary">{{ $t('App Id') }}</span>
+                            <span class="badge badge-secondary">{{ $t('User identifier') }}</span>
                         </h5>
-                        <input name="app_id" id="id_app_id" type="text" @keyup.enter="login" v-model="credentials.app_id" :placeholder="$t('App Id')" class="form-control form-control-sm" required/>
+                        <input name="uid" id="id_uid" type="text" @keyup.enter="login" v-model="credentials.uid" :placeholder="$t('User identifier')" class="form-control form-control-sm" required/>
                     </div>
                     <div class="form-group">
                         <h5>
@@ -26,7 +26,7 @@
                         <button type="button" class="btn btn-sm btn-outline-info" @click="$router.go(-1)" :title="$t('Cancel')">{{ $t('Cancel') }}</button>
                     </div>
                     <div class="mt-4">
-                        <router-link :to="{ path: '/find/app_id' }" class="mr-1" :title="$t('Go to find app id')">{{ $t('Forgot your app id?') }}</router-link>
+                        <router-link :to="{ path: '/find/uid' }" class="mr-1" :title="$t('Go to find user identifier')">{{ $t('Forgot your user identifier?') }}</router-link>
                         <router-link :to="{ path: '/find/password' }" class="mr-1" :title="$t('Go to find password')">{{ $t('Forgot your password?') }}</router-link>
                     </div>
                 </div>
@@ -41,7 +41,7 @@ export default {
     data() {
         return {
             credentials: {
-                app_id: '',
+                uid: '',
                 password: ''
             }
         };
@@ -49,7 +49,7 @@ export default {
     methods: {
         login() {
             if (Object.values(this.credentials).includes('')) {
-                this.$client_error(this.$t('Enter your app id or password.'));
+                this.$client_error(this.$t('Enter user identifier or password.'));
                 return;
             }
             this.$store.dispatch('user/login', this.credentials);

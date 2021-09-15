@@ -7,12 +7,12 @@
                 </div>
                 <div class="card-body small">
                     <div class="form-group">
-                        <h5><span class="badge badge-secondary">{{ $t('App Id') }}</span></h5>
-                        <input name="app_id" id="id_app_id" class="form-control form-control-sm" type="text" v-model="user.app_id" :placeholder="$t('App Id')"/>
+                        <h5><span class="badge badge-secondary">{{ $t('User Identifier') }}</span></h5>
+                        <input name="uid" id="id_uid" class="form-control form-control-sm" type="text" v-model="user.uid" :placeholder="$t('User Identifier')"/>
                     </div>
                     <div class="form-group">
                         <h5><span class="badge badge-secondary">{{ $t('User Name') }}</span></h5>
-                        <input name="app_id" id="id_name" class="form-control form-control-sm" type="text" v-model="user.name" :placeholder="$t('User Name')"/>
+                        <input name="name" id="id_name" class="form-control form-control-sm" type="text" v-model="user.name" :placeholder="$t('User Name')"/>
                     </div>
                     <div class="form-group">
                         <h5><span class="badge badge-secondary">{{ $t('Email') }}</span></h5>

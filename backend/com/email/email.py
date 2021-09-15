@@ -20,7 +20,7 @@ class BaseEmailMixin:
         opt = {
             'domain': domain,
             'site_name': site_name,
-            'app_id': user.app_id,
+            'uid': user.uid,
             'name': user.name,
             'email': user.email,
             'protocol': 'https' if self.request.is_secure() else 'http',

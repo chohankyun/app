@@ -31,7 +31,7 @@ export default {
             email: '',
             type: this.$route.params.type,
             types: {
-                app_id: 'App Id',
+                uid: 'User identifier',
                 password: 'Password'
             }
         };
@@ -44,8 +44,8 @@ export default {
                     this.$client_error(this.$t('Please enter your email.'));
                     return;
                 }
-                if (this.type === 'app_id') {
-                    response = await user_api.find_app_id({'email': this.email});
+                if (this.type === 'uid') {
+                    response = await user_api.find_uid({'email': this.email});
                 }
                 if (this.type === 'password') {
                     response = await user_api.reset_password({'email': this.email});

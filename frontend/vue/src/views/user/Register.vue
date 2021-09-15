@@ -7,12 +7,12 @@
                 </div>
                 <div class="card-body small">
                     <div class="form-group">
-                        <h5><span class="badge badge-secondary">{{ $t('App Id') }}</span></h5>
-                        <input name="username" id="id_app_id" class="form-control form-control-sm" type="text" v-model="register.app_id" :placeholder="$t('App Id')" required/>
+                        <h5><span class="badge badge-secondary">{{ $t('User identifier') }}</span></h5>
+                        <input name="uid" id="id_uid" class="form-control form-control-sm" type="text" v-model="register.uid" :placeholder="$t('User identifier')" required/>
                     </div>
                     <div class="form-group">
                         <h5><span class="badge badge-secondary">{{ $t('User') }}</span></h5>
-                        <input name="username" id="id_name" class="form-control form-control-sm" type="text" v-model="register.name" :placeholder="$t('User Name')" required/>
+                        <input name="name" id="id_name" class="form-control form-control-sm" type="text" v-model="register.name" :placeholder="$t('User Name')" required/>
                     </div>
                     <div class="form-group">
                         <h5><span class="badge badge-secondary">{{ $t('Password') }}</span></h5>
@@ -50,7 +50,7 @@ export default {
         return {
             register: {
                 id: '',
-                app_id: '',
+                uid: '',
                 name: '',
                 password: '',
                 re_password: '',
@@ -60,6 +60,10 @@ export default {
     },
     methods: {
         async save_register() {
+            if (Object.values(this.register).includes('')) {
+                this.$client_error(this.$t('Enter your registration information.'));
+                return;
+            }
             try {
                 const response = await user_api.create_register(this.register);
                 this.$server_message(response);

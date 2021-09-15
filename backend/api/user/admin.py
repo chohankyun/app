@@ -9,7 +9,7 @@ from backend.api.user.models import User
 @admin.register(User)
 class UserAdmin(UserAdmin):
     fieldsets = (
-        (None, {'fields': ('app_id', 'password')}),
+        (None, {'fields': ('uid', 'password')}),
         (_('Personal info'), {'fields': ('name', 'email',)}),
         (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
                                        'is_email_verified', 'groups', 'user_permissions')}),
@@ -19,10 +19,10 @@ class UserAdmin(UserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('app_id', 'password1', 'password2'),
+            'fields': ('uid', 'password1', 'password2'),
         }),
     )
-    list_display = ('app_id', 'name', 'email', 'is_active', 'is_staff', 'last_login', 'is_email_verified', 'created_datetime', 'updated_datetime')
-    search_fields = ('app_id', 'name', 'email', 'is_staff', 'last_login')
-    ordering = ('app_id',)
+    list_display = ('uid', 'name', 'email', 'is_active', 'is_staff', 'last_login', 'is_email_verified', 'created_datetime', 'updated_datetime')
+    search_fields = ('uid', 'name', 'email', 'is_staff', 'last_login')
+    ordering = ('-updated_datetime',)
     readonly_fields = ('created_datetime', 'updated_datetime')

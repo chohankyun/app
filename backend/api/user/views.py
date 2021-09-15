@@ -43,7 +43,7 @@ class Login(GenericAPIView):
     permission_classes = (AllowAny,)
 
     def post(self, request, *args, **kwargs):
-        user = self.login(app_id=request.data['app_id'], password=request.data['password'])
+        user = self.login(uid=request.data['uid'], password=request.data['password'])
         request.user = jwt_user(user)
         return Response(request.user.__dict__, status=status.HTTP_200_OK)
 
@@ -74,7 +74,7 @@ class Register(GenericAPIView, EmailMixin):
     def register(self):
         if self.request.data['password'] != self.request.data['re_password']:
             raise ParseError(detail=_("The two password fields didn't match."))
-        if User.objects.filter(app_id=self.request.data['app_id']).exists():
+        if User.objects.filter(uid=self.request.data['uid']).exists():
             raise ParseError(detail=_('This id is already registered.'))
         if User.objects.filter(email=self.request.data['email']).exists():
             raise ParseError(detail=_('This email is already registered.'))
@@ -101,7 +101,7 @@ class EmailConfirm(GenericAPIView):
         return HttpResponse(_('Your email has been verified.'))
 
 
-class AppIdFind(GenericAPIView, EmailMixin):
+class UidFind(GenericAPIView, EmailMixin):
     permission_classes = (AllowAny,)
 
     def post(self, request):
@@ -109,10 +109,10 @@ class AppIdFind(GenericAPIView, EmailMixin):
         if not user:
             raise AuthenticationFailed(detail=_('This email does not exist.'))
         if not user.is_active:
-            raise PermissionDenied(detail=_('This is disabled id.'))
+            raise PermissionDenied(detail=_('This is disabled uid.'))
 
-        self.send_email(user, 'auth/app_id_find_subject.txt', 'auth/app_id_find_email.html')
-        return Response({'detail': _('Your id has been sent to your email.')})
+        self.send_email(user, 'auth/uid_find_subject.txt', 'auth/uid_find_email.html')
+        return Response({'detail': _('Your uid has been sent to your email.')})
 
 
 class PasswordReset(GenericAPIView, EmailMixin):
@@ -123,7 +123,7 @@ class PasswordReset(GenericAPIView, EmailMixin):
         if not user:
             raise AuthenticationFailed(detail=_('This email does not exist.'))
         if not user.is_active:
-            raise PermissionDenied(detail=_('This is disabled id.'))
+            raise PermissionDenied(detail=_('This is disabled uid.'))
 
         self.send_email(user, 'auth/password_reset_subject.txt', 'auth/password_reset_email.html')
         return Response({'detail': _('Password reset email has been sent.')})
