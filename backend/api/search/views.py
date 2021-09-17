@@ -33,7 +33,7 @@ class Posts(ListAPIView):
         search_word = self.request.query_params.get('search_word')
 
         if not search_word and len(search_word) < 2:
-            raise ParseError(detail=_('Please enter at least 2 characters.'))
+            raise ParseError(detail='Please enter at least 2 characters.')
 
         return search_word
 

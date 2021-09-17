@@ -49,7 +49,6 @@ export default {
     data() {
         return {
             register: {
-                id: '',
                 uid: '',
                 name: '',
                 password: '',

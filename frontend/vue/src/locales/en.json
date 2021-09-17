@@ -53,5 +53,22 @@
   "Please enter at least 2 characters.": "Please enter at least 2 characters.",
   "Please enter your email.": "Please enter your email.",
   "Update": "Update",
-  "Withdrawal": "Withdrawal"
+  "Withdrawal": "Withdrawal",
+  "Verification email sent.": "Verification email sent.",
+  "The two password fields didn't match.": "The two password fields didn't match.",
+  "This uid is already registered.": "This uid is already registered.",
+  "This email is already registered.": "This email is already registered.",
+  "The uid or password do not match.": "The uid or password do not match.",
+  "This is disabled uid.": "This is disabled uid.",
+  "The email verification has not been completed.": "The email verification has not been completed.",
+  "You do not have permission.": "You do not have permission.",
+  "Invalid verification information.": "Invalid verification information.",
+  "This email does not exist.": "This email does not exist.",
+  "Your email has been verified.": "Your email has been verified.",
+  "Your uid has been sent to your email.": "Your uid has been sent to your email.",
+  "Password reset email has been sent.": "Password reset email has been sent.",
+  "The uid does not exist.": "The uid does not exist.",
+  "Invalid token information.": "Invalid token information.",
+  "Password has been reset with the new password.": "Password has been reset with the new password.",
+  "Invalid identify information.": "Invalid identify information."
 }

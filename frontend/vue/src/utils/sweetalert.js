@@ -14,14 +14,14 @@ Vue.use(VueSweetalert2, options);
 export default {
     install(Vue) {
         const server_message = function(response) {
-            Vue.swal({ text: response.data.detail });
+            Vue.swal({ text: i18n.t(response.data.detail) });
             return true;
         };
         const server_error = function(error) {
             if (error.response.data.detail !== undefined) {
-                Vue.swal({ text: error.response.data.detail });
+                Vue.swal({ text: i18n.t(error.response.data.detail) });
             } else {
-                Vue.swal({ text: error.response.status + ' : ' + error.response.statusText });
+                Vue.swal({ text: error.response.status + ' : ' + i18n.t(error.response.statusText) });
             }
             return true;
         };

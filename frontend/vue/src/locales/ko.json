@@ -54,5 +54,22 @@
   "Please enter at least 2 characters.": "2 글자 이상 입력하세요.",
   "Please enter your email.": "이메일을 입력하세요.",
   "Update": "수정",
-  "Withdrawal": "탈퇴"
+  "Withdrawal": "탈퇴",
+  "Verification email sent.": "검증 이메일이 전송되었습니다.",
+  "The two password fields didn't match.": "두 개의 비밀번호 필드가 일치하지 않습니다.",
+  "This uid is already registered.": "이미 등록된 사용자 아이디입니다.",
+  "This email is already registered.": "이미 등록된 이메일입니다.",
+  "The uid or password do not match.": "아이디 또는 비밀번호가 일치하지 않습니다.",
+  "This is disabled uid.": "비활성화된 아이디입니다.",
+  "The email verification has not been completed.": "이메일 검증이 완료되지 않았습니다.",
+  "You do not have permission.": "당신은 권한이 없습니다.",
+  "Invalid verification information.": "잘못된 검증 정보입니다.",
+  "This email does not exist.": "존재하지 않는 이메일입니다.",
+  "Your email has been verified.": "이메일이 확인되었습니다.",
+  "Your uid has been sent to your email.": "사용자 아이디가 이메일로 전송되었습니다.",
+  "Password reset email has been sent.": "비밀번호 재설정 이메일이 발송되었습니다.",
+  "The uid does not exist.": "사용자 아이디가 존재하지 않습니다.",
+  "Invalid token information.": "잘못된 토큰 정보입니다.",
+  "Password has been reset with the new password.": "비밀번호가 새 비밀번호로 재설정되었습니다.",
+  "Invalid user identifier information.": "잘못된 사용자 아이디 정보입니다."
 }

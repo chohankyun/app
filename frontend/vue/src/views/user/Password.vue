@@ -13,11 +13,11 @@
                     <div class="form-group">
                         <h5><span class="badge badge-secondary">{{ $t('New password') }}</span></h5>
                         <div class="text-danger">{{ $t('The password is a combination of 8 or more characters, numbers and letters.') }}</div>
-                        <input name="new_password1" id="id_new_password1" class="form-control form-control-sm" type="password" v-model="change.new_password1" :placeholder="$t('New password')" required/>
+                        <input name="new_password1" id="id_new_password1" class="form-control form-control-sm" type="password" v-model="change.new_password" :placeholder="$t('New password')" required/>
                     </div>
                     <div class="form-group">
                         <h5><span class="badge badge-secondary">{{ $t('New password') }} {{ $t('Confirm') }}</span></h5>
-                        <input name="new_password2" id="id_new_password2" class="form-control form-control-sm" type="password" v-model="change.new_password2" :placeholder="$t('New password') + $t('Confirm')" required/>
+                        <input name="new_password2" id="id_new_password2" class="form-control form-control-sm" type="password" v-model="change.new_re_password" :placeholder="$t('New password') + $t('Confirm')" required/>
                     </div>
                     <div>
                         <button type="submit" class="btn btn-sm btn-outline-info" @click="change_password" :title="$t('Save')">{{ $t('Save') }}</button>
@@ -38,8 +38,8 @@ export default {
         return {
             change: {
                 old_password: '',
-                new_password1: '',
-                new_password2: ''
+                new_password: '',
+                new_re_password: ''
             }
         };
     },
