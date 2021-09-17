@@ -17,8 +17,7 @@ export default {
             try {
                 const response = await user_api.login(credentials);
                 context.commit('setUser', response.data);
-                router.push('/').catch(() => {
-                });
+                await router.push('/');
             } catch (error) {
                 Vue.server_error(error);
             }
@@ -27,9 +26,9 @@ export default {
             try {
                 await user_api.logout();
             } catch (error) {
-                Vue.server_error(error);
-                context.commit('setUser', '');
-                router.push('/').catch(() => {
+                Vue.server_error(error).then(() => {
+                    context.commit('setUser', '');
+                    window.location.href = '/'
                 });
             }
         },

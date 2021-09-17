@@ -14,28 +14,30 @@ Vue.use(VueSweetalert2, options);
 export default {
     install(Vue) {
         const server_message = function(response) {
-            Vue.swal({ text: i18n.t(response.data.detail) });
-            return true;
+            return Vue.swal({ text: i18n.t(response.data.detail) });
         };
         const server_error = function(error) {
             if (error.response.data.detail !== undefined) {
-                Vue.swal({ text: i18n.t(error.response.data.detail) });
+                return Vue.swal({ text: i18n.t(error.response.data.detail) });
             } else {
-                Vue.swal({ text: error.response.status + ' : ' + i18n.t(error.response.statusText) });
+                return Vue.swal({ text: error.response.status + ' : ' + i18n.t(error.response.statusText) });
             }
-            return true;
+        };
+        const client_message = function(message) {
+            return Vue.swal({ text: message });
         };
         const client_error = function(error) {
-            Vue.swal({ text: error });
-            return true;
+            return Vue.swal({ text: error });
         };
 
         Vue.server_message = server_message;
         Vue.server_error = server_error;
+        Vue.client_message = client_message;
         Vue.client_error = client_error;
 
         Vue.prototype.$server_message = server_message;
         Vue.prototype.$server_error = server_error;
+        Vue.prototype.$client_message = client_message;
         Vue.prototype.$client_error = client_error;
     }
 };
