@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import * as user_api from '@/api/user';
+import * as uauth_api from '@/api/uauth';
 
 export default {
     name: 'User',
@@ -45,7 +45,7 @@ export default {
 
     },
     created() {
-        user_api.get_user(this.$store.state.user.user.id)
+        uauth_api.get_user(this.$store.state.uauth.user.id)
             .then(response => {
                 this.user = response.data;
             })
@@ -57,7 +57,7 @@ export default {
     methods: {
         async update_user() {
             try {
-                const response = await user_api.update_user(this.$store.state.user.user.id, this.user);
+                const response = await uauth_api.update_user(this.$store.state.uauth.user.id, this.user);
                 this.$server_message(response);
                 await this.$router.push('/').catch(() => {
                 });

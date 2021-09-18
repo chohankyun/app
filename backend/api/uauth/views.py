@@ -17,8 +17,8 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
-from backend.api.user.models import User
-from backend.api.user.serializers import UserSerializer
+from backend.api.uauth.models import User
+from backend.api.uauth.serializers import UserSerializer
 from backend.com.email.confirmation import EmailConfirmationHMAC
 from backend.com.email.email import EmailMixin
 from backend.com.jwt.handler import jwt_user

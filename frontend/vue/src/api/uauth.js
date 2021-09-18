@@ -12,7 +12,7 @@ export async function logout() {
     return http.get('/api/user/logout');
 }
 
-export async function create_register(register) {
+export async function register_user(register) {
     return http.post('/api/user/register', register);
 }
 

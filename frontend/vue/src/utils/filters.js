@@ -1,7 +1,7 @@
-import Vue from "vue"
-import dayjs from "dayjs";
+import Vue from 'vue';
+import dayjs from 'dayjs';
 
-Vue.filter("local_time", (date) => {
+Vue.filter('local_time', (date) => {
     if (!date) {
         return '';
     }

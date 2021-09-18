@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import * as user_api from '@/api/user';
+import * as uauth_api from '@/api/uauth';
 
 export default {
     name: 'Find',
@@ -45,10 +45,10 @@ export default {
                     return;
                 }
                 if (this.type === 'uid') {
-                    response = await user_api.find_uid({'email': this.email});
+                    response = await uauth_api.find_uid({'email': this.email});
                 }
                 if (this.type === 'password') {
-                    response = await user_api.reset_password({'email': this.email});
+                    response = await uauth_api.reset_password({'email': this.email});
                 }
                 this.$server_message(response);
                 this.$router.push('/').catch(() => {

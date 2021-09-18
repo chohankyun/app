@@ -1,6 +1,6 @@
 from django.db import models
 
-from backend.api.user.models import User
+from backend.api.uauth.models import User
 
 
 class Category(models.Model):

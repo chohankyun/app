@@ -109,7 +109,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'encrypted_fields',
     'backend.com.jwt.apps.JwtConfig',
-    'backend.api.user.apps.UserConfig',
+    'backend.api.uauth.apps.UAuthConfig',
     'backend.api.board.apps.BoardConfig',
 ]
 
@@ -213,7 +213,7 @@ else:
     STATIC_ROOT = os.path.join(BASE_DIR, 'web')
 
 # Auth User
-AUTH_USER_MODEL = 'user.User'
+AUTH_USER_MODEL = 'uauth.User'
 
 # Django Rest Framework
 REST_FRAMEWORK = {

@@ -2,7 +2,7 @@
 from django.urls import path, re_path, include
 from rest_framework.routers import DefaultRouter
 
-from backend.api.user.views import Login, Logout, IsAuth, Register, EmailConfirm, UidFind, PasswordReset, PasswordChange, PasswordResetConfirm, UserSet
+from backend.api.uauth.views import Login, Logout, IsAuth, Register, EmailConfirm, UidFind, PasswordReset, PasswordChange, PasswordResetConfirm, UserSet
 
 router = DefaultRouter(trailing_slash=False)
 router.register(r'users', UserSet)

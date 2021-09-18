@@ -190,10 +190,10 @@ export default {
             },
             post: {
                 id: '',
-                user: this.$store.state.user.user.id,
+                user: this.$store.state.uauth.user.id,
                 category: '',
                 updated_datetime: dayjs(),
-                user_name: this.$store.state.user.user.name,
+                user_name: this.$store.state.uauth.user.name,
                 subject: '',
                 reply_count: 0,
                 click_count: 0,
@@ -203,25 +203,25 @@ export default {
             reply: {
                 id: '',
                 post: this.$route.params.id,
-                user: this.$store.state.user.user.id,
-                user_name: this.$store.state.user.user.name,
+                user: this.$store.state.uauth.user.id,
+                user_name: this.$store.state.uauth.user.name,
                 updated_datetime: dayjs(),
                 content: ''
             },
             replies: [],
             recommend: {
                 id: '',
-                user: this.$store.state.user.user.id,
+                user: this.$store.state.uauth.user.id,
                 post: this.$route.params.id
             },
             post_disabled: () => {
-                return this.post.id !== '' && this.post.user !== this.$store.state.user.user.id;
+                return this.post.id !== '' && this.post.user !== this.$store.state.uauth.user.id;
             },
             reply_disabled: () => {
-                return this.post.id === '' || this.$store.state.user.user.id === undefined;
+                return this.post.id === '' || this.$store.state.uauth.user.id === undefined;
             },
             replied_disabled: (user_id) => {
-                return user_id !== this.$store.state.user.user.id;
+                return user_id !== this.$store.state.uauth.user.id;
             },
             recommend_toggle: {
                 recommend_count: 0,
@@ -231,7 +231,7 @@ export default {
     },
     computed: {
         user: function () {
-            return this.$store.state.user.user;
+            return this.$store.state.uauth.user;
         }
     },
     created() {

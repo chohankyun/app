@@ -4,7 +4,7 @@ from django.contrib.sites.models import Site
 from django.core import signing
 from django.urls import reverse
 
-from backend.api.user.models import User
+from backend.api.uauth.models import User
 from backend.drf import settings
 
 

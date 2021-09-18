@@ -1,9 +1,9 @@
 import Home from '@/views/home/Home';
 import Search from '@/views/home/Search';
-import Login from '@/views/user/Login';
-import Register from '@/views/user/Register';
-import User from '@/views/user/User';
-import Password from '@/views/user/Password';
+import Login from '@/views/uauth/Login';
+import Register from '@/views/uauth/Register';
+import User from '@/views/uauth/User';
+import Password from '@/views/uauth/Password';
 
 export default [
     {

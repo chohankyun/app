@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import * as user_api from '@/api/user';
+import * as uauth_api from '@/api/uauth';
 
 export default {
     name: 'Register',
@@ -64,7 +64,7 @@ export default {
                 return;
             }
             try {
-                const response = await user_api.create_register(this.user);
+                const response = await uauth_api.create_register(this.user);
                 this.$server_message(response).then(() => this.$router.push('/'));
             } catch (error) {
                 this.$server_error(error);

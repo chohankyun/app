@@ -2,7 +2,7 @@
 from django.templatetags import l10n
 from rest_framework import serializers
 
-from backend.api.user.models import User
+from backend.api.uauth.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):

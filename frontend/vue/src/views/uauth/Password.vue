@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import * as user_api from '@/api/user';
+import * as uauth_api from '@/api/uauth';
 
 export default {
     name: 'Password',
@@ -46,7 +46,7 @@ export default {
     methods: {
         async change_password() {
             try {
-                const response = await user_api.change_password(this.change);
+                const response = await uauth_api.change_password(this.change);
                 this.$server_message(response);
                 await this.$router.push('/').catch(() => {
                 });

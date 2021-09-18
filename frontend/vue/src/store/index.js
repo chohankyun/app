@@ -4,7 +4,7 @@ import createPersistedState from 'vuex-persistedstate';
 
 Vue.use(Vuex);
 
-import user from './user';
+import uauth from './uauth';
 import board from './board';
 import lang from './lang';
 
@@ -13,13 +13,13 @@ export default new Vuex.Store({
     mutations: {},
     actions: {},
     modules: {
-        user,
+        uauth,
         board,
         lang
     },
     plugins: [
         createPersistedState({
-            paths: ['user', 'board', 'lang']
+            paths: ['uauth', 'board', 'lang']
         })
     ]
 });

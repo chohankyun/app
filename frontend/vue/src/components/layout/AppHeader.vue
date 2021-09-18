@@ -63,7 +63,7 @@ export default {
     },
     computed: {
         user: function () {
-            return this.$store.state.user.user;
+            return this.$store.state.uauth.user;
         }
     },
     created() {

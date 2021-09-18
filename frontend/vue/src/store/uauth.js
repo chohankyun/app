@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import router from '@/router';
-import * as user_api from '@/api/user';
+import * as uauth_api from '@/api/uauth';
 
 export default {
     namespaced: true,
@@ -15,7 +15,7 @@ export default {
     actions: {
         async login(context, credentials) {
             try {
-                const response = await user_api.login(credentials);
+                const response = await uauth_api.login(credentials);
                 context.commit('setUser', response.data);
                 await router.push('/');
             } catch (error) {
@@ -24,17 +24,17 @@ export default {
         },
         async logout(context) {
             try {
-                await user_api.logout();
+                await uauth_api.logout();
             } catch (error) {
                 Vue.server_error(error).then(() => {
                     context.commit('setUser', '');
-                    window.location.href = '/'
+                    window.location.href = '/';
                 });
             }
         },
         async is_auth(context) {
             try {
-                await user_api.is_auth();
+                await uauth_api.is_auth();
             } catch (error) {
                 context.commit('setUser', '');
             }

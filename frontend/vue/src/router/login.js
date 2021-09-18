@@ -1,4 +1,4 @@
-import Find from '@/views/user/Find';
+import Find from '@/views/uauth/Find';
 
 export default [
     {
