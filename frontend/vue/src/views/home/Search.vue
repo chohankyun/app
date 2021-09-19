@@ -3,13 +3,13 @@
         <div class="search search-padding">
             <div class="row">
                 <div class="col-lg-8 col-sm-7 py-4">
-                    <span class="text-light bg-dark" style="padding: 3px 5px;"> <i class="fa fa-list-ol" aria-hidden="true"></i></span> <strong>{{ $t('Total results') }} : {{ search.total }} </strong>
+                    <span class="text-light bg-dark" style="padding: 3px 5px;"> <i class="fa fa-list-ol" aria-hidden="true"></i></span> <strong>{{ $t('Total results') }} : {{ search.length }} </strong>
                 </div>
                 <Order @change="change_order"/>
             </div>
             <div class="row">
                 <div class="col small">
-                    <div class="card mb-2" v-for="post in search" :key="post.id">
+                    <div class="card mb-2" v-for="(post, index) in search" :key="post.id+index">
                         <div class="card-body">
                             <p class="card-text text-truncate font-weight-bold">
                                 <router-link :to="{ path: '/post/' + post.id }" style="color: #5bc0de"><i class="fas fa-external-link-alt" aria-hidden="true"></i>{{ post.subject }}</router-link>

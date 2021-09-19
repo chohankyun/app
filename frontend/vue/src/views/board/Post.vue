@@ -11,7 +11,8 @@
                                         <span class="align-middle badge-secondary">{{ $t('Date') }}</span>
                                     </h5>
                                     <div class="col-9">
-                                        <input type="text" id="id_local_datetime" name="local_datetime" class="form-control form-control-sm" :disabled="true" :value="post.updated_datetime | local_time"/>
+                                        <input type="text" id="id_local_datetime" name="local_datetime" class="form-control form-control-sm" :disabled="true"
+                                               :value="post.updated_datetime | local_time"/>
                                     </div>
                                 </div>
                             </div>
@@ -54,7 +55,8 @@
                                         <span class="align-middle badge-secondary">{{ $t('Subject') }}</span>
                                     </h5>
                                     <div class="col-9">
-                                        <input type="text" id="id_subject" name="subject" class="form-control form-control-sm" :disabled="post_disabled()" v-model="post.subject" :placeholder="$t('Please enter a subject. (300 characters or less)')" required/>
+                                        <input type="text" id="id_subject" name="subject" class="form-control form-control-sm" :disabled="post_disabled()" v-model="post.subject"
+                                               :placeholder="$t('Please enter a subject. (300 characters or less)')" required/>
                                     </div>
                                 </div>
                             </div>
@@ -79,7 +81,8 @@
                                         <span class="col-1 mx-2 align-middle badge-info">{{ recommend_toggle.recommend_count }}</span>
                                     </h5>
                                     <span v-if="user.id !== undefined">
-                                        <toggle-button v-model="recommend_toggle.is_recommend" @change="save_recommend()" :sync="true" :labels="true" color="#17a2b8" :width="70" :height="28" :font-size="20"/>
+                                        <toggle-button v-model="recommend_toggle.is_recommend" @change="save_recommend()" :sync="true" :labels="true" color="#17a2b8" :width="70" :height="28"
+                                                       :font-size="20"/>
                                     </span>
                                 </div>
                             </div>
@@ -103,7 +106,7 @@
                     <div class="white-box text-info" style="font-size: small;">
                         <label class="ml-2 my-1"><i class="fa fa-comment-dots" aria-hidden="true"></i>&nbsp;{{ $t('Reply') }}</label>
                         <label class="ml-2">&nbsp;<i class="fa fa-user" aria-hidden="true"></i>&nbsp;{{ reply.user_name }}</label>
-                        <label class="ml-2">&nbsp;<i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;{{ reply.updated_datetime | local_time  }}</label>
+                        <label class="ml-2">&nbsp;<i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;{{ reply.updated_datetime | local_time }}</label>
                     </div>
                 </div>
                 <Editor api-key="p453mc03irhw5ur9757lryy6q5l0yh1kkn8451225emn3v7n" :init="replies_init" :disabled="replied_disabled(reply.user)" v-model="reply.content"/>
@@ -113,7 +116,7 @@
                             <button type="submit" class="btn btn-sm btn-outline-info btn-block" @click="$router.go(-1)" :title="$t('Cancel')">{{ $t('Cancel') }}</button>
                         </div>
                         <div class="mt-3 col-3 col-sm-2 float-right">
-                            <button type="submit" class="btn btn-sm btn-outline-info btn-block" v-if="!replied_disabled(reply.user)" @click="save_reply" :title="$t('Save')">{{ $t('Save') }}</button>
+                            <button type="submit" class="btn btn-sm btn-outline-info btn-block" v-if="!replied_disabled(reply.user)" @click="update_reply(reply)" :title="$t('Save')">{{ $t('Save') }}</button>
                         </div>
                     </div>
                 </div>
@@ -123,7 +126,7 @@
                     <div class="white-box text-info" style="font-size: small;">
                         <label class="ml-2 my-1"><i class="fa fa-comment-dots" aria-hidden="true"></i>&nbsp;{{ $t('Reply') }}</label>
                         <label class="ml-2">&nbsp;<i class="fa fa-user" aria-hidden="true"></i>&nbsp;{{ reply.user_name }}</label>
-                        <label class="ml-2">&nbsp;<i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;{{ reply.updated_datetime | local_time  }}</label>
+                        <label class="ml-2">&nbsp;<i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;{{ reply.updated_datetime | local_time }}</label>
                     </div>
                 </div>
                 <Editor api-key="p453mc03irhw5ur9757lryy6q5l0yh1kkn8451225emn3v7n" :init="reply_init" v-model="reply.content"/>
@@ -242,8 +245,7 @@ export default {
                 })
                 .catch(error => {
                     this.$server_error(error);
-                    this.$router.push('/').catch(() => {
-                    });
+                    this.$router.push('/');
                 });
             board_api.get_replies(this.$route.params.id)
                 .then(response => {
@@ -251,8 +253,7 @@ export default {
                 })
                 .catch(error => {
                     this.$server_error(error);
-                    this.$router.push('/').catch(() => {
-                    });
+                    this.$router.push('/');
                 });
             board_api.get_recommend_toggle(this.$route.params.id)
                 .then(response => {
@@ -260,24 +261,48 @@ export default {
                 })
                 .catch(error => {
                     this.$server_error(error);
-                    this.$router.push('/').catch(() => {
-                    });
+                    this.$router.push('/');
                 });
         }
     },
     methods: {
         async save_post() {
+
+            if (Object.values(
+                {
+                    category: this.post.category,
+                    subject: this.post.subject,
+                    content: this.post.content
+                }).includes('')) {
+                this.$client_error(this.$t('Enter user post information.'));
+                return;
+            }
+
+            let response = null;
             try {
-                await board_api.create_post(this.post);
-                this.$router.go(0);
+                if (this.post.id !== '') {
+                    response = await board_api.update_post(this.post);
+                } else {
+                    response = await board_api.create_post(this.post);
+                }
             } catch (error) {
                 this.$server_error(error);
             }
+            await this.$router.push('/post/' + response.data.id).catch(() => {
+            });
         },
         async save_reply() {
             try {
                 await board_api.create_reply(this.reply);
-                this.$router.go(0);
+                await this.$router.go(0);
+            } catch (error) {
+                this.$server_error(error);
+            }
+        },
+        async update_reply(reply) {
+            try {
+                await board_api.update_reply(reply);
+                await this.$router.go(0);
             } catch (error) {
                 this.$server_error(error);
             }

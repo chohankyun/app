@@ -80,5 +80,8 @@
   "Old password": "현재 비밀번호",
   "New password": "새로운 비밀번호",
   "Invalid old password.": "잘못된 현재 비밀번호입니다.",
-  "Password has been changed with the new password.": "비밀번호가 새 비밀번호로 변경되었습니다."
+  "Password has been changed with the new password.": "비밀번호가 새 비밀번호로 변경되었습니다.",
+  "Enter user post information.": "게시물 정보를 입력해주세요.",
+  "Bad Request": "잘못된 요청입니다.",
+  "Internal Server Error": "서버 오류가 발생했습니다."
 }

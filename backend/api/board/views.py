@@ -66,6 +66,11 @@ class PostSet(ModelViewSet):
         request = HtmlContent.add_content_with_image(request)
         return super(PostSet, self).create(request, *args, **kwargs)
 
+    def update(self, request, *args, **kwargs):
+        request.data['user'] = request.user.id
+        request = HtmlContent.add_content_with_image(request)
+        return super(PostSet, self).update(request, *args, **kwargs)
+
     def retrieve(self, request, *args, **kwargs):
         self.increase_click_count()
         return super(PostSet, self).retrieve(request, *args, **kwargs)

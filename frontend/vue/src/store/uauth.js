@@ -32,7 +32,7 @@ export default {
             } catch (error) {
                 await Vue.server_error(error);
                 context.commit('setUser', '');
-                router.push('/').then(() => {
+                router.push('/').catch(() => {
                 });
             }
         },
