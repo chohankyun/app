@@ -100,6 +100,11 @@ class ReplySet(ModelViewSet):
         request = HtmlContent.add_content(request)
         return super(ReplySet, self).create(request, *args, **kwargs)
 
+    def update(self, request, *args, **kwargs):
+        request.data['user'] = request.user.id
+        request = HtmlContent.add_content(request)
+        return super(ReplySet, self).update(request, *args, **kwargs)
+
     def get_success_headers(self, data):
         ReplyCount.save(data.get('post'))
         return super(ReplySet, self).get_success_headers(data)
