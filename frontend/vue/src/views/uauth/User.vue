@@ -74,7 +74,7 @@ export default {
                 }
                 await uauth_api.delete_user(this.$store.state.uauth.user.id);
                 await this.$client_message('User has been deleted.');
-                await this.$store.commit('uauth/setUser', '');
+                this.$store.commit('uauth/setUser', '');
                 await this.$router.push('/');
             } catch (error) {
                 this.$server_error(error);
