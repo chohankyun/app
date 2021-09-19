@@ -8,11 +8,11 @@
                 <div class="card-body small">
                     <div class="form-group">
                         <h5><span class="badge badge-secondary">{{ $t('User Identifier') }}</span></h5>
-                        <input name="uid" id="id_uid" class="form-control form-control-sm" type="text" v-model="user.uid" :placeholder="$t('User Identifier')"/>
+                        <input name="uid" id="id_uid" class="form-control form-control-sm" type="text" v-model="user.uid" @keyup.enter="update_user" :placeholder="$t('User Identifier')"/>
                     </div>
                     <div class="form-group">
                         <h5><span class="badge badge-secondary">{{ $t('User Name') }}</span></h5>
-                        <input name="name" id="id_name" class="form-control form-control-sm" type="text" v-model="user.name" :placeholder="$t('User Name')"/>
+                        <input name="name" id="id_name" class="form-control form-control-sm" type="text" v-model="user.name" @keyup.enter="update_user" :placeholder="$t('User Name')"/>
                     </div>
                     <div class="form-group">
                         <h5><span class="badge badge-secondary">{{ $t('Email') }}</span></h5>
@@ -20,12 +20,13 @@
                     </div>
                     <div class="form-group">
                         <h5><span class="badge badge-secondary">{{ $t('Last login time') }}</span></h5>
-                        <input name="login_time" id="id_login_time" class="form-control form-control-sm" type="text" :value="user.last_login | local_time" :placeholder="$t('Last login time')" disabled/>
+                        <input name="login_time" id="id_login_time" class="form-control form-control-sm" type="text" :value="user.last_login | local_time" :placeholder="$t('Last login time')"
+                               disabled/>
                     </div>
                     <div>
                         <button type="button" class="btn btn-sm btn-outline-info" @click="update_user" :title="$t('Update')">{{ $t('Update') }}</button>
                         <button type="button" class="btn btn-sm btn-outline-info mx-1" @click="$router.go(-1)" :title="$t('Cancel')">{{ $t('Cancel') }}</button>
-                        <button type="button" class="float-right btn btn-sm btn-outline-danger" :title="$t('Withdrawal')">{{ $t('Withdrawal') }}</button>
+                        <button type="button" class="float-right btn btn-sm btn-outline-danger" @click="delete_user" :title="$t('Withdrawal')">{{ $t('Withdrawal') }}</button>
                     </div>
                 </div>
             </div>
@@ -58,9 +59,23 @@ export default {
         async update_user() {
             try {
                 const response = await uauth_api.update_user(this.$store.state.uauth.user.id, this.user);
-                this.$server_message(response);
-                await this.$router.push('/').catch(() => {
-                });
+                await this.$client_message('User has been updated.');
+                this.$store.commit('uauth/setUserName', response.data.name);
+                await this.$router.push('/');
+            } catch (error) {
+                this.$server_error(error);
+            }
+        },
+        async delete_user() {
+            try {
+                const result = await this.$client_confirm('Delete', 'Are you sure you want to delete it?');
+                if (!result.isConfirmed) {
+                    return;
+                }
+                await uauth_api.delete_user(this.$store.state.uauth.user.id);
+                await this.$client_message('User has been deleted.');
+                await this.$store.commit('uauth/setUser', '');
+                await this.$router.push('/');
             } catch (error) {
                 this.$server_error(error);
             }

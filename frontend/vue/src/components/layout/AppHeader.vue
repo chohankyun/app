@@ -86,7 +86,7 @@ export default {
             this.$router.go(0);
         },
         logout() {
-            this.$store.dispatch('user/logout');
+            this.$store.dispatch('uauth/logout');
         },
         search() {
             if (this.search_word !== '' && this.search_word.length >= 2) {

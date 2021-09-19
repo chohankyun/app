@@ -10,6 +10,10 @@ export default {
     mutations: {
         setUser(state, user) {
             state.user = user;
+        },
+        setUserName(state, user_name) {
+            console.log(user_name);
+            state.user.name = user_name;
         }
     },
     actions: {
@@ -17,7 +21,7 @@ export default {
             try {
                 const response = await uauth_api.login(credentials);
                 context.commit('setUser', response.data);
-                await router.push('/');
+                router.push('/');
             } catch (error) {
                 Vue.server_error(error);
             }
@@ -26,9 +30,9 @@ export default {
             try {
                 await uauth_api.logout();
             } catch (error) {
-                Vue.server_error(error).then(() => {
-                    context.commit('setUser', '');
-                    window.location.href = '/';
+                await Vue.server_error(error);
+                context.commit('setUser', '');
+                router.push('/').then(() => {
                 });
             }
         },
@@ -38,6 +42,6 @@ export default {
             } catch (error) {
                 context.commit('setUser', '');
             }
-        },
+        }
     }
 };

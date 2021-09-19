@@ -8,7 +8,7 @@
                 <div class="card-body small">
                     <div class="form-group">
                         <h5><span class="badge badge-secondary">{{ $t('Email') }}</span></h5>
-                        <input name="email" id="id_email" type="text" v-model="email" :placeholder="$t('Email')" class="form-control form-control-sm" required/>
+                        <input name="email" id="id_email" type="text" v-model="email" @keyup.enter="send_email" :placeholder="$t('Email')" class="form-control form-control-sm" required/>
                     </div>
                     <div>
                         <button type="submit" class="btn btn-sm btn-outline-info" @click="send_email" :title="$t('Send email')">{{ $t('Send email') }}</button>
@@ -50,9 +50,8 @@ export default {
                 if (this.type === 'password') {
                     response = await uauth_api.reset_password({'email': this.email});
                 }
-                this.$server_message(response);
-                this.$router.push('/').catch(() => {
-                });
+                await this.$server_message(response);
+                await this.$router.push('/');
             } catch (error) {
                 this.$server_error(error);
             }

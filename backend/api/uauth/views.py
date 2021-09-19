@@ -6,12 +6,12 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import user_logged_in
 from django.contrib.auth.tokens import PasswordResetTokenGenerator, default_token_generator
 from django.http import HttpResponse
+from django.utils import translation
 from django.utils.encoding import force_text, force_bytes
 from django.utils.http import urlsafe_base64_decode as uid_decoder, urlsafe_base64_encode
-from django.utils import translation
 from django.utils.translation import ugettext_lazy as _
 from rest_framework import status
-from rest_framework.exceptions import AuthenticationFailed, PermissionDenied, ParseError
+from rest_framework.exceptions import PermissionDenied, ParseError, AuthenticationFailed
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
@@ -54,7 +54,7 @@ class Login(GenericAPIView):
         if not user:
             raise AuthenticationFailed(detail='The uid or password do not match.')
         if not user.is_active:
-            raise AuthenticationFailed(detail='This is disabled uid.')
+            raise PermissionDenied(detail='This is disabled uid.')
         if not user.is_email_verified:
             raise PermissionDenied(detail='The email verification has not been completed.')
         if user.is_staff or user.is_superuser:
@@ -114,7 +114,7 @@ class UidFind(GenericAPIView, EmailMixin):
     def post(self, request):
         user = User.objects.filter(email=self.request.data['email']).first()
         if not user:
-            raise AuthenticationFailed(detail='This email does not exist.')
+            raise ParseError(detail='This email does not exist.')
         if not user.is_active:
             raise PermissionDenied(detail='This is disabled uid.')
 
@@ -128,7 +128,7 @@ class PasswordReset(GenericAPIView, EmailMixin):
     def post(self, request):
         user = User.objects.filter(email=self.request.data['email']).first()
         if not user:
-            raise AuthenticationFailed(detail='This email does not exist.')
+            raise ParseError(detail='This email does not exist.')
         if not user.is_active:
             raise PermissionDenied(detail='This is disabled uid.')
 
@@ -152,10 +152,10 @@ class PasswordResetConfirm(GenericAPIView):
             uid = force_text(uid_decoder(self.kwargs['uid']))
             user = User.objects.get(pk=uid)
         except (TypeError, ValueError, OverflowError, User.DoesNotExist):
-            raise AuthenticationFailed(detail='The uid does not exist.')
+            raise ParseError(detail='The uid does not exist.')
 
         if not default_token_generator.check_token(user, self.kwargs['token']):
-            raise AuthenticationFailed(detail='Invalid token information.')
+            raise ParseError(detail='Invalid token information.')
 
         self.reset_password(user)
 
@@ -179,16 +179,16 @@ class PasswordChange(GenericAPIView, EmailMixin):
         try:
             user = User.objects.get(pk=self.request.user.id)
         except User.DoesNotExist:
-            raise AuthenticationFailed(detail='The uid does not exist.')
+            raise ParseError(detail='The uid does not exist.')
 
         if not user.is_active:
-            raise AuthenticationFailed(detail='This uis disabled id.')
+            raise PermissionDenied(detail='This is disabled uid.')
 
         if not user.check_password(self.request.data['old_password']):
-            raise AuthenticationFailed(detail='Invalid old password.')
+            raise ParseError(detail='Invalid old password.')
 
         if self.request.data['new_password'] != self.request.data['new_re_password']:
-            raise AuthenticationFailed(detail="The two password fields didn't match.")
+            raise ParseError(detail="The two password fields didn't match.")
 
         self.change_password(user)
         self.send_email(user, 'auth/password_changed_subject.txt', 'auth/password_changed_email.html')

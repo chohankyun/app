@@ -18,7 +18,8 @@
                         <h5>
                             <span class="badge badge-secondary">{{ $t('Password') }}</span>
                         </h5>
-                        <input name="password" id="id_password" type="password" @keyup.enter="login" v-model="credentials.password" :placeholder="$t('Password')" class="form-control form-control-sm" required/>
+                        <input name="password" id="id_password" type="password" @keyup.enter="login" v-model="credentials.password" :placeholder="$t('Password')" class="form-control form-control-sm"
+                               required/>
                     </div>
                     <div>
                         <button type="button" class="btn btn-sm btn-outline-info" @click="login" :title="$t('Login')">{{ $t('Login') }}</button>
@@ -52,7 +53,7 @@ export default {
                 this.$client_error(this.$t('Enter user identifier or password.'));
                 return;
             }
-            this.$store.dispatch('user/login', this.credentials);
+            this.$store.dispatch('uauth/login', this.credentials);
         }
     }
 };

@@ -71,5 +71,14 @@
   "The uid does not exist.": "사용자 아이디가 존재하지 않습니다.",
   "Invalid token information.": "잘못된 토큰 정보입니다.",
   "Password has been reset with the new password.": "비밀번호가 새 비밀번호로 재설정되었습니다.",
-  "Invalid user identifier information.": "잘못된 사용자 아이디 정보입니다."
+  "Invalid user identifier information.": "잘못된 사용자 아이디 정보입니다.",
+  "Not Found": "존재하지 않은 요청입니다.",
+  "User has been updated.": "사용자가 업데이트되었습니다.",
+  "User has been deleted.": "사용자가 삭제되었습니다.",
+  "Delete": "삭제",
+  "Are you sure you want to delete it?": "정말로 삭제하겠습니까?",
+  "Old password": "현재 비밀번호",
+  "New password": "새로운 비밀번호",
+  "Invalid old password.": "잘못된 현재 비밀번호입니다.",
+  "Password has been changed with the new password.": "비밀번호가 새 비밀번호로 변경되었습니다."
 }

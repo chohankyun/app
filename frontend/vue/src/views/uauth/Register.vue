@@ -64,8 +64,9 @@ export default {
                 return;
             }
             try {
-                const response = await uauth_api.create_register(this.user);
-                this.$server_message(response).then(() => this.$router.push('/'));
+                const response = await uauth_api.register_user(this.user);
+                await this.$server_message(response);
+                await this.$router.push('/');
             } catch (error) {
                 this.$server_error(error);
             }
