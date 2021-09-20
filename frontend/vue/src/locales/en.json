@@ -82,5 +82,6 @@
   "Password has been changed with the new password.": "Password has been changed with the new password.",
   "Enter user post information.": "Enter user post information.",
   "Bad Request": "Bad Request",
-  "Internal Server Error": "Internal Server Error"
+  "Internal Server Error": "Internal Server Error",
+  "Messenger": "Messenger"
 }
