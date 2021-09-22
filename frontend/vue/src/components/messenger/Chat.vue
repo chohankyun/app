@@ -42,8 +42,8 @@
         </div>
         <div class="type_msg">
             <div class="input_msg_write">
-                <input type="text" class="write_msg" placeholder="Type a message"/>
-                <button class="msg_send_btn" type="button"><i class="far fa-paper-plane" aria-hidden="true"></i></button>
+                <input type="text" class="write_msg" placeholder="Type a message" v-model="message"/>
+                <button class="msg_send_btn" type="button" @click="sendMessage"><i class="far fa-paper-plane" aria-hidden="true"></i></button>
             </div>
         </div>
     </div>
@@ -53,9 +53,55 @@
 export default {
     name: 'Chat',
     data() {
+        return {
+            disabled: true,
+            message: '',
+            selected: 'json',
+            json: {
+                key: 'value'
+            }
+        };
     },
-    methods: {}
-};
+    methods: {
+        connect() {
+            if (this.socket === undefined || this.socket.readyState === 3) {
+                this.socket = new WebSocket('ws://localhost:8000/ws/chat/1');
+                this.socket.onopen = () => {
+                    console.log({type: 'INFO', msg: 'CONNECTED'})
+                    this.disabled = false;
+                }
+                this.socket.onerror = () => {
+                    console.log({type: 'ERROR', msg: 'ERROR:'})
+                }
+                this.socket.onmessage = ({data}) => {
+                    console.log({type: 'RECV', msg: 'RECV:' + data})
+                }
+                this.socket.onclose = (msg) => {
+                    console.log({type: 'ERROR', msg: 'Closed (Code: ' + msg.code + ', Message: ' + msg.reason + ')'})
+                }
+            }
+        },
+        sendMessage() {
+            if (this.selected === 'plain') {
+                console.log({type: 'SENT', msg: 'SENT:' + this.message})
+                this.socket.send(this.message)
+            } else if (this.selected === 'json') {
+                this.json = {message: this.message}
+                console.log({type: 'SENT', msg: 'SENT:' + JSON.stringify(this.json)})
+                this.socket.send(JSON.stringify(this.json))
+            }
+        },
+        disconnect() {
+            console.log('aaaaaa');
+            if (this.socket.readyState === 1) {
+                this.socket.close()
+                console.log({type: 'INFO', msg: 'DISCONNECTED'})
+                this.disabled = true
+            }
+        }
+    }
+}
+;
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

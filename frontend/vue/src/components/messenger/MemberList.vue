@@ -14,7 +14,7 @@
             </div>
         </div>
         <div class="inbox_chat">
-            <div class="chat_list active_chat">
+            <div class="chat_list active_chat" @click="enter_room('1')">
                 <div class="chat_people">
                     <div class="chat_img"><img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"></div>
                     <div class="chat_ib">
@@ -24,7 +24,7 @@
                     </div>
                 </div>
             </div>
-            <div class="chat_list">
+            <div class="chat_list" >
                 <div class="chat_people">
                     <div class="chat_img"><img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"></div>
                     <div class="chat_ib">
@@ -93,7 +93,12 @@ export default {
     name: 'MemberList',
     data() {
     },
-    methods: {}
+    methods: {
+        enter_room(room) {
+            this.$store.commit('chat/setRoom', room);
+            this.$emit('enter_room');
+        }
+    }
 };
 </script>
 

@@ -98,6 +98,8 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
+    'backend.api.chat.apps.ChatConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -111,6 +113,7 @@ INSTALLED_APPS = [
     'backend.com.jwt.apps.JwtConfig',
     'backend.api.uauth.apps.UAuthConfig',
     'backend.api.board.apps.BoardConfig',
+
 ]
 
 MIDDLEWARE = [
@@ -144,6 +147,17 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'drf.wsgi.application'
+
+# Channels
+ASGI_APPLICATION = 'drf.routing.application'
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases

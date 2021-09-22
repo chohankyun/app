@@ -3,17 +3,16 @@
         <div id="message" class="row justify-content-center mt-5">
             <div class="col-lg-5 col-md-5">
                 <nav>
-                    <div class="nav nav-pills nav-fill nav-tabs" id="nav-tab" role="tablist">
-                        <a class="nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Chat List</a>
-                        <a class="nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Chat</a>
+                    <div class="nav nav-pills nav-fill nav-tabs">
+                        <a class="nav-link" v-for="(tab, index) in tabs" :key="tab.id" :class="{ active: curTab === index }" @click="change(index)">{{ tab }}</a>
                     </div>
                 </nav>
-                <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                        <MemberList/>
+                <div class="tab-content">
+                    <div class="tab-pane fade show" :class="{ active: curTab === 0 }">
+                        <MemberList @enter_room="chat_room"/>
                     </div>
-                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                        <Chat/>
+                    <div class="tab-pane fade show" :class="{ active: curTab === 1 }">
+                        <Chat ref="chat"/>
                     </div>
                 </div>
             </div>
@@ -32,9 +31,24 @@ export default {
         Chat
     },
     data() {
-
+        return {
+            curTab: 0,
+            tabs: ['member_list', 'chat']
+        };
     },
-    methods: {}
+    methods: {
+        change(index) {
+            console.log(index);
+            this.curTab = index;
+            if (this.curTab === 0) {
+                this.$refs.chat.disconnect();
+            }
+        },
+        chat_room() {
+            this.curTab = 1;
+            this.$refs.chat.connect();
+        }
+    }
 };
 </script>
 

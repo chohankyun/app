@@ -7,6 +7,7 @@ Vue.use(Vuex);
 import uauth from './uauth';
 import board from './board';
 import lang from './lang';
+import chat from './chat';
 
 export default new Vuex.Store({
     state: {},
@@ -15,11 +16,12 @@ export default new Vuex.Store({
     modules: {
         uauth,
         board,
-        lang
+        lang,
+        chat
     },
     plugins: [
         createPersistedState({
-            paths: ['uauth', 'board', 'lang']
+            paths: ['uauth', 'board', 'lang', 'chat']
         })
     ]
 });
