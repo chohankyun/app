@@ -89,7 +89,7 @@ SECRET_KEY = EnvJson.get('SECRET_KEY')
 FIELD_ENCRYPTION_KEYS = EnvJson.get('FIELD_ENCRYPTION_KEYS')
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = False
+DEBUG = True
 
 APPEND_SLASH = False
 
@@ -224,7 +224,7 @@ STATIC_URL = '/static/'
 if DEBUG:
     STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 else:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Auth User
 AUTH_USER_MODEL = 'uauth.User'
