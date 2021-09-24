@@ -219,12 +219,12 @@ LOCALE_PATHS = [
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_URL = '/web/'
+STATIC_URL = '/static/'
 
 if DEBUG:
-    STATICFILES_DIRS = (os.path.join(BASE_DIR, 'web'),)
+    STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 else:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'web')
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Auth User
 AUTH_USER_MODEL = 'uauth.User'
