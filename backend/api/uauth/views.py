@@ -217,6 +217,9 @@ class UserSet(ModelViewSet):
             permission_classes = [IsAuthenticated]
         return [permission() for permission in permission_classes]
 
+    def get_queryset(self):
+        return self.queryset.filter(is_staff=False, is_superuser=False)
+
     def retrieve(self, request, *args, **kwargs):
         if str(request.user.id) != self.kwargs.get('pk'):
             raise ParseError(detail='Invalid user identifier information.')

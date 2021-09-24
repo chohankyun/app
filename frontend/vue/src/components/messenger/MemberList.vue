@@ -14,73 +14,15 @@
             </div>
         </div>
         <div class="inbox_chat">
-            <div class="chat_list active_chat" @click="enter_room('1')">
-                <div class="chat_people">
-                    <div class="chat_img"><img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"></div>
-                    <div class="chat_ib">
-                        <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                        <p>Test, which is a new approach to have all solutions
-                            astrology under one roof.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="chat_list" >
-                <div class="chat_people">
-                    <div class="chat_img"><img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"></div>
-                    <div class="chat_ib">
-                        <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                        <p>Test, which is a new approach to have all solutions
-                            astrology under one roof.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="chat_list">
-                <div class="chat_people">
-                    <div class="chat_img"><img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"></div>
-                    <div class="chat_ib">
-                        <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                        <p>Test, which is a new approach to have all solutions
-                            astrology under one roof.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="chat_list">
-                <div class="chat_people">
-                    <div class="chat_img"><img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"></div>
-                    <div class="chat_ib">
-                        <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                        <p>Test, which is a new approach to have all solutions
-                            astrology under one roof.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="chat_list">
-                <div class="chat_people">
-                    <div class="chat_img"><img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"></div>
-                    <div class="chat_ib">
-                        <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                        <p>Test, which is a new approach to have all solutions
-                            astrology under one roof.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="chat_list">
-                <div class="chat_people">
-                    <div class="chat_img"><img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"></div>
-                    <div class="chat_ib">
-                        <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                        <p>Test, which is a new approach to have all solutions
-                            astrology under one roof.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="chat_list">
-                <div class="chat_people">
-                    <div class="chat_img"><img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"></div>
-                    <div class="chat_ib">
-                        <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                        <p>Test, which is a new approach to have all solutions
-                            astrology under one roof.</p>
+            <div v-for="user in this.users" :key="user.id" @click="enter_room(user.id)">
+                <div class="chat_list" v-if="user.id !== $store.state.uauth.user.id">
+                    <div class="chat_people">
+                        <div class="chat_img"><img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"></div>
+                        <div class="chat_ib">
+                            <h5>{{ user.name }} <span class="chat_date">{{ user.last_login | local_time }}</span></h5>
+                            <p>Test, which is a new approach to have all solutions
+                                astrology under one roof.</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -89,14 +31,28 @@
 </template>
 
 <script>
+import * as uauth_api from '@/api/uauth';
+
 export default {
     name: 'MemberList',
     data() {
+        return {
+            users: []
+        }
+    },
+    created() {
+        uauth_api.get_users()
+            .then((response) => {
+                this.users = response.data;
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     },
     methods: {
-        enter_room(room) {
-            this.$store.commit('chat/setRoom', room);
-            this.$emit('enter_room');
+        enter_room(id) {
+            console.log(id);
+            this.$emit('enter_room', id);
         }
     }
 };

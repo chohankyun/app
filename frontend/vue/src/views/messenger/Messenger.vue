@@ -9,7 +9,7 @@
                 </nav>
                 <div class="tab-content">
                     <div class="tab-pane fade show" :class="{ active: curTab === 0 }">
-                        <MemberList @enter_room="chat_room"/>
+                        <MemberList @enter_room="enter_room"/>
                     </div>
                     <div class="tab-pane fade show" :class="{ active: curTab === 1 }">
                         <Chat ref="chat"/>
@@ -38,15 +38,16 @@ export default {
     },
     methods: {
         change(index) {
-            console.log(index);
             this.curTab = index;
             if (this.curTab === 0) {
                 this.$refs.chat.disconnect();
             }
         },
-        chat_room() {
+        enter_room(id) {
+            console.log(id);
             this.curTab = 1;
-            this.$refs.chat.connect();
+            let room = [id, this.$store.state.uauth.user.id].sort();
+            this.$refs.chat.connect(room.join(''));
         }
     }
 };

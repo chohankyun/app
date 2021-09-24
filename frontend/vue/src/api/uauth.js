@@ -24,6 +24,10 @@ export async function reset_password(email) {
     return http.post('/api/uauth/password/reset', email);
 }
 
+export async function get_users() {
+    return http.get('/api/uauth/users');
+}
+
 export async function get_user(user_id) {
     return http.get('/api/uauth/users/' + user_id);
 }
