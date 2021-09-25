@@ -15,6 +15,7 @@ import logging.config
 import os
 import sys
 from pathlib import Path
+
 import pymysql
 from django.utils.module_loading import import_string
 from django.utils.translation import gettext_lazy as _
