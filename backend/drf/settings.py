@@ -110,6 +110,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'rest_framework',
     'encrypted_fields',
+    'backend',
     'backend.com.jwt.apps.JwtConfig',
     'backend.api.uauth.apps.UAuthConfig',
     'backend.api.board.apps.BoardConfig',
