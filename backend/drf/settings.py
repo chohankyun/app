@@ -20,6 +20,9 @@ import pymysql
 from django.utils.module_loading import import_string
 from django.utils.translation import gettext_lazy as _
 
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+print(sys.path)
+
 from backend.com.util.env import EnvJson
 
 pymysql.version_info = (1, 4, 6, 'final', 0)
@@ -110,7 +113,6 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'rest_framework',
     'encrypted_fields',
-    'backend',
     'backend.com.jwt.apps.JwtConfig',
     'backend.api.uauth.apps.UAuthConfig',
     'backend.api.board.apps.BoardConfig',
