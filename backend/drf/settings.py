@@ -15,9 +15,6 @@ import logging.config
 import os
 import sys
 from pathlib import Path
-
-sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
-
 import pymysql
 from django.utils.module_loading import import_string
 from django.utils.translation import gettext_lazy as _
