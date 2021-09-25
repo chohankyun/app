@@ -11,7 +11,8 @@ import os
 import sys
 import django
 
-from django.core.asgi import get_asgi_application
+# from django.core.asgi import get_asgi_application
+from channels.routing import get_default_application
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))))
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
@@ -21,4 +22,4 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'drf.settings')
 
 django.setup()
 
-application = get_asgi_application()
+application = get_default_application()
