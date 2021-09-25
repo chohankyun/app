@@ -31,7 +31,7 @@ export default {
     name: 'Chat',
     data() {
         return {
-            address: 'ws://13.125.54.137/ws/chat/',
+            address: 'ws://13.125.54.137:8000/ws/chat/',
             disabled: true,
             message: '',
             selected: 'json',
