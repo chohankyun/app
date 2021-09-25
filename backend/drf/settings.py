@@ -16,13 +16,13 @@ import os
 import sys
 from pathlib import Path
 
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+
 import pymysql
 from django.utils.module_loading import import_string
 from django.utils.translation import gettext_lazy as _
 
 from backend.com.util.env import EnvJson
-
-sys.path.append(os.path.abspath('.'))
 
 pymysql.version_info = (1, 4, 6, 'final', 0)
 pymysql.install_as_MySQLdb()
