@@ -19,7 +19,7 @@ class Post(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     subject = models.CharField(max_length=300, blank=False)
     content = models.TextField(blank=False)
-    text_content = models.CharField(max_length=20000, blank=False)
+    text_content = models.CharField(max_length=20000, blank=True)
     first_image_source = models.CharField(max_length=500, blank=True)
     click_count = models.IntegerField()
     reply_count = models.IntegerField()
@@ -35,7 +35,7 @@ class Reply(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     content = models.TextField(blank=False)
-    text_content = models.CharField(max_length=20000, blank=False)
+    text_content = models.CharField(max_length=20000, blank=True)
     created_datetime = models.DateTimeField(auto_now_add=True)
     updated_datetime = models.DateTimeField(auto_now=True)
 
