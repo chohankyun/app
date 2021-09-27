@@ -32,7 +32,7 @@ class HtmlContent:
     def add_content_with_image(request):
         obj_content = BeautifulSoup(request.data['content'], 'html.parser')
         request.data['text_content'] = obj_content.get_text() if obj_content.get_text() else ''
-        image = obj_content.img or obj_content.iframe
+        image = obj_content.img
         request.data['first_image_source'] = image['src'] if image else ''
         return request
 
