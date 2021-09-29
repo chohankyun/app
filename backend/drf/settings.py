@@ -88,7 +88,7 @@ SECRET_KEY = EnvJson.get('SECRET_KEY')
 FIELD_ENCRYPTION_KEYS = EnvJson.get('FIELD_ENCRYPTION_KEYS')
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = False
+DEBUG = True
 
 APPEND_SLASH = False
 
