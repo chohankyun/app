@@ -4,11 +4,10 @@ import VueRouter from 'vue-router';
 import Home from '@/router/home';
 import Board from '@/router/board';
 import Login from '@/router/login';
-import Messenger from '@/router/messenger';
 
 Vue.use(VueRouter);
 
-const routes = [...Home, ...Board, ...Login, ...Messenger];
+const routes = [...Home, ...Board, ...Login];
 
 const router = new VueRouter({
     mode: 'hash',
